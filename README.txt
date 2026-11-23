@@ -1,1 +1,1 @@
-MIS V1.0.0-alpha.5.1 — sửa lỗi logo coin (nhúng SVG vào index.html), phân biệt Backtest/Cài đặt, cập nhật ROI/MDD Tổng quan sau Backtest. Tải 6 file gốc lên GitHub; không cần coin-icons. Giữ nguyên engine và PMS từ alpha.5.
+MIS alpha.5.2: Sửa bảng theo dõi chỉ ở Tổng quan, đối chiếu PMS chỉ ở Nghiên cứu; Backtest đa Coin thử nghiệm EMA20/50 hoặc Buy & Hold từ nến OKX cache. Chiến lược B + chu kỳ chỉ dành BTC 1W, không thay đổi. Cần cập nhật 6 file chính.
