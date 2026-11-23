@@ -1,1 +1,1 @@
-MIS alpha.5.3: Sửa điểm Buy/Sell Score cập nhật khi thay đổi trọng số hợp lệ (chưa lưu); Backtest EMA20/50 và Buy & Hold tự tải dữ liệu OKX cho Altcoin khi thiếu cache; thông báo phạm vi lịch sử. Giữ nguyên chiến lược B BTC. Cập nhật sáu file chính.
+MIS alpha.6.2 - Spot only. Adds MAE Spot for BTC historical B and OKX EMA/PMS/hold experimental backtests. MAE uses weighted average cost and candle low while position held; same-candle order of low and execution unknown. MDD preserved. No futures/liquidation. Upload 6 core files to GitHub Pages.
