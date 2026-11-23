@@ -1,1 +1,1 @@
-MIS alpha.5.2: Sửa bảng theo dõi chỉ ở Tổng quan, đối chiếu PMS chỉ ở Nghiên cứu; Backtest đa Coin thử nghiệm EMA20/50 hoặc Buy & Hold từ nến OKX cache. Chiến lược B + chu kỳ chỉ dành BTC 1W, không thay đổi. Cần cập nhật 6 file chính.
+MIS alpha.5.3: Sửa điểm Buy/Sell Score cập nhật khi thay đổi trọng số hợp lệ (chưa lưu); Backtest EMA20/50 và Buy & Hold tự tải dữ liệu OKX cho Altcoin khi thiếu cache; thông báo phạm vi lịch sử. Giữ nguyên chiến lược B BTC. Cập nhật sáu file chính.
