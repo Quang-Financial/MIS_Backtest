@@ -1,1 +1,4 @@
-MIS alpha.4: PMS OKX 1W nghiên cứu (MCI_A, SDI, TRI xấp xỉ), 8 coin, EMA/RSI, snapshot Backtest B + cycle không đổi. TRI xấp xỉ và tín hiệu bán chưa phải PMS Strong gốc. Không dùng làm tín hiệu giao dịch tự động. Tải 6 file chính lên root GitHub.
+MIS alpha.5 - kế thừa alpha.4.2.
+Mới: đối chiếu PMS BTC OKX vs snapshot Bitstamp theo tuần UTC; MAE và xuất CSV; bảng trạng thái PMS 8 coin từ cache.
+Chưa xác nhận tương đương Python; TRI là xấp xỉ. Không sửa chiến lược Backtest B + chu kỳ.
+Cài: upload 6 file gốc + thư mục coin-icons (8 svg) lên GitHub Pages.
