@@ -1,4 +1,1 @@
-MIS alpha.5 - kế thừa alpha.4.2.
-Mới: đối chiếu PMS BTC OKX vs snapshot Bitstamp theo tuần UTC; MAE và xuất CSV; bảng trạng thái PMS 8 coin từ cache.
-Chưa xác nhận tương đương Python; TRI là xấp xỉ. Không sửa chiến lược Backtest B + chu kỳ.
-Cài: upload 6 file gốc + thư mục coin-icons (8 svg) lên GitHub Pages.
+MIS V1.0.0-alpha.5.1 — sửa lỗi logo coin (nhúng SVG vào index.html), phân biệt Backtest/Cài đặt, cập nhật ROI/MDD Tổng quan sau Backtest. Tải 6 file gốc lên GitHub; không cần coin-icons. Giữ nguyên engine và PMS từ alpha.5.
