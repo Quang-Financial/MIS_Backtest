@@ -278,4 +278,4 @@ async function scanCoins(){const el=$('coinScanReport');el.textContent='Đang đ
 $('validatePms').onclick=validatePms;$('validationCsv').onclick=exportValidation;$('scanCoins').onclick=scanCoins;
 
 renderChecks();ensurePms().then(()=>{drawChart();updateResearch()}).catch(e=>{$('savedWeights').textContent='PMS lịch sử chưa tải được: '+e.message});refreshPrices();setInterval(()=>{if(!document.hidden&&navigator.onLine)refreshPrices()},60000);if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-</script></body><script src="mis_update.js?v=1641"></script></html>
+</script></body><script src="mis_update.js?v=165"></script></html>

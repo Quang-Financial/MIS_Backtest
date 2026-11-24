@@ -1,0 +1,5 @@
+MIS V1.6.5 — Robustness & Validation
+Deploy all files to existing GitHub Pages root. Back up settings first. No localStorage migration.
+RA01 grid: select 3125 for exhaustive search; smaller budgets use deterministic distributed permutation (not random statistical sampling). Baseline counts as one grid point. OOS and continuous full-period reruns for all accepted candidates, plus displayed fallback candidates. Ranking remains in-sample. Full-period rerun may include additional trades; not a concatenation of independent OOS runs.
+Local stability: percentage of immediate axis neighbors passing risk and retaining >=80% of candidate Calmar; null if incomplete. Overall validation score deliberately null pending independent multi-cycle evidence. Heatmap fixed RSI14/ADX7/DD55. Clusters use exact execution signatures. Data audit counts complete weekly bars and gaps; does not certify source quality. Compact v2 inherits omitted trial rules and indicators from sharedRules/sharedIndicators. Full export unchanged. SMA01 is research candidate only.
+Tests: JS syntax, grid uniqueness and coverage, unchanged engine files. Browser/live OKX acceptance pending.
