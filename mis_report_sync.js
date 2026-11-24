@@ -16,7 +16,7 @@ async function publish(r,repo,token){
  const base='https://api.github.com/repos/'+repo;
  const info=await fetch(base,{headers,cache:'no-store'});if(!info.ok)throw Error('Không đọc được repository: '+info.status);
  const meta=await info.json();if(!meta.private)throw Error('Repository báo cáo phải Private');
- const json=JSON.stringify(r),bytes=new TextEncoder().encode(json);let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));
+ const json=JSON.stringify(r),bytes=new TextEncoder().encode(json);if(bytes.length>900000)throw Error('Báo cáo quá lớn cho đồng bộ nhanh; chọn AI Quick hoặc tải Full JSON.');let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));
  const path='reports/'+new Date().toISOString().replace(/[:.]/g,'-')+'-'+crypto.randomUUID()+'.json';
  const res=await fetch(base+'/contents/'+path,{method:'PUT',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({message:'MIS AI report',content:btoa(s),branch:meta.default_branch})});
  if(!res.ok)throw Error('Đồng bộ thất bại: HTTP '+res.status);
