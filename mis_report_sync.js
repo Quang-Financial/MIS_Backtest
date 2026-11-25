@@ -28,7 +28,7 @@ function mount(getReport){
  const data=()=>{const r=getReport();if(!r)throw Error('Chạy Backtest trước');return select.value==='full'?r:select.value==='research'?(Array.isArray(r.all)?MISReport.compact(r):r):quick(r)};
  preview.onclick=()=>{try{status.textContent='Dung lượng: '+(MISReport.bytes(data()).length/1024).toFixed(1)+' KB'}catch(e){status.textContent=e.message}};copy.onclick=async()=>{try{const s=JSON.stringify(data());await navigator.clipboard.writeText(s);status.textContent='Đã copy '+new TextEncoder().encode(s).length+' bytes'}catch(e){status.textContent=e.message}};
  sync.onclick=async()=>{let token;try{const r=data();if(!confirm('Gửi báo cáo vào repository Private MIS_Reports?'))return;token=prompt('Nhập fine-grained token chỉ có Contents read/write cho MIS_Reports. Không gửi token vào ChatGPT. Token không được lưu.');if(!token)return;sync.disabled=true;const url=await publish(r,'Quang-Financial/MIS_Reports',token);status.replaceChildren(document.createTextNode('Đã lưu: '));const a=document.createElement('a');a.href=url;a.textContent=url;a.target='_blank';a.rel='noopener noreferrer';status.append(a)}catch(e){status.textContent=e.message}finally{token=null;sync.disabled=false}};
- document.body.append(section);
+ const history=document.createElement('a');history.href='https://github.com/Quang-Financial/MIS_Reports/tree/main/reports';history.target='_blank';history.rel='noopener noreferrer';history.textContent='Lịch sử báo cáo GitHub';section.append(history);document.body.append(section);
 }
 g.MISReportSync={quick,publish,mount};
 })(globalThis);
