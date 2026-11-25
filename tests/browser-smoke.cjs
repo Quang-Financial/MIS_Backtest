@@ -21,6 +21,23 @@ const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.ht
      await page.reload();
      assert.equal(await page.evaluate(()=>localStorage.getItem('mis-test-preserve')),'ok');
     }
+    if(file==='mis_datahub.html'){
+     const fixture=[{t:Date.UTC(2020,0,1),o:100,h:110,l:90,c:105},{t:Date.UTC(2020,0,2),o:105,h:120,l:100,c:115}];
+     await page.locator('#file').setInputFiles({name:'synthetic.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(fixture))});
+     await page.locator('#import').click();
+     await page.waitForFunction(()=>document.querySelector('#status').textContent==='Hoàn thành');
+     await page.reload();
+     await page.locator('#source').selectOption('imported');
+     await page.locator('#audit').click();
+     await page.waitForFunction(()=>document.querySelector('#status').textContent==='Hoàn thành');
+     const report=JSON.parse(await page.locator('#summary').textContent());
+     assert.equal(report.audit.days,2);
+     assert.deepEqual(report.audit.gaps,[]);
+     assert.deepEqual(report.audit.bad,[]);
+     const persisted=await page.evaluate(()=>MISDataHub.store('imported'));
+     assert.deepEqual(persisted.bars,fixture);
+     console.log(name,'Data Hub synthetic import, IndexedDB reload and audit passed');
+    }
     console.log(name,file,'loaded');
    }
    assert.deepEqual(errors,[],name+' uncaught page errors');
