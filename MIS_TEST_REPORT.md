@@ -78,3 +78,9 @@ CI của commit 2df321e: [smoke](https://github.com/Quang-Financial/MIS_Backtest
 Chủ dự án xác nhận mở được Staging V1.6.7 và duyệt bỏ qua kiểm thử iPhone thật. Ca Chromium mobile vẫn là bằng chứng kiểm thử mô phỏng. CI tại commit bcc347e: [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45629958363) và [browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45629958353) đều đạt.
 
 Đồng bộ thực tế vẫn cần kho thử được cấp quyền riêng. Mã hiện hành giới hạn đích là MIS_Reports và Staging chặn API ghi GitHub. Chỉ các ca mô phỏng đã được xác minh.
+
+## Hoàn tất kiểm thử tích hợp
+
+[GitHub Actions run #1](https://github.com/Quang-Financial/MIS_Reports_Staging/actions/runs/45632940439) đạt trên kho riêng tư Quang-Financial/MIS_Reports_Staging. Phép thử dùng hàm publish của commit e3e731e với danh sách đích đổi riêng trong môi trường kiểm thử. Hai lần gửi cùng báo cáo giả lập trả cùng URL, với đúng một yêu cầu PUT và một lần đọc lại thành công. Dùng GITHUB_TOKEN của workflow trong kho thử. UI đồng bộ đã kiểm thử riêng bằng API giả lập. Staging web vẫn chặn API ghi GitHub.
+
+Hoàn thành phạm vi nghiệm thu đã duyệt gồm BTC và sáu Altcoin. SUI và iPhone thật nằm ngoài phạm vi theo quyết định chủ dự án. Chờ phê duyệt riêng cho merge và phát hành.
