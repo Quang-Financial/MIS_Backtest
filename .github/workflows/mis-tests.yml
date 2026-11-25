@@ -1,0 +1,17 @@
+name: MIS smoke tests
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --version
+      - run: |
+          for f in *.js; do node --check "$f" || exit 1; done
+          node tests/report-sync.test.cjs
+
+          node tests/datahub.test.cjs

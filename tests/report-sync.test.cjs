@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+require('../ces_report.js');
+require('../mis_report_sync.js');
+const row={phase:'Grid',status:'pass',roi:222.95,mdd:-16.74,mae:-5.55,rules:{dd:55},equity:Array(1000).fill(100)};
+const report={locks:{btcDrawdownMin:40,belowEMA200:true},all:[row],results:[row],selected:[row],audit:{robustness:{clusters:[]}}};
+const quick=MISReportSync.quick(report);
+assert.equal(quick.selected[0].roi,row.roi);
+assert.equal(quick.selected[0].mdd,row.mdd);
+assert.deepEqual(quick.locks,report.locks);
+assert.equal(quick.selected[0].equity,undefined);
+assert.equal(quick.all,undefined);
+assert.equal(report.selected[0].equity.length,1000);
+assert.ok(MISReport.bytes(quick).length<MISReport.bytes(report).length);
+const h=MISReportSync.quick({rows:[{roi:1,rows:[{valid:true},{valid:false}]}]});
+assert.equal(h.rows[0].signalWeeks,2);
+assert.equal(h.rows[0].validSignals.length,1);
+console.log('Report smoke tests passed');
