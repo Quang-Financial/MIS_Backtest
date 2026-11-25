@@ -21,3 +21,5 @@ Giao diện V1.7 có năm màn hình chính trên một thanh điều hướng. 
 ### Phản biện V1.7
 
 Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đối chiếu phạm vi phê duyệt. Ca Node xác nhận giữ đỉnh BTC trước ngày đầu Altcoin và nhãn Live chỉ dùng cho nghiên cứu. Một sai khác chính sách Auto/Live được giữ trong fixture tái hiện. Chưa xác nhận hồi quy Altcoin bằng nến thật hoặc CI trên cùng commit.
+
+Tổng quan V1.7 trực tiếp hiển thị bảng tín hiệu. Biểu đồ nằm trong phần mở rộng tùy chọn. Backtest chứa Optimizer và Auto Backtest; Research chứa Historical Research; Data Hub quản lý dữ liệu; Bộ chỉ báo giữ cấu hình và đối chứng. Công cụ nhúng còn lại tự theo chiều cao nội dung.

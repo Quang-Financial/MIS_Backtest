@@ -28,3 +28,6 @@
 ### Phản biện V1.7
 
 Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đối chiếu phạm vi phê duyệt. Ca Node xác nhận giữ đỉnh BTC trước ngày đầu Altcoin và nhãn Live chỉ dùng cho nghiên cứu. Một sai khác chính sách Auto/Live được giữ trong fixture tái hiện. Chưa xác nhận hồi quy Altcoin bằng nến thật hoặc CI trên cùng commit.
+
+- [x] Tích hợp bảng tín hiệu trực tiếp vào Tổng quan. Chuyển Optimizer và Auto Backtest vào Backtest, Historical Research vào Research.
+- [x] Đồng bộ bộ chọn tài sản ngoài cùng, loại điều hướng và bộ chọn lặp trong công cụ nhúng, tự co giãn chiều cao theo nội dung.

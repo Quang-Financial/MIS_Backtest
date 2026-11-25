@@ -19,8 +19,38 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      const links=page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link');
      assert.deepEqual(await links.allTextContents(),['Tổng quan','Bộ chỉ báo','Research','Backtest','Data Hub']);
      await page.locator('#workspace-asset').selectOption('ETH');
-     await page.frameLocator('iframe[title="Live Monitor"]').locator('#coin').waitFor();
-     await page.waitForFunction(()=>document.querySelector('iframe[title="Live Monitor"]').contentDocument.querySelector('#coin').value==='ETH');
+     await page.locator('#workspace-monitor #update').waitFor();
+     assert.equal(await page.locator('iframe:visible').count(),0);
+     assert.equal(await page.locator('#workspace-tools button').count(),0);
+     assert.equal(await page.locator('select#workspace-asset:visible').count(),1);
+     assert.equal(await page.locator('#workspace-monitor #coin:visible').count(),0);
+     assert.equal(await page.locator('#workspace-monitor #coin').inputValue(),'ETH');
+     const dailyMs=86400000;
+     const fixtureStart=Date.UTC(2018,0,11);
+     const fixture=Array.from({length:1470},(_,index)=>{
+      const close=200-index/20;
+      return [fixtureStart+index*dailyMs,close,close+1,close-1,close,0,0,0,1].map(String);
+     });
+     const market='https://www.okx.com/api/v5/market/history-candles?*';
+     const sentiment='https://api.alternative.me/fng/?*';
+     await page.route(market,route=>{
+      const cursor=Number(new URL(route.request().url()).searchParams.get('after'))||Infinity;
+      return route.fulfill({json:{code:'0',data:fixture.filter(row=>Number(row[0])<cursor).slice(-100).reverse()}});
+     });
+     await page.route(sentiment,route=>route.fulfill({json:{data:fixture.map(row=>({timestamp:String(Number(row[0])/1000),value:'20'}))}}));
+     await page.locator('#workspace-monitor #update').click();
+     await page.getByText('Đã cập nhật dữ liệu xác nhận.',{exact:true}).waitFor();
+     assert.equal(await page.locator('#preview').textContent().then(value=>value.startsWith('ETH')),true);
+     await page.unroute(market);
+     await page.unroute(sentiment);
+
+     await page.getByText('Biểu đồ thị trường',{exact:true}).click();
+     const chart=page.frameLocator('iframe[title="Biểu đồ thị trường"]');
+     await chart.locator('#chart').waitFor();
+     await chart.locator('#coin').waitFor({state:'hidden'});
+     assert.equal(await chart.locator('nav:visible').count(),0);
+     assert.equal(await chart.locator('#coin:visible').count(),0);
+     await page.getByText('Biểu đồ thị trường',{exact:true}).click();
      await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Bộ chỉ báo',exact:true}).click();
      assert.equal(await page.locator('#workspace-candidates article').count(),4);
      await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Research',exact:true}).click();
@@ -28,7 +58,13 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Backtest',exact:true}).click();
      await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
      await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
-     await page.waitForFunction(()=>document.querySelector('iframe[title="Auto Backtest"]').contentDocument.querySelector('#coin').value==='ETH');
+     await page.waitForFunction(()=>{
+      const frame=document.querySelector('iframe[title="Auto Backtest"]');
+      const doc=frame.contentDocument;
+      return doc.querySelector('#coin').value==='ETH' &&
+        doc.querySelector('#coin').closest('label').hidden && frame.height>0 &&
+        doc.documentElement.scrollHeight<=frame.clientHeight+2;
+     });
      await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Data Hub',exact:true}).click();
      await page.frameLocator('iframe[title="Data Hub"]').locator('#import').waitFor();
      await page.goBack();

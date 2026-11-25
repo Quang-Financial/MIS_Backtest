@@ -12,9 +12,22 @@ main{max-width:1320px;margin:auto;padding:20px}
 h1{margin:0;font-size:clamp(1.45rem,4vw,2rem)}h2{font-size:1.05rem}p{margin:5px 0;line-height:1.5;color:#475e68}
 #workspace-tools{display:flex;gap:6px;flex-wrap:wrap}button{font:inherit;font-size:.9rem;padding:8px 12px;border-radius:8px;border:1px solid #91aab1;background:#fff;color:#14394c;cursor:pointer}
 button[aria-pressed=true]{color:#fff;background:#176450;border-color:#176450}
-iframe{display:block;width:100%;height:76vh;min-height:420px;border:1px solid #c2d2d8;border-radius:14px;background:#fff}
+iframe{display:block;width:100%;border:1px solid #c2d2d8;border-radius:14px;background:#fff}
 #workspace-library{border:1px solid #c2d2d8;border-radius:14px;background:#fff;padding:16px}
 #workspace-candidates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
 article{padding:12px;border:1px solid #ccdce0;border-radius:10px;background:#f5f9fa}
 [hidden]{display:none!important}:focus-visible{outline:3px solid #dd9a2d;outline-offset:2px}
-@media(max-width:600px){main{padding:14px 10px}.header{padding:0 10px}.section-head{align-items:flex-start;flex-direction:column}.asset{gap:4px}iframe{height:80vh}}
+@media(max-width:600px){main{padding:14px 10px}.header{padding:0 10px}.section-head{align-items:flex-start;flex-direction:column}.asset{gap:4px}}
+iframe{min-height:0;vertical-align:top}
+#workspace-overview .card{background:#fff;border:1px solid #c2d2d8;border-radius:14px;padding:16px;margin:12px 0}
+#workspace-overview .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+#workspace-overview .grid:has(> label[hidden]){display:none}
+#workspace-overview .metric{background:#edf3f5;border-radius:10px;padding:12px}
+#workspace-overview .metric strong{display:block;font-size:1.35rem}
+#workspace-overview .mini{font-size:.85rem;color:#475e68}
+#workspace-overview .scroll{overflow-x:auto}
+#workspace-overview table{width:100%;min-width:450px;text-align:left;border-collapse:collapse}
+#workspace-overview th,#workspace-overview td{padding:8px;border-bottom:1px solid #d5e1e5}
+#workspace-overview .feargauge{max-width:280px;text-align:center}
+#workspace-overview .feargauge svg{width:100%;height:auto}
+#workspace-chart>summary{cursor:pointer;padding:12px 0;font-weight:650}

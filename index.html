@@ -13,6 +13,7 @@
   <script defer src="./ces_dynamic.js"></script>
   <script defer src="./ces_shared.js"></script>
   <script defer src="./ces_library.js"></script>
+  <script defer src="./ces_optimizer_data.js"></script>
   <script defer src="./mis_workspace.js"></script>
 </head>
 <body>
@@ -39,6 +40,12 @@
       <p id="workspace-config"></p>
       <h2>Cấu hình đối chứng</h2>
       <div id="workspace-candidates"></div>
+    </section>
+    <section id="workspace-overview" aria-label="Theo dõi thị trường">
+      <div id="workspace-monitor" role="region" aria-label="Tín hiệu CES">
+        <p role="status">Đang tải bảng tín hiệu…</p>
+      </div>
+      <details id="workspace-chart"><summary>Biểu đồ thị trường</summary></details>
     </section>
     <div id="workspace-frames"></div>
     <noscript>Bật JavaScript để sử dụng MIS.</noscript>
