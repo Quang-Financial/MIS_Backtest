@@ -13,3 +13,5 @@ Mã nguồn đã kiểm thử: [5bfbaff](https://github.com/Quang-Financial/MIS_
 Sáu ca đối chiếu PASS, mỗi ca 211 mốc tuần. Hai ca tái hiện sai khác về chính sách khóa cấu hình và tuần đầu không đầy đủ. Đây là kiểm thử dữ liệu tổng hợp bằng Auto Backtest core và hàm cập nhật Live Monitor. Chưa kết luận parity cho nguồn dữ liệu hoặc giao diện thực tế. Ghi chi tiết trong MIS_TEST_REPORT.md và tests/engine-parity-results.jsonl.
 
 Kiểm toán snapshot Bitstamp 5.578 nến ngày đã hoàn tất. Sửa riêng điểm bắt đầu dữ liệu đối chứng để bỏ tuần đầu thiếu nến làm mốc EMA200 lùi một tuần. Trên bốn cấu hình, tín hiệu mua không đổi và 20 dòng Historical có cùng kết quả tài chính. Chín dòng đổi giá trị EMA200 lưu trong chi tiết giao dịch. Báo cáo ghi riêng giới hạn của đường dữ liệu và Fear & Greed.
+
+Nhánh V1.7 đã sửa warmup tuần UTC đầy đủ và dùng chung hàm căn dữ liệu cho Live Monitor, Optimizer và Auto Backtest. Test Node và hồi quy BTC 20/20 đã đạt. Còn mở đối chiếu Altcoin sau sửa, cơ chế snapshot chung và khóa cấu hình thực thi.

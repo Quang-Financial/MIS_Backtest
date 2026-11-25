@@ -12,13 +12,16 @@ assert.equal(sha256, '89168eb95d1094f6224d131e64cc30c1548c94c946f214c5f4755a3932
 const { bars } = JSON.parse(bytes);
 assert.equal(bars.length, 5578);
 
+function load(engineFile) {
 const context = vm.createContext({ setTimeout });
 context.window = context;
 for (const file of ['ces_engine.js', 'ces_dynamic.js', 'ces_auto_core.js', 'ces_library.js',
   'ces_research164.js', 'ces_robust165.js', 'ces_history166.js']) {
-  vm.runInContext(readFileSync(join(__dirname, '..', file), 'utf8'), context, { filename: file });
+  vm.runInContext(readFileSync(file === 'ces_engine.js' && engineFile ? engineFile : join(__dirname, '..', file), 'utf8'), context, { filename: file });
 }
-const { MISCES, CESAuto, CESDynamic, CESHistory, CESLibrary } = context;
+return context;
+}
+const { MISCES, CESAuto, CESDynamic, CESHistory, CESLibrary } = load();
 const day = 86400000;
 const monday = bars.findIndex(bar => new Date(bar.t).getUTCDay() === 1);
 const withoutPartialWeek = bars.slice(monday);
@@ -30,6 +33,15 @@ const normalize = value => JSON.stringify(value);
 async function run() {
   const current = await CESHistory.run(bars, opts);
   const counterfactual = await CESHistory.run(withoutPartialWeek, opts);
+  let baseline;
+  if (process.argv[3]) {
+    const old = await load(process.argv[3]).CESHistory.run(bars, opts);
+    const fillFields = ['date', 'action', 'price', 'qty', 'cash'];
+    const comparable = report => report.rows.map(({ name, period, status, metrics, trades }) =>
+      ({ name, period, status, metrics, fills: trades?.map(trade => fillFields.map(field => trade[field])) }));
+    assert.deepEqual(JSON.parse(normalize(comparable(current))), JSON.parse(normalize(comparable(old))));
+    baseline = { matchedRows: old.rows.length, metricsAndFillsIdentical: true };
+  }
   assert.equal(current.rows.length, 20);
   assert.equal(counterfactual.rows.length, 20);
   const perStrategy = CESHistory.names.map(name => {
@@ -69,6 +81,6 @@ async function run() {
   });
   console.log(JSON.stringify({ sha256, candles: bars.length, first: date(bars[0].t),
     last: date(bars.at(-1).t), removedDays: monday, firstCompleteEMA200Close: date(firstCompleteClose),
-    perStrategy, historicalRows: current.rows.length, changes }, null, 2));
+    perStrategy, baseline, historicalRows: current.rows.length, changes }, null, 2));
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

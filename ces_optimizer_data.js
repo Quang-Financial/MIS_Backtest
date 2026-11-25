@@ -18,3 +18,15 @@ function validate(bars, name) {
     throw Error(name + ' chỉ có ' + fullWeeks + ' tuần đầy đủ; cần 200 tuần để khởi tạo EMA200 tuần.');
   }
 }
+
+// Align both inputs before validation so all callers evaluate the same closed dates.
+function alignSignalData(coin, assetBars, btcBars) {
+  const start = Math.max(assetBars[0]?.t ?? Infinity, btcBars[0]?.t ?? Infinity);
+  const end = Math.min(assetBars.at(-1)?.t ?? -Infinity, btcBars.at(-1)?.t ?? -Infinity);
+  const inRange = bar => bar.t >= start && bar.t <= end;
+  const a = assetBars.filter(inRange);
+  const b = btcBars.filter(inRange);
+  validate(a, coin);
+  validate(b, 'BTC');
+  return { start, end, a, b };
+}

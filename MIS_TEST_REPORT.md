@@ -115,3 +115,9 @@ Chạy `node tests/market-warmup-audit.cjs <btcusd-bitstamp.json>`. Bộ kiểm 
 | Historical Research | BTC và BTC gate từ nguồn chọn qua Data Hub; nến Altcoin dùng fullDaily. | Engine được gọi với Map rỗng. Các cấu hình đối chứng hiện tại không dùng Fear. |
 
 Mã của ứng dụng chỉ lưu giá trị Fear theo ngày. Chưa có bản chụp nguồn kèm thời điểm công bố hoặc phiên bản sửa đổi để chứng minh giá trị nào đã có tại từng thời điểm lịch sử. Kiểm tra nhân quả của Fear trên dữ liệu thật vẫn mở.
+
+### Bản sửa warmup V1.7
+
+Engine chỉ dùng tuần UTC đủ bảy nến ngày cho chỉ báo tuần và yêu cầu BTC gate có tuần xác nhận đầy đủ. Đỉnh BTC vẫn theo các giá cao đã quan sát, kể cả phần dữ liệu đầu chuỗi. Live Monitor, Optimizer và Auto Backtest dùng chung hàm căn khoảng ngày giữa tài sản và BTC, rồi kiểm tra độ phủ. Historical Research giữ các tùy chọn nguồn riêng.
+
+Tám ca Node đạt, bao gồm dữ liệu tương lai biến đổi, Fear thiếu, EMA200 chưa sẵn sàng ở 199 tuần và sẵn sàng đúng ở tuần đầy đủ thứ 200, cùng ca kiểm tra khoảng ngày chồng lấp và thiếu nến. Trên snapshot 5.578 nến BTC, 20/20 dòng khớp trạng thái, chỉ số giao dịch, ngày, hành động, giá, số lượng và tiền mặt với Engine c4d2768. Lần đầu EMA200 hợp lệ là 2015-06-22. Thông tin EMA200 trong audit có thể khác bản cũ. GitHub Actions của commit này cần được xác minh riêng. Chênh lệch khóa cấu hình Auto/Live còn mở.

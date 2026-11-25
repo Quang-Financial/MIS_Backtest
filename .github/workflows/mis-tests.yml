@@ -1,7 +1,7 @@
 name: MIS smoke tests
 on:
   push:
-    branches: [develop/v1.7.0]
+    branches: [develop/v1.7.0, develop/v1.7.0-warmup-audit, develop/v1.7.0-engine-integration]
   pull_request:
   workflow_dispatch:
 permissions:

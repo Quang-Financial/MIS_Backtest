@@ -106,12 +106,30 @@ function row(type, tf, p, q, weight = 20) {
   assert.equal(withoutFear.valid, false);
 
   const partial = bars.slice(2, 7 * 200);
-  const gate = common(partial, partial, fear, cfgFor(flex)).signals.get(start + 7 * 200 * day);
+  const early = common(partial, partial, fear, cfgFor(flex)).signals.get(start + 7 * 200 * day);
   assert.equal(runtime.MISCES.aggregate(partial, 'week').filter(week => week.n === 7).length, 199);
-  assert.ok(Number.isFinite(gate.ema200));
+  assert.ok(early);
+  assert.equal(early.ema200, null);
+  assert.equal(early.valid, false);
   assert.throws(() => runtime.validate(partial, 'BTC'), /199 tuần/);
-  console.log(JSON.stringify({ test: 'EMA200 partial first week', result: 'KNOWN_DEVIATION',
-    date: gate.date, completeWeeks: 199, ema200: gate.ema200, validation: 'rejects input at 199 weeks' }));
+  const enough = bars.slice(2, 7 * 201);
+  runtime.validate(enough, 'BTC');
+  const cutoff = start + 7 * 201 * day;
+  const ready = common(enough, enough, fear, cfgFor(flex)).signals.get(cutoff);
+  const expected = runtime.MISCES.aggregate(enough, 'week')
+    .filter(week => week.n === 7).reduce((sum, week) => sum + week.c, 0) / 200;
+  assert.equal(ready.ema200, expected);
+  console.log(JSON.stringify({ test: 'EMA200 partial first week', result: 'PASS',
+    firstReadyDate: ready.date, completeWeeks: 200, ema200: ready.ema200 }));
+
+  const subset = bars.slice(7, -7);
+  const aligned = runtime.alignSignalData('ETH', subset, bars);
+  assert.equal(aligned.start, subset[0].t);
+  assert.equal(aligned.end, subset.at(-1).t);
+  assert.deepEqual(normalize(aligned.a), normalize(aligned.b));
+  assert.throws(() => runtime.alignSignalData('ETH', [], bars), /0 tuần/);
+  assert.throws(() => runtime.alignSignalData('ETH', subset.filter((_, i) => i !== 100), bars), /thiếu ngày/);
+  console.log(JSON.stringify({ test: 'Common closed-date alignment', result: 'PASS', days: aligned.a.length }));
 
   const flat = bars.map(bar => ({ t: bar.t, o: 100, h: 101, l: 99, c: 100 }));
   const relaxed = { ...flex, threshold: 0, btcDrawdown: 0, belowEMA200: false,
