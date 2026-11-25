@@ -18,6 +18,9 @@ const nav = document.querySelector('#workspace-nav');
 const tools = document.querySelector('#workspace-tools');
 const frames = document.querySelector('#workspace-frames');
 const library = document.querySelector('#workspace-library');
+const research = document.querySelector('#workspace-research');
+const historyPanel = document.querySelector('#workspace-history');
+const data = document.querySelector('#workspace-data');
 const asset = document.querySelector('#workspace-asset');
 const views = new Map();
 const chosenTool = new Map();
@@ -34,7 +37,7 @@ function renderLibrary() {
   const config = document.querySelector('#workspace-config');
   try {
     const flex = CESShared.load();
-    config.textContent = 'CES ≥ ' + flex.threshold + ' · BTC giảm ≥ ' + flex.btcDrawdown + '% · ' +
+    config.textContent = 'Chưa có cấu hình kích hoạt đã duyệt. Bản lưu v' + flex.version + ' · CES ≥ ' + flex.threshold + ' · BTC giảm ≥ ' + flex.btcDrawdown + '% · ' +
       (flex.belowEMA200 ? 'Yêu cầu dưới EMA200 tuần' : 'Bộ lọc EMA200 đã tắt') + ' · ' +
       flex.dynamic.filter(row => row.enabled).map(CESDynamic.name).join(', ');
   } catch (error) {
@@ -48,7 +51,14 @@ function renderLibrary() {
     const details = document.createElement('p');
     details.textContent = 'BTC giảm ≥ ' + candidate.flex.btcDrawdown + '% · CES ≥ ' + candidate.flex.threshold +
       ' · ' + candidate.flex.dynamic.filter(row => row.enabled).map(CESDynamic.name).join(', ');
-    card.append(title, details);
+    const parameters = document.createElement('details');
+    const heading = document.createElement('summary');
+    heading.textContent = 'Tham số và nguồn';
+    const body = document.createElement('p');
+    body.textContent = 'Phiên bản cấu hình ' + candidate.flex.version +
+      ' · Đối chứng trong thư viện CES · Phê duyệt và chỉ số kiểm định: chưa liên kết.';
+    parameters.append(heading, body);
+    card.append(title, details, parameters);
     return card;
   });
   document.querySelector('#workspace-candidates').replaceChildren(...cards);
@@ -63,6 +73,79 @@ function openScreen(id, file) {
   render(id);
 }
 
+function collapse(doc, title, nodes, anchor = nodes[0]) {
+  const targets = nodes.filter(Boolean);
+  if (!targets.length || !anchor) return;
+  const details = doc.createElement('details');
+  const heading = doc.createElement('summary');
+  heading.textContent = title;
+  details.append(heading);
+  anchor.before(details);
+  details.append(...targets);
+}
+
+function refineTool(doc, file) {
+  const get = id => doc.getElementById(id);
+  if (file === 'ces_auto.html') {
+    const result = get('results').closest('section');
+    const setup = get('run').closest('section');
+    setup.before(result);
+    collapse(doc, 'Chi tiết kết quả, kiểm toán và xuất báo cáo',
+      [get('researchAudit'), get('results'), doc.querySelector('[data-export]')?.parentElement, get('exportSize')]);
+    const thresholdFields = ['capital','fee','slip','mdd','mae','goal','library','import','split']
+      .map(id => get(id)?.closest('label'));
+    const indicators = doc.querySelector('[data-type]')?.closest('.grid');
+    collapse(doc, 'Cài đặt nâng cao', [...thresholdFields, indicators, get('importStatus')], get('run'));
+    result.querySelector('h3').textContent = 'Kết quả trong mẫu và ngoài mẫu';
+  }
+  if (file === 'ces_optimizer.html') {
+    const result = get('results').closest('section');
+    const setup = get('mode').closest('section');
+    setup.before(result);
+    const rules = get('threshold').closest('section');
+    const factors = get('params').closest('section');
+    const run = get('run');
+    const status = get('status');
+    collapse(doc, 'Cài đặt điều kiện và bộ chỉ báo', [rules, factors]);
+    setup.append(run, status);
+  }
+  if (file === 'mis_datahub.html') {
+    const inventory = get('inventory');
+    const sources = inventory.closest('section');
+    const audit = get('audit').closest('section');
+    collapse(doc, 'Quản lý nguồn, nhập dữ liệu', [sources]);
+    collapse(doc, 'Kiểm toán, đối chiếu và xuất dữ liệu', [audit]);
+    let currentQuery = 0;
+    async function syncSummary() {
+      const query = ++currentQuery;
+      const key = get('source').value;
+      const hub = doc.defaultView.MISDataHub;
+      if (!hub) return;
+      const set = (name, value) => { document.querySelector('#data-' + name).textContent = value; };
+      set('source', hub.sources[key] ?? key);
+      for (const [name, text] of Object.entries({range:'Chưa có dữ liệu',last:'Chưa có dữ liệu',quality:'Chưa kiểm toán',warmup:'Chưa kiểm tra'})) set(name,text);
+      try {
+        const snapshot = await hub.store(key);
+        if (query !== currentQuery || !snapshot?.bars?.length) return;
+        const bars = snapshot.bars;
+        const iso = t => new Date(t).toISOString().slice(0, 10);
+        set('range', iso(bars[0].t) + ' → ' + iso(bars.at(-1).t) + ' · ' + bars.length + ' nến');
+        set('last', iso(bars.at(-1).t));
+        const auditResult = snapshot.audit;
+        if (auditResult) set('quality', auditResult.gaps.length + ' khoảng trống · ' + auditResult.bad.length + ' nến lỗi');
+        const weeks = MISCES.aggregate(bars,'week').filter(week => week.n===7).length;
+        set('warmup', weeks + ' tuần đầy đủ / 200');
+      } catch {
+        if (query === currentQuery) set('quality', 'Chưa đọc được dữ liệu nguồn.');
+      }
+    }
+    get('source').addEventListener('change', syncSummary);
+    const update = new MutationObserver(syncSummary);
+    update.observe(inventory,{childList:true,subtree:true});
+    syncSummary();
+  }
+}
+
 function frameFor(route, container = frames) {
   if (views.has(route.file)) return views.get(route.file);
   const frame = document.createElement('iframe');
@@ -72,7 +155,12 @@ function frameFor(route, container = frames) {
     if (!doc) return;
     const embedStyle = doc.createElement('style');
     embedStyle.textContent = 'html,body { overflow-y:hidden !important; min-height:0 !important; }' +
-      'nav, body > header, [hidden] { display:none !important; }';
+      'nav, body > header, [hidden] { display:none !important; }' +
+      'body {background:#edf3f5 !important;font-family:system-ui,sans-serif !important}' +
+      'section, article {border-radius:12px !important;max-width:100%}' +
+      'details>summary {cursor:pointer;font-weight:650;padding:8px}' +
+      'pre {white-space:pre-wrap;overflow-wrap:anywhere}' +
+      'label,input,select,button {max-width:100%}';
     const coinControl = doc.getElementById('coin');
     const coinLabel = coinControl?.closest('label') ?? coinControl?.closest('.coin-picker') ?? coinControl;
     if (coinLabel) coinLabel.hidden = true;
@@ -83,6 +171,7 @@ function frameFor(route, container = frames) {
         link.hidden = true;
       }
     }
+    refineTool(doc, route.file);
     const resize = () => {
       if (!doc.body || frame.hidden || !frame.getClientRects().length) return;
       const height = Math.ceil(doc.body.getBoundingClientRect().bottom + (parseFloat(doc.defaultView.getComputedStyle(doc.body).marginBottom) || 0));
@@ -136,8 +225,11 @@ function render(requested) {
   overview.hidden = activeScreen !== 'overview';
   if (!overview.hidden) MISOverview.select(asset.value);
   library.hidden = activeScreen !== 'indicators';
+  research.hidden = activeScreen !== 'research';
+  data.hidden = activeScreen !== 'data';
+  document.querySelector('#data-asset').textContent = asset.value;
   if (!library.hidden) renderLibrary();
-  tools.replaceChildren(...available.map(route => {
+  tools.replaceChildren(...(activeScreen === 'backtest' ? available : []).map(route => {
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = route.label;
@@ -145,7 +237,8 @@ function render(requested) {
     button.onclick = () => openScreen(activeScreen, route.file);
     return button;
   }));
-  const frame = selected ? frameFor(selected) : null;
+  const frame = selected && (activeScreen !== 'research' || historyPanel.open)
+    ? frameFor(selected, activeScreen === 'research' ? historyPanel : frames) : null;
   for (const view of views.values()) view.hidden = view !== frame;
   if (frame) {
     syncAsset(frame.contentDocument);
@@ -154,9 +247,10 @@ function render(requested) {
 }
 
 asset.addEventListener('change', () => {
-  if (activeScreen === 'overview') render('overview');
+  render(activeScreen);
   for (const frame of views.values()) if (!frame.hidden) syncAsset(frame.contentDocument);
 });
+historyPanel.addEventListener('toggle', () => { if (activeScreen === 'research') render('research'); });
 window.addEventListener('hashchange', () => render(location.hash.slice(1)));
 window.addEventListener('popstate', () => render(location.hash.slice(1)));
 render(location.hash.slice(1));

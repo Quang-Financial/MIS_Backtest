@@ -12,6 +12,7 @@
   <script defer src="./ces_config.js"></script>
   <script defer src="./ces_dynamic.js"></script>
   <script defer src="./ces_shared.js"></script>
+  <script defer src="./ces_auto_core.js"></script>
   <script defer src="./ces_library.js"></script>
   <script defer src="./ces_optimizer_data.js"></script>
   <script defer src="./mis_overview.js"></script>
@@ -37,9 +38,9 @@
       <div id="workspace-tools" aria-label="Công cụ của màn hình"></div>
     </div>
     <section id="workspace-library" aria-label="Thư viện cấu hình" hidden>
-      <h2>Cấu hình Live Monitor hiện đọc</h2>
+      <h2>Cấu hình đang theo dõi</h2>
       <p id="workspace-config"></p>
-      <h2>Cấu hình đối chứng</h2>
+      <h2>Ứng viên đối chứng</h2>
       <div id="workspace-candidates"></div>
     </section>
     <section id="workspace-overview" aria-label="Theo dõi thị trường">
@@ -72,7 +73,7 @@
               <li>Z2 <small>45–50%</small></li><li>Z3 <small>50–55%</small></li>
               <li>Z4 <small>55–60%</small></li><li>Z5 <small>60–70%</small></li><li>Z6 <small>≥70%</small></li>
             </ol>
-            <p>Z3 là ví dụ giả thuyết 50–55%. Các vùng vẫn chờ kiểm định.</p>
+            <p>Dải tô trên biểu đồ (khi nằm trong khung giá) là vùng giả thuyết Z3 50–55%. Các vùng vẫn chờ kiểm định.</p>
           </section>
           <section class="overview-frames" aria-label="Nghiên cứu đa khung">
             <article><strong>1M · Chu kỳ</strong><p>Chờ nghiên cứu</p></article>
@@ -94,7 +95,7 @@
           <section class="overview-card" aria-labelledby="decision-title">
             <h2 id="decision-title">Kết luận và hành động</h2>
             <p id="overview-decision">WAIT · Chờ dữ liệu đã xác nhận.</p>
-            <dl class="overview-decision"><dt>Điều kiện mua</dt><dd>Chưa đủ điều kiện kích hoạt</dd><dt>Giải ngân</dt><dd>Chưa kích hoạt</dd></dl>
+            <dl class="overview-decision"><dt>Điều kiện mua</dt><dd id="overview-eligibility">Chờ dữ liệu</dd><dt>Giải ngân</dt><dd>Chưa kích hoạt</dd></dl>
           </section>
         </div>
       </div>
@@ -102,6 +103,28 @@
         <a href="#indicators">Cấu hình chiến lược</a><a href="#research">Bằng chứng vùng mua</a>
         <a href="#backtest">Kết quả kiểm định</a><a href="#data">Nguồn và chất lượng dữ liệu</a>
       </nav>
+    </section>
+    <section id="workspace-research" class="overview-card" hidden>
+      <h2>Bằng chứng vùng mua</h2>
+      <dl class="workspace-summary">
+        <div><dt>Số mẫu / chu kỳ độc lập</dt><dd>Chờ nghiên cứu</dd></div>
+        <div><dt>Lợi nhuận trung vị 3 / 6 / 12 / 24 tháng</dt><dd>Chờ nghiên cứu</dd></div>
+        <div><dt>MAE / thời gian phục hồi</dt><dd>Chờ nghiên cứu</dd></div>
+        <div><dt>Ngoài mẫu (OOS)</dt><dd>Chờ kiểm định vùng mua</dd></div>
+        <div><dt>1M · 1W · 1D</dt><dd>Chờ nghiên cứu</dd></div>
+      </dl>
+      <details id="workspace-history"><summary>Chi tiết Historical Research</summary></details>
+    </section>
+    <section id="workspace-data" class="overview-card" hidden>
+      <h2>Độ phủ và chất lượng dữ liệu</h2>
+      <dl class="workspace-summary">
+        <div><dt>Tài sản đang xem</dt><dd id="data-asset">—</dd></div>
+        <div><dt>Nguồn đang kiểm tra</dt><dd id="data-source">—</dd></div>
+        <div><dt>Phạm vi nến</dt><dd id="data-range">Chưa có dữ liệu</dd></div>
+        <div><dt>Nến cuối UTC</dt><dd id="data-last">Chưa có dữ liệu</dd></div>
+        <div><dt>Chất lượng</dt><dd id="data-quality">Chưa kiểm toán</dd></div>
+        <div><dt>Warmup EMA200W</dt><dd id="data-warmup">Chưa kiểm tra</dd></div>
+      </dl>
     </section>
     <div id="workspace-frames"></div>
     <noscript>Bật JavaScript để sử dụng MIS.</noscript>

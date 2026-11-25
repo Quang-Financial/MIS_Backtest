@@ -22,3 +22,13 @@ ACK và tài liệu điều phối: PASS. Vòng phản biện/sửa BTC gate có
 ### V170-OVERVIEW · phản biện thiết kế
 
 [Phản biện 7168240873](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7168240873): thiết kế FAIL, điều hướng PASS. Bản sửa dùng dashboard riêng và gọi loader/Engine CES. Ảnh và test ở MIS_TEST_REPORT. Chờ kiến trúc sư kiểm tra lại. P0 parity vẫn FAIL; Tổng quan giữ fail-closed và chỉ hiển thị kết quả nghiên cứu.
+
+### MIS_REVIEW · UX-5-SCREENS
+
+| Mục | Trạng thái | Bằng chứng |
+|---|---|---|
+| P0 an toàn Tổng quan | PASS trên fixture | Refresh lỗi xóa CES, gate, as-of và vùng. Cấu hình lưu nới khóa được đánh dấu; Overview dùng CESAuto.lock. WATCH có thể hiện khi đạt gate cứng, vào vùng giả thuyết và thiếu điểm. Không kích hoạt giải ngân. |
+| P0 parity liên màn hình đầy đủ | BLOCKED | Chưa có snapshot chung, ID/hash cấu hình thực thi xuyên màn hình hoặc hồ sơ phê duyệt. Legacy Live còn dùng cấu hình lưu. |
+| UX năm màn hình | PASS smoke | Chromium 1440×900 và 414×896, dữ liệu giả lập. Mười ảnh và log trong MIS_TEST_REPORT. Chờ phản biện độc lập về thiết kế. |
+| Số liệu nghiên cứu vùng mua, Fear theo thời điểm và Altcoin thật | BLOCKED | Research ghi Chờ nghiên cứu. Đợt này không thay đổi phương pháp nghiên cứu. |
+| So sánh A/B | PASS bảo toàn chế độ hiện có; BLOCKED đối chiếu cạnh nhau | Giữ chế độ A/B trong các trình chạy. Chưa có màn hình so sánh hai báo cáo cạnh nhau. |

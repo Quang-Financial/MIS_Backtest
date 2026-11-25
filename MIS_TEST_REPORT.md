@@ -146,3 +146,17 @@ Chromium 1440 × 900 và 414 × 896 đạt kiểm tra năm tab, biểu đồ m�
 
 - [Desktop 1440 × 900](tests/overview-dashboard-desktop.png) và [Mobile 414 × 896](tests/overview-dashboard-mobile.png) dùng dữ liệu thị trường tổng hợp, không phải kết quả Live.
 - [Log Chromium](tests/overview-dashboard-browser.log). Nghiệm thu thiết kế vẫn FAIL theo đánh giá trước cho đến khi kiến trúc sư kiểm tra lại.
+
+### UX-5-SCREENS · Chromium
+
+PASS trên PC 1440 × 900 và mobile 414 × 896. Fixture lưu ngưỡng BTC 0% và tắt EMA200, nhưng Tổng quan hiển thị khóa nghiên cứu 40% và ghi khác cấu hình. Với dữ liệu đủ và CES dưới ngưỡng, vùng giả thuyết đặt WATCH. Ca dữ liệu cũ và refresh thất bại không giữ CES/gate cũ. Ảnh dùng dữ liệu mô phỏng. Các ca Node Engine parity, Data Hub và report sync cũng chạy lại.
+
+| Màn hình | PC | Mobile |
+|---|---|---|
+| Tổng quan | [PC](tests/ux-overview-desktop.png) | [Mobile](tests/ux-overview-mobile-chromium.png) |
+| Bộ chỉ báo | [PC](tests/ux-indicators-desktop.png) | [Mobile](tests/ux-indicators-mobile-chromium.png) |
+| Research | [PC](tests/ux-research-desktop.png) | [Mobile](tests/ux-research-mobile-chromium.png) |
+| Backtest | [PC](tests/ux-backtest-desktop.png) | [Mobile](tests/ux-backtest-mobile-chromium.png) |
+| Data Hub | [PC](tests/ux-data-desktop.png) | [Mobile](tests/ux-data-mobile-chromium.png) |
+
+[Log](tests/ux-five-screens-browser.log). Giữ các quy tắc Engine, dữ liệu, kho báo cáo và các đường dẫn công cụ độc lập.

@@ -57,3 +57,8 @@ iframe{min-height:0;vertical-align:top}
 .overview-evidence{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 .overview-evidence a{border:1px solid #c2d2d8;background:#fff;color:#174c40;border-radius:8px}
 @media(max-width:720px){.overview-layout{grid-template-columns:1fr}.overview-metrics,.overview-evidence{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-plot{height:180px}}
+
+.workspace-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,185px),1fr));gap:6px;margin:0 0 12px}
+.workspace-summary div{background:#edf3f5;padding:9px;border-radius:8px}
+.workspace-summary dt{font-size:.83rem;color:#475e68}.workspace-summary dd{margin:4px 0 0;font-weight:650}
+#workspace-history>summary,#workspace-library summary{cursor:pointer;padding:8px 0;font-weight:650}

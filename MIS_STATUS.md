@@ -29,3 +29,5 @@ Tổng quan V1.7 trực tiếp hiển thị bảng tín hiệu. Biểu đồ n�
 GitHub là kênh trao đổi chính. CDS-001 đã ACK, có sổ liên kết và vòng phản biện/sửa BTC gate ghi nhận trên GitHub. V170-OVERVIEW đã kiểm thử tại 9c684ad trên Cloud, cả hai workflow thành công; đang chờ nhận xét độc lập ở PR #4. Không có tác vụ phụ thuộc PC cho lần bàn giao này.
 
 V170-OVERVIEW: Tổng quan hiện là dashboard chuyên dụng, gồm biểu đồ giá mặc định, vị trí drawdown giả thuyết, đa khung, CES, điều kiện và bằng chứng. Kiểm thử cục bộ đạt. Trạng thái nghiệm thu thiết kế giữ FAIL theo phản biện cho đến lượt review độc lập.
+
+UX-5-SCREENS: trình bày năm màn hình đã chạy qua smoke Chromium desktop/mobile. Tổng quan có khóa nghiên cứu bằng CESAuto.lock, WATCH giả thuyết, và loại trạng thái cũ sau mất dữ liệu. P0 đầy đủ vẫn mở do chưa có snapshot và ID cấu hình thực thi xuyên màn hình.

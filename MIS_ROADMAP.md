@@ -22,3 +22,5 @@
 | V2.0.0 | Multi-Strategy: nghiên cứu TES/RES sau khi CES đủ bằng chứng và chủ dự án phê duyệt. |
 
 [Quy trình MIS-CDS](MIS_DISCUSSION.md) áp dụng cho mỗi mốc. PR #4 tiếp nhận phản biện V1.7. Tiêu chí kỹ thuật và bằng chứng được theo dõi theo ID trong MIS_TASKS.md.
+
+UX-5-SCREENS triển khai theo thứ tự bảo vệ trạng thái Tổng quan → tóm tắt và mở rộng chi tiết cho năm màn hình → kiểm tra ảnh và phản biện độc lập. Nghiên cứu vùng mua, snapshot thống nhất và so sánh báo cáo A/B được theo dõi riêng.

@@ -81,16 +81,41 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('RISK ALERT'));
      assert.match(await page.locator('#overview-decision').textContent(),/đã cũ/);
 
+     await page.evaluate(()=>{
+      const fixed=performance.timeOrigin+performance.now();
+      Date.now=()=>fixed;
+      const flex=CESShared.load();
+      CESShared.saveCommon({...flex,threshold:65,btcDrawdown:0,belowEMA200:false});
+      localStorage.setItem('mis-ces-dynamic-v150',JSON.stringify(flex.dynamic.map(row=>({...row,limit:10}))));
+     });
+     await page.locator('#overview-refresh').click();
+     await page.getByText('WATCH · Vùng giả thuyết, điểm CES chưa đạt.',{exact:true}).waitFor();
+     assert.match(await page.locator('#overview-gate-dd').textContent(),/40%/);
+     assert.match(await page.locator('#overview-approval').textContent(),/khác khóa/);
      await page.unroute(market);
      await page.unroute(sentiment);
      await page.unroute(ticker);
+     await page.locator('#overview-refresh').click();
+     await page.waitForFunction(()=>document.querySelector('#overview-status').textContent.startsWith('Không thể xác nhận'));
+     assert.equal(await page.locator('#overview-score').textContent(),'— / 100');
+     assert.equal(await page.locator('#overview-gate-dd').textContent(),'Chờ dữ liệu');
+     assert.match(await page.locator('#overview-asof').textContent(),/As-of: —/);
+     assert.match(await page.locator('#overview-zone').textContent(),/Chưa có drawdown/);
+
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Cấu hình chiến lược'}).click();
      assert.equal(await page.locator('#workspace-candidates article').count(),4);
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-indicators-'+name+'.png'});
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Bằng chứng vùng mua'}).click();
+     assert.equal(await page.locator('#workspace-history').evaluate(node=>node.open),false);
+     assert.match(await page.locator('#workspace-research').textContent(),/Chờ kiểm định vùng mua/);
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-research-'+name+'.png'});
+     await page.getByText('Chi tiết Historical Research',{exact:true}).click();
      await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Kết quả kiểm định'}).click();
+     await page.frameLocator('iframe[title="Optimizer"]').locator('#run').waitFor();
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-backtest-'+name+'.png'});
      await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
      await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
      await page.waitForFunction(()=>{
@@ -102,6 +127,11 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      });
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Nguồn và chất lượng dữ liệu'}).click();
+     const dataFrame=page.frameLocator('iframe[title="Data Hub"]');
+     await dataFrame.getByText('Quản lý nguồn, nhập dữ liệu',{exact:true}).waitFor();
+     assert.equal(await page.locator('#data-asset').textContent(),'ETH');
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-data-'+name+'.png'});
+     await dataFrame.getByText('Quản lý nguồn, nhập dữ liệu',{exact:true}).click();
      await page.frameLocator('iframe[title="Data Hub"]').locator('#import').waitFor();
      await page.goBack();
      await page.locator('#overview-chart').waitFor();

@@ -45,3 +45,10 @@ Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đ�
 ### V170-OVERVIEW · sửa theo phản biện
 
 Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAIL cho tới khi kiến trúc sư review lại. Bản sửa đã triển khai và chạy thử Chromium desktop/mobile. Tiêu chí và ảnh trong MIS_TEST_REPORT.md.
+
+### UX-5-SCREENS · MIS_EXECUTE 7168724581
+
+- [x] V170-OVERVIEW: reset đồng bộ khi refresh, lỗi hoặc đổi tài sản. WATCH nghiên cứu và khóa nghiên cứu Auto/Overview dùng chung.
+- [x] Năm màn hình: tóm tắt trước, nhóm nâng cao mở theo nhu cầu, giữ các thao tác và báo cáo hiện hành.
+- [ ] V170-P0-CONFIG: định danh/hash bất biến xuyên màn hình, đối chiếu caller trên cùng snapshot, hồ sơ phê duyệt và Legacy Live.
+- [ ] Thiết kế so sánh hai báo cáo A/B cạnh nhau khi có hồ sơ nghiên cứu chung. Hai chế độ A/B hiện vẫn chọn được riêng.
