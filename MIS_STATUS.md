@@ -17,3 +17,7 @@ Kiểm toán snapshot Bitstamp 5.578 nến ngày đã hoàn tất. Sửa riêng 
 Nhánh V1.7 đã sửa warmup tuần UTC đầy đủ và dùng chung hàm căn dữ liệu cho Live Monitor, Optimizer và Auto Backtest. Test Node và hồi quy BTC 20/20 đã đạt. Còn mở đối chiếu Altcoin sau sửa, cơ chế snapshot chung và khóa cấu hình thực thi.
 
 Giao diện V1.7 có năm màn hình chính trên một thanh điều hướng. Các công cụ hiện hữu dùng cùng origin và bộ chọn tài sản trong phiên. Thư viện hiển thị cấu hình Live Monitor đọc và bốn đối chứng. Tập dữ liệu chuẩn dùng chung theo snapshot, vòng đời Strategy ID và nghiên cứu vùng mua là các hạng mục tiếp theo.
+
+### Phản biện V1.7
+
+Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đối chiếu phạm vi phê duyệt. Ca Node xác nhận giữ đỉnh BTC trước ngày đầu Altcoin và nhãn Live chỉ dùng cho nghiên cứu. Một sai khác chính sách Auto/Live được giữ trong fixture tái hiện. Chưa xác nhận hồi quy Altcoin bằng nến thật hoặc CI trên cùng commit.

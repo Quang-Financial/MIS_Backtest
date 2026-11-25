@@ -76,7 +76,7 @@ async function compare(name, flex, sentiment) {
     value.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) : '—';
   assert.equal(runtime.nodes.get('score').textContent, display(current.score));
   assert.equal(runtime.nodes.get('decision').textContent, current.valid ?
-    'Đạt điều kiện mua CES' : 'Chưa đạt điều kiện mua CES');
+    'Điều kiện CES đạt trong nghiên cứu · cấu hình chưa có hồ sơ kích hoạt' : 'Chưa đạt điều kiện mua CES');
   console.log(JSON.stringify({ test: name, result: 'PASS', comparedWeeks: count,
     missingWeeks: [...live.values()].filter(signal => signal.score === null).length, latestScore: current.score,
     latestSignal: current.valid, autoEvaluated: simulation !== null }));
@@ -126,7 +126,19 @@ function row(type, tf, p, q, weight = 20) {
   const aligned = runtime.alignSignalData('ETH', subset, bars);
   assert.equal(aligned.start, subset[0].t);
   assert.equal(aligned.end, subset.at(-1).t);
-  assert.deepEqual(normalize(aligned.a), normalize(aligned.b));
+  assert.deepEqual(normalize(aligned.a), normalize(subset));
+  assert.equal(aligned.b[0].t, bars[0].t);
+  assert.equal(aligned.b.at(-1).t, subset.at(-1).t);
+  const btcWithEarlyPeak = bars.map((bar, index) =>
+    index === 0 ? { ...bar, h: 1000 } : bar);
+  const joined = runtime.alignSignalData('ETH', subset, btcWithEarlyPeak);
+  const asOf = subset.at(-1).t + day;
+  const btcSignal = common(bars, btcWithEarlyPeak, fear, cfgFor(flex)).signals.get(asOf);
+  const altSignal = common(joined.a, joined.b, fear, cfgFor(flex)).signals.get(asOf);
+  const truncated = common(joined.a, joined.a, fear, cfgFor(flex)).signals.get(asOf);
+  assert.equal(altSignal.btcDD, btcSignal.btcDD);
+  assert.equal(altSignal.ath, 1000);
+  assert.notEqual(altSignal.btcDD, truncated.btcDD);
   assert.throws(() => runtime.alignSignalData('ETH', [], bars), /0 tuần/);
   assert.throws(() => runtime.alignSignalData('ETH', subset.filter((_, i) => i !== 100), bars), /thiếu ngày/);
   console.log(JSON.stringify({ test: 'Common closed-date alignment', result: 'PASS', days: aligned.a.length }));

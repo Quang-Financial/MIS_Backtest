@@ -19,13 +19,13 @@ function validate(bars, name) {
   }
 }
 
-// Align both inputs before validation so all callers evaluate the same closed dates.
+// Bound evaluation by common closed dates while preserving the earlier BTC peak history.
 function alignSignalData(coin, assetBars, btcBars) {
   const start = Math.max(assetBars[0]?.t ?? Infinity, btcBars[0]?.t ?? Infinity);
   const end = Math.min(assetBars.at(-1)?.t ?? -Infinity, btcBars.at(-1)?.t ?? -Infinity);
   const inRange = bar => bar.t >= start && bar.t <= end;
   const a = assetBars.filter(inRange);
-  const b = btcBars.filter(inRange);
+  const b = btcBars.filter(bar => bar.t <= end);
   validate(a, coin);
   validate(b, 'BTC');
   return { start, end, a, b };

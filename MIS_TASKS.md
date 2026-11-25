@@ -24,3 +24,7 @@
 - [ ] Mở rộng test trên đầu vào thị trường cố định, Optimizer và Historical Research, bao gồm đồng nhất nguồn BTC gate.
 - [x] Ghép năm màn hình và giữ ngữ cảnh tài sản giữa Live Monitor, Historical Research, Optimizer và Auto Backtest.
 - [ ] Tích hợp snapshot nguồn chuẩn từ Data Hub và hồ sơ cấu hình có thể tái lập.
+
+### Phản biện V1.7
+
+Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đối chiếu phạm vi phê duyệt. Ca Node xác nhận giữ đỉnh BTC trước ngày đầu Altcoin và nhãn Live chỉ dùng cho nghiên cứu. Một sai khác chính sách Auto/Live được giữ trong fixture tái hiện. Chưa xác nhận hồi quy Altcoin bằng nến thật hoặc CI trên cùng commit.

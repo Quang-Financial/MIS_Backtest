@@ -15,3 +15,7 @@ Khi máy tính chủ dự án tắt, Cloud Work có thể sửa mã, kiểm th�
 ## Kiến trúc V1.7–V2.0
 
 Thanh điều hướng theo thứ tự **Tổng quan → Bộ chỉ báo → Research → Backtest → Data Hub**. Luồng dữ liệu nghiên cứu đi từ Data Hub qua Backtest và Research đến Bộ chỉ báo và Tổng quan. Dùng chung dữ liệu chuẩn, Engine, Strategy ID và hồ sơ nghiên cứu. Tổng quan chỉ sử dụng cấu hình đã phê duyệt và kích hoạt. Các tín hiệu gắn với thời điểm nến đã đóng, cấu hình, phiên bản Engine và phiên bản dữ liệu.
+
+## Phối hợp trên GitHub
+
+Trước mỗi nhiệm vụ đọc MIS_TASKS, MIS_STATUS, MIS_REVIEW, MIS_DECISIONS và thảo luận PR V1.7 mới nhất. Sau nhiệm vụ ghi trạng thái PASS/FAIL/BLOCKED, commit, môi trường, đầu vào và bằng chứng. Các quyết định được chủ dự án duyệt ghi vào MIS_DECISIONS. Trao đổi V1.7 trong PR riêng.

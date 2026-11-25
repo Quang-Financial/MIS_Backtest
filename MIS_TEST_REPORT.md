@@ -127,3 +127,7 @@ Tám ca Node đạt, bao gồm dữ liệu tương lai biến đổi, Fear thi�
 Thêm kiểm tra trình duyệt cho thứ tự điều hướng, bốn cấu hình đối chứng, ngữ cảnh ETH từ Tổng quan sang Auto Backtest, chuyển vào Data Hub và quay lại bằng lịch sử trình duyệt. Các trang công cụ cũ còn dùng được ở đường dẫn trực tiếp. Bản đồ cấu hình chỉ đọc, chưa tự kích hoạt ứng viên.
 
 Kết quả chạy cục bộ: Chromium 1440 × 900 và 414 × 896 đều đạt điều hướng, chuyển công cụ, ngữ cảnh ETH, EMA200 và nhập/khôi phục Data Hub. Kiểm thử chặn mạng ngoài localhost và dùng dữ liệu OHLC giả lập cho Data Hub. Xem tests/workspace-browser-results.log.
+
+### Phản biện V1.7
+
+Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đối chiếu phạm vi phê duyệt. Ca Node xác nhận giữ đỉnh BTC trước ngày đầu Altcoin và nhãn Live chỉ dùng cho nghiên cứu. Một sai khác chính sách Auto/Live được giữ trong fixture tái hiện. Chưa xác nhận hồi quy Altcoin bằng nến thật hoặc CI trên cùng commit.
