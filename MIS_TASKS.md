@@ -31,3 +31,13 @@ Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đ�
 
 - [x] Tích hợp bảng tín hiệu trực tiếp vào Tổng quan. Chuyển Optimizer và Auto Backtest vào Backtest, Historical Research vào Research.
 - [x] Đồng bộ bộ chọn tài sản ngoài cùng, loại điều hướng và bộ chọn lặp trong công cụ nhúng, tự co giãn chiều cao theo nội dung.
+
+## ID điều phối V1.7
+
+| ID | Phạm vi và tiêu chí | Trạng thái | Nhánh, SHA và bằng chứng |
+|---|---|---|---|
+| CDS-001 | ACK, tám tài liệu quản trị, task ID, một vòng phản biện/sửa công khai, báo cáo PASS/FAIL/BLOCKED. | PASS cho thiết lập và vòng phản biện/sửa có trước; đánh giá độc lập mới của CDS đang mở. | [PR #4](https://github.com/Quang-Financial/MIS_Backtest/pull/4), develop/v1.7.0-review. SHA bàn giao ghi trong [Issue #5](https://github.com/Quang-Financial/MIS_Backtest/issues/5). |
+| V170-OVERVIEW | Năm màn hình đúng thứ tự, Live native, một selector, không có tab test lồng hoặc cuộn dọc riêng cho công cụ, giữ Engine và dữ liệu. | PASS kiểm thử đã ghi, chờ review độc lập. | develop/v1.7.0-review · 9c684ad · [browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45653094967) · [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45653095088). |
+| V170-P0-CONFIG | Chứng minh cùng cấu hình thực thi, ID/hash và đầu vào cho Auto/Live. | FAIL: còn sai khác khóa đã tái hiện. | develop/v1.7.0-review · aaedfac · tests/engine-parity-results.jsonl. |
+| V170-P1-BTC | Giữ BTC gate nhất quán khi đầu lịch sử Altcoin khác BTC. | PASS trên fixture tổng hợp. | develop/v1.7.0-review · aaedfac · tests/engine-parity.test.cjs. |
+| V170-P1-MARKET | Snapshot chung, Fear theo thời điểm công bố, hồi quy Altcoin thực và kiểm toán CAGR/OOS. | BLOCKED phần bằng chứng thị trường; FAIL ở phần kiểm toán còn mở. | develop/v1.7.0-review · [chi tiết](MIS_REVIEW.md). |

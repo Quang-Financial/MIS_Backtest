@@ -20,3 +20,5 @@
 | V1.8.1 | Paper Trading: tín hiệu thực tế, mô phỏng vị thế, đối chiếu Backtest và Live. |
 | V1.9.0 | Portfolio Management: vốn, danh mục và hiệu quả đầu tư. |
 | V2.0.0 | Multi-Strategy: nghiên cứu TES/RES sau khi CES đủ bằng chứng và chủ dự án phê duyệt. |
+
+[Quy trình MIS-CDS](MIS_DISCUSSION.md) áp dụng cho mỗi mốc. PR #4 tiếp nhận phản biện V1.7. Tiêu chí kỹ thuật và bằng chứng được theo dõi theo ID trong MIS_TASKS.md.

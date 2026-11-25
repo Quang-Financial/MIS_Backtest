@@ -135,3 +135,7 @@ Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đ�
 ### Tái cấu trúc Tổng quan
 
 Chromium 1440 × 900 và 414 × 896: PASS. Tổng quan có bảng tín hiệu trực tiếp, một bộ chọn tài sản, không có tab chức năng lồng. Mở biểu đồ và cập nhật tín hiệu ETH từ API giả lập với 1.470 nến ngày liên tục. Chuyển sang Auto Backtest giữ ETH và xác nhận chiều cao khung đủ cho toàn bộ nội dung. Research và Data Hub mở đúng công cụ; Data Hub nhập và phục hồi IndexedDB. Đối chiếu Engine, Data Hub và report sync ở Node đều đạt; sai khác chính sách Auto/Live giữ trạng thái cũ. Xem tests/overview-browser-results.log.
+
+### CDS-001 và V170-OVERVIEW
+
+Kiểm tra tại 9c684adf73ec006d8b9f1ac78b772ba1fb3f9b7e: [MIS browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45653094967) và [MIS smoke tests](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45653095088) đều completed/success. Kiểm thử đối chiếu Engine đã chạy trên dữ liệu cố định và tổng hợp; điều kiện P0 Auto/Live chưa đạt khi cấu hình thực thi khác nhau. Việc xác nhận giao thức không phải nghiệm thu phát hành V1.7.

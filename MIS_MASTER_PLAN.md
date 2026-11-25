@@ -19,3 +19,10 @@ Thanh điều hướng theo thứ tự **Tổng quan → Bộ chỉ báo → Res
 ## Phối hợp trên GitHub
 
 Trước mỗi nhiệm vụ đọc MIS_TASKS, MIS_STATUS, MIS_REVIEW, MIS_DECISIONS và thảo luận PR V1.7 mới nhất. Sau nhiệm vụ ghi trạng thái PASS/FAIL/BLOCKED, commit, môi trường, đầu vào và bằng chứng. Các quyết định được chủ dự án duyệt ghi vào MIS_DECISIONS. Trao đổi V1.7 trong PR riêng.
+
+## MIS-CDS V1.0
+
+- Lấy yêu cầu từ issue/PR và ghi ID, phạm vi, tiêu chí, nhánh, SHA, trạng thái và test trong MIS_TASKS. Liên kết luồng trong MIS_DISCUSSION.
+- Trước khi làm, đọc MIS_TASKS, MIS_STATUS, MIS_REVIEW, MIS_DECISIONS và phản hồi mới trên GitHub. Sau khi làm, cập nhật test, trạng thái, phản hồi trên issue/PR và đọc lại phản biện. Kiến trúc sư review độc lập.
+- Work xử lý lỗi kỹ thuật đã được duyệt. Chủ dự án quyết định về chiến lược/công thức, chi phí, quyền, nguy cơ mất dữ liệu, merge và phát hành.
+- Ưu tiên Cloud Work, GitHub Actions và Staging. Ghi rõ tác vụ nào cần thiết bị cá nhân. GitHub issue chỉ ghi nhận yêu cầu.

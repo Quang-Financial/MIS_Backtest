@@ -7,3 +7,15 @@
 | V1.7 dùng năm màn hình | Tổng quan → Bộ chỉ báo → Research → Backtest → Data Hub. |
 | Quyền quyết định kỹ thuật | Sửa lỗi và kiểm thử trên nhánh phát triển. Merge, phát hành, thay đổi chiến lược hoặc xóa dữ liệu cần phê duyệt riêng. |
 | Ngoại lệ nghiệm thu V1.6.7 | Bỏ qua SUI và iPhone thật cho V1.6.7. Không áp dụng ngầm cho V1.7. |
+
+## Lệnh điều phối
+
+| Lệnh | Hiệu lực |
+|---|---|
+| Đồng ý | Duyệt phương án đang được đề xuất. |
+| Triển khai | Giao việc đã duyệt, gồm kiểm thử, review và sửa theo phản hồi. |
+| Kiểm tra tiến độ | Đọc trạng thái mới nhất và phản biện. |
+| Nghiệm thu | Đánh giá bằng chứng trước quyết định phê duyệt cuối. |
+| Tạm dừng | Ngừng nhận nhiệm vụ mới trong phạm vi được nêu, dừng công việc đang chạy nếu có thể và xác nhận trạng thái. |
+
+Nguồn phê duyệt: [MIS-CDS V1.0](https://github.com/Quang-Financial/MIS_Backtest/issues/5).

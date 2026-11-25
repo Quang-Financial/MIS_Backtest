@@ -14,3 +14,7 @@ Nguồn: [phản biện độc lập](https://github.com/Quang-Financial/MIS_Bac
 | Yêu cầu follow-up | Trạng thái | Bằng chứng |
 |---|---|---|
 | Tổng quan trực tiếp, rà chức năng trùng ở năm màn hình | PASS | Chromium 1440 × 900 và 414 × 896. Bảng tín hiệu trực tiếp chạy với dữ liệu ETH giả lập. Điều hướng chính, bộ chọn tài sản, chiều cao khung và việc khôi phục dữ liệu đã kiểm tra. Các trang độc lập cũ và khóa lưu trữ vẫn giữ. |
+
+### CDS-001
+
+ACK và tài liệu điều phối: PASS. Vòng phản biện/sửa BTC gate có trong MIS_DISCUSSION.md. Review lại độc lập của bản Tổng quan và giao thức CDS-001: BLOCKED cho tới khi có nhận xét mới của kiến trúc sư. CI trên SHA 9c684ad: PASS cho cả hai workflow. Các trạng thái P0/P1 còn mở giữ theo bằng chứng ở bảng trên.
