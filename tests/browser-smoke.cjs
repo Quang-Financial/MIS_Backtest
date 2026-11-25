@@ -21,6 +21,21 @@ const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.ht
      await page.reload();
      assert.equal(await page.evaluate(()=>localStorage.getItem('mis-test-preserve')),'ok');
     }
+    if(file==='ces_history.html'){
+     const result=await page.evaluate(()=>{
+      const dayMs=86400000;
+      const start=Date.UTC(2022,11,21);
+      const makeBars=count=>Array.from({length:count},(_,index)=>({
+       t:start+index*dayMs,o:100,h:100,l:100,c:100
+      }));
+      validate(makeBars(1435),'BNB');
+      try{validate(makeBars(1302),'SUI');}
+      catch(error){return error.message;}
+      throw Error('SUI warmup should be rejected');
+     });
+     assert.match(result,/cần 200 tuần/);
+     console.log(name,'EMA200 validation uses complete weeks');
+    }
     if(file==='mis_datahub.html'){
      const fixture=[{t:Date.UTC(2020,0,1),o:100,h:110,l:90,c:105},{t:Date.UTC(2020,0,2),o:105,h:120,l:100,c:115}];
      await page.locator('#file').setInputFiles({name:'synthetic.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(fixture))});
