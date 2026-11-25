@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');
+require('../mis_datahub.js');
+const D=86400000,t=Date.parse('2011-08-18');
+const a={t,o:10,h:12,l:9,c:11},b={...a,t:t+D};
+assert.equal(MISDataHub.audit([a,b]).gaps.length,0);
+assert.equal(MISDataHub.audit([a,{...b,t:t+2*D}]).gaps.length,1);
+assert.equal(MISDataHub.audit([a,a]).gaps.length,1);
+assert.equal(MISDataHub.audit([{...a,h:8}]).bad.length,1);
+assert.throws(()=>MISDataHub.normalize([a,{...a,c:10}]),/trùng/);
+assert.equal(MISDataHub.audit([{...a,t:Math.floor(Date.now()/D)*D}]).bad.length,1);
+console.log('Data Hub validation tests passed');
