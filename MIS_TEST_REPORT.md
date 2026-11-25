@@ -139,3 +139,10 @@ Chromium 1440 × 900 và 414 × 896: PASS. Tổng quan có bảng tín hiệu tr
 ### CDS-001 và V170-OVERVIEW
 
 Kiểm tra tại 9c684adf73ec006d8b9f1ac78b772ba1fb3f9b7e: [MIS browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45653094967) và [MIS smoke tests](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45653095088) đều completed/success. Kiểm thử đối chiếu Engine đã chạy trên dữ liệu cố định và tổng hợp; điều kiện P0 Auto/Live chưa đạt khi cấu hình thực thi khác nhau. Việc xác nhận giao thức không phải nghiệm thu phát hành V1.7.
+
+### V170-OVERVIEW · Dashboard riêng theo thiết kế
+
+Chromium 1440 × 900 và 414 × 896 đạt kiểm tra năm tab, biểu đồ mặc định, hai cột/stack, bốn KPI, Z0–Z6 giả thuyết, ba khung nghiên cứu, nguồn/as-of/nến xác nhận, CES/ba gate, kết luận và bốn liên kết bằng chứng. Test mô phỏng thiếu dữ liệu, điều kiện CES đạt khi cấu hình chưa phê duyệt và dữ liệu quá cũ. Cả ba ca giữ giải ngân tắt. Giá ticker chỉ hiện khi có dữ liệu OKX hợp lệ trong 15 phút; nến ngày và tuần quá mốc 3/8 ngày được đánh dấu cũ. Node parity, Data Hub và đồng bộ báo cáo chạy lại. P0 parity vẫn có sai khác đã biết. Không thay đổi Engine hoặc BUY/SELL.
+
+- [Desktop 1440 × 900](tests/overview-dashboard-desktop.png) và [Mobile 414 × 896](tests/overview-dashboard-mobile.png) dùng dữ liệu thị trường tổng hợp, không phải kết quả Live.
+- [Log Chromium](tests/overview-dashboard-browser.log). Nghiệm thu thiết kế vẫn FAIL theo đánh giá trước cho đến khi kiến trúc sư kiểm tra lại.

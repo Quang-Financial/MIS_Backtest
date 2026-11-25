@@ -41,3 +41,7 @@ Xem MIS_REVIEW.md để theo dõi từng P0/P1/P2 và MIS_DECISIONS.md để đ�
 | V170-P0-CONFIG | Chứng minh cùng cấu hình thực thi, ID/hash và đầu vào cho Auto/Live. | FAIL: còn sai khác khóa đã tái hiện. | develop/v1.7.0-review · aaedfac · tests/engine-parity-results.jsonl. |
 | V170-P1-BTC | Giữ BTC gate nhất quán khi đầu lịch sử Altcoin khác BTC. | PASS trên fixture tổng hợp. | develop/v1.7.0-review · aaedfac · tests/engine-parity.test.cjs. |
 | V170-P1-MARKET | Snapshot chung, Fear theo thời điểm công bố, hồi quy Altcoin thực và kiểm toán CAGR/OOS. | BLOCKED phần bằng chứng thị trường; FAIL ở phần kiểm toán còn mở. | develop/v1.7.0-review · [chi tiết](MIS_REVIEW.md). |
+
+### V170-OVERVIEW · sửa theo phản biện
+
+Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAIL cho tới khi kiến trúc sư review lại. Bản sửa đã triển khai và chạy thử Chromium desktop/mobile. Tiêu chí và ảnh trong MIS_TEST_REPORT.md.

@@ -18,3 +18,7 @@ Nguồn: [phản biện độc lập](https://github.com/Quang-Financial/MIS_Bac
 ### CDS-001
 
 ACK và tài liệu điều phối: PASS. Vòng phản biện/sửa BTC gate có trong MIS_DISCUSSION.md. Review lại độc lập của bản Tổng quan và giao thức CDS-001: BLOCKED cho tới khi có nhận xét mới của kiến trúc sư. CI trên SHA 9c684ad: PASS cho cả hai workflow. Các trạng thái P0/P1 còn mở giữ theo bằng chứng ở bảng trên.
+
+### V170-OVERVIEW · phản biện thiết kế
+
+[Phản biện 7168240873](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7168240873): thiết kế FAIL, điều hướng PASS. Bản sửa dùng dashboard riêng và gọi loader/Engine CES. Ảnh và test ở MIS_TEST_REPORT. Chờ kiến trúc sư kiểm tra lại. P0 parity vẫn FAIL; Tổng quan giữ fail-closed và chỉ hiển thị kết quả nghiên cứu.

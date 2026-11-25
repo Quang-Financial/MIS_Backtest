@@ -14,6 +14,7 @@
   <script defer src="./ces_shared.js"></script>
   <script defer src="./ces_library.js"></script>
   <script defer src="./ces_optimizer_data.js"></script>
+  <script defer src="./mis_overview.js"></script>
   <script defer src="./mis_workspace.js"></script>
 </head>
 <body>
@@ -42,10 +43,65 @@
       <div id="workspace-candidates"></div>
     </section>
     <section id="workspace-overview" aria-label="Theo dõi thị trường">
-      <div id="workspace-monitor" role="region" aria-label="Tín hiệu CES">
-        <p role="status">Đang tải bảng tín hiệu…</p>
+      <div class="overview-meta">
+        <p id="overview-source">Nguồn: OKX · Bitstamp BTC/USD cho lịch sử bổ sung · Alternative.me</p>
+        <p id="overview-asof">As-of: — · Nến xác nhận: —</p>
+        <p id="overview-approval">Chiến lược: Chưa có hồ sơ kích hoạt được phê duyệt</p>
       </div>
-      <details id="workspace-chart"><summary>Biểu đồ thị trường</summary></details>
+      <div class="overview-metrics" aria-label="Chỉ số thị trường">
+        <article><span>Giá hiện tại</span><strong id="overview-price">Chưa có dữ liệu</strong><small id="overview-price-time">—</small></article>
+        <article><span>Giai đoạn chu kỳ</span><strong>Chờ nghiên cứu</strong></article>
+        <article><span>Drawdown BTC</span><strong id="overview-dd">—</strong></article>
+        <article><span id="overview-ema-label">Khoảng cách BTC / EMA200W</span><strong id="overview-ema">—</strong></article>
+      </div>
+      <div class="overview-layout">
+        <div class="overview-column">
+          <section class="overview-card" aria-labelledby="chart-title">
+            <div class="overview-card-head"><h2 id="chart-title">Biểu đồ giá</h2><span>Nến ngày đã đóng</span></div>
+            <div class="overview-plot">
+              <canvas id="overview-chart" role="img" aria-label="Biểu đồ giá đóng ngày"></canvas>
+              <p id="overview-chart-empty">Đang chờ dữ liệu giá</p>
+            </div>
+            <p id="overview-chart-range">—</p>
+          </section>
+          <section class="overview-card" aria-labelledby="zone-title">
+            <h2 id="zone-title">Vị trí vùng mua</h2>
+            <p id="overview-zone">Chưa có drawdown của tài sản.</p>
+            <ol class="overview-zones" aria-label="Các vùng drawdown giả thuyết">
+              <li>Z0 <small>&lt;40%</small></li><li>Z1 <small>40–45%</small></li>
+              <li>Z2 <small>45–50%</small></li><li>Z3 <small>50–55%</small></li>
+              <li>Z4 <small>55–60%</small></li><li>Z5 <small>60–70%</small></li><li>Z6 <small>≥70%</small></li>
+            </ol>
+            <p>Z3 là ví dụ giả thuyết 50–55%. Các vùng vẫn chờ kiểm định.</p>
+          </section>
+          <section class="overview-frames" aria-label="Nghiên cứu đa khung">
+            <article><strong>1M · Chu kỳ</strong><p>Chờ nghiên cứu</p></article>
+            <article><strong>1W · Vùng mua</strong><p>Chờ nghiên cứu</p></article>
+            <article><strong>1D · Xác nhận</strong><p>Chờ nghiên cứu</p></article>
+          </section>
+        </div>
+        <div class="overview-column">
+          <section class="overview-card" aria-labelledby="signal-title">
+            <div class="overview-card-head"><h2 id="signal-title">Trạng thái thị trường</h2><button id="overview-refresh" type="button">Cập nhật</button></div>
+            <p id="overview-status" role="status">Đang chờ dữ liệu</p>
+            <div class="overview-score"><span>Điểm CES</span><strong id="overview-score">— / 100</strong><p id="overview-gap">Còn thiếu điểm: —</p></div>
+            <ol id="overview-gates" class="overview-gates">
+              <li>Drawdown BTC <strong id="overview-gate-dd">Chờ dữ liệu</strong></li>
+              <li>Giá đóng tuần dưới EMA200W <strong id="overview-gate-ema">Chờ dữ liệu</strong></li>
+              <li>Ngưỡng CES <strong id="overview-gate-score">Chờ dữ liệu</strong></li>
+            </ol>
+          </section>
+          <section class="overview-card" aria-labelledby="decision-title">
+            <h2 id="decision-title">Kết luận và hành động</h2>
+            <p id="overview-decision">WAIT · Chờ dữ liệu đã xác nhận.</p>
+            <dl class="overview-decision"><dt>Điều kiện mua</dt><dd>Chưa đủ điều kiện kích hoạt</dd><dt>Giải ngân</dt><dd>Chưa kích hoạt</dd></dl>
+          </section>
+        </div>
+      </div>
+      <nav class="overview-evidence" aria-label="Bằng chứng">
+        <a href="#indicators">Cấu hình chiến lược</a><a href="#research">Bằng chứng vùng mua</a>
+        <a href="#backtest">Kết quả kiểm định</a><a href="#data">Nguồn và chất lượng dữ liệu</a>
+      </nav>
     </section>
     <div id="workspace-frames"></div>
     <noscript>Bật JavaScript để sử dụng MIS.</noscript>

@@ -18,44 +18,79 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
     if(file==='index.html'){
      const links=page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link');
      assert.deepEqual(await links.allTextContents(),['Tổng quan','Bộ chỉ báo','Research','Backtest','Data Hub']);
-     await page.locator('#workspace-asset').selectOption('ETH');
-     await page.locator('#workspace-monitor #update').waitFor();
      assert.equal(await page.locator('iframe:visible').count(),0);
      assert.equal(await page.locator('#workspace-tools button').count(),0);
-     assert.equal(await page.locator('select#workspace-asset:visible').count(),1);
-     assert.equal(await page.locator('#workspace-monitor #coin:visible').count(),0);
-     assert.equal(await page.locator('#workspace-monitor #coin').inputValue(),'ETH');
+     assert.equal(await page.locator('select:visible').count(),1);
+     await page.locator('#overview-chart').waitFor();
+     for(const id of ['source','asof','approval','price','dd','ema','zone','score','gap','decision']){
+      assert.ok(await page.locator('#overview-'+id).isVisible(),id);
+     }
+     assert.equal(await page.locator('.overview-metrics article').count(),4);
+     assert.equal(await page.locator('.overview-zones li').count(),7);
+     assert.equal(await page.locator('.overview-frames article').count(),3);
+     assert.equal(await page.locator('#overview-gates li').count(),3);
+     assert.deepEqual(await page.locator('.overview-evidence a').evaluateAll(links=>links.map(link=>link.hash)),['#indicators','#research','#backtest','#data']);
+     const columns=await page.locator('.overview-column').evaluateAll(cols=>cols.map(col=>({x:col.offsetLeft,y:col.offsetTop})));
+     assert.ok(viewport.width>720?columns[1].x>columns[0].x:columns[1].y>columns[0].y);
+     await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('RISK ALERT'));
+     assert.match(await page.locator('#overview-price').textContent(),/Chưa có dữ liệu/);
+
      const dailyMs=86400000;
      const fixtureStart=Date.UTC(2018,0,11);
-     const fixture=Array.from({length:1470},(_,index)=>{
-      const close=200-index/20;
+     const today=Math.floor(Date.now()/dailyMs)*dailyMs;
+     const fixture=Array.from({length:(today-fixtureStart)/dailyMs},(_,index)=>{
+      const close=250-index/23+8*Math.sin(index/14);
       return [fixtureStart+index*dailyMs,close,close+1,close-1,close,0,0,0,1].map(String);
      });
      const market='https://www.okx.com/api/v5/market/history-candles?*';
      const sentiment='https://api.alternative.me/fng/?*';
+     const ticker='https://www.okx.com/api/v5/market/ticker?*';
      await page.route(market,route=>{
       const cursor=Number(new URL(route.request().url()).searchParams.get('after'))||Infinity;
       return route.fulfill({json:{code:'0',data:fixture.filter(row=>Number(row[0])<cursor).slice(-100).reverse()}});
      });
      await page.route(sentiment,route=>route.fulfill({json:{data:fixture.map(row=>({timestamp:String(Number(row[0])/1000),value:'20'}))}}));
-     await page.locator('#workspace-monitor #update').click();
+     await page.route(ticker,route=>route.fulfill({json:{code:'0',data:[{last:'125.50',ts:String(Date.now()-1000)}]}}));
+     await page.locator('#workspace-asset').selectOption('ETH');
      await page.getByText('Đã cập nhật dữ liệu xác nhận.',{exact:true}).waitFor();
-     assert.equal(await page.locator('#preview').textContent().then(value=>value.startsWith('ETH')),true);
+     assert.equal(await page.locator('h1').textContent(),'Tổng quan ETH');
+     assert.match(await page.locator('#overview-ema-label').textContent(),/ETH/);
+     assert.match(await page.locator('#overview-price').textContent(),/USDT/);
+     assert.ok(await page.locator('#overview-chart-empty').isHidden());
+     assert.match(await page.locator('#overview-score').textContent(),/\d.*\/ 100/);
+     assert.match(await page.locator('#overview-approval').textContent(),/Chưa có hồ sơ kích hoạt/);
+     assert.match(await page.locator('.overview-decision').textContent(),/Chưa kích hoạt/);
+     assert.doesNotMatch(await page.locator('#workspace-overview').textContent(),/BUY READY/);
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-'+name+'.png'});
+     await page.evaluate(()=>{
+      const flex=CESShared.load();
+      CESShared.saveCommon({...flex,threshold:0});
+      const researchRow={id:'fixture-fear',type:'Fear',tf:'1D',enabled:true,hard:false,
+       p:14,q:20,s:5,window:1,op:'le',limit:100,weight:100};
+      localStorage.setItem('mis-ces-dynamic-v150',JSON.stringify([researchRow]));
+     });
+     await page.locator('#overview-refresh').click();
+     await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('WATCH'));
+     assert.match(await page.locator('.overview-decision').textContent(),/Chưa kích hoạt/);
+     assert.doesNotMatch(await page.locator('#workspace-overview').textContent(),/BUY READY/);
+     await page.evaluate(()=>{
+      const now=Date.now();
+      Date.now=()=>now+10*86400000;
+     });
+     await page.locator('#overview-refresh').click();
+     await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('RISK ALERT'));
+     assert.match(await page.locator('#overview-decision').textContent(),/đã cũ/);
+
      await page.unroute(market);
      await page.unroute(sentiment);
-
-     await page.getByText('Biểu đồ thị trường',{exact:true}).click();
-     const chart=page.frameLocator('iframe[title="Biểu đồ thị trường"]');
-     await chart.locator('#chart').waitFor();
-     await chart.locator('#coin').waitFor({state:'hidden'});
-     assert.equal(await chart.locator('nav:visible').count(),0);
-     assert.equal(await chart.locator('#coin:visible').count(),0);
-     await page.getByText('Biểu đồ thị trường',{exact:true}).click();
-     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Bộ chỉ báo',exact:true}).click();
+     await page.unroute(ticker);
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Cấu hình chiến lược'}).click();
      assert.equal(await page.locator('#workspace-candidates article').count(),4);
-     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Research',exact:true}).click();
+     await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Bằng chứng vùng mua'}).click();
      await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
-     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Backtest',exact:true}).click();
+     await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Kết quả kiểm định'}).click();
      await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
      await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
      await page.waitForFunction(()=>{
@@ -65,10 +100,11 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
         doc.querySelector('#coin').closest('label').hidden && frame.height>0 &&
         doc.documentElement.scrollHeight<=frame.clientHeight+2;
      });
-     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Data Hub',exact:true}).click();
+     await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Nguồn và chất lượng dữ liệu'}).click();
      await page.frameLocator('iframe[title="Data Hub"]').locator('#import').waitFor();
      await page.goBack();
-     await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
+     await page.locator('#overview-chart').waitFor();
      console.log(name,'MIS five-screen navigation and asset context passed');
     }
     if(file==='mis_market.html'){

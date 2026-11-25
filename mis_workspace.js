@@ -13,10 +13,7 @@ const screens = {
 };
 const routes = Object.entries(screens).flatMap(([screen, config]) =>
   Object.entries(config.tools).map(([label, file]) => ({ screen, label, file })));
-const chartRoute = { screen: 'overview', label: 'Biểu đồ thị trường', file: 'mis_market.html' };
 const overview = document.querySelector('#workspace-overview');
-const chart = document.querySelector('#workspace-chart');
-const monitor = document.querySelector('#workspace-monitor');
 const nav = document.querySelector('#workspace-nav');
 const tools = document.querySelector('#workspace-tools');
 const frames = document.querySelector('#workspace-frames');
@@ -76,12 +73,6 @@ function frameFor(route, container = frames) {
     const embedStyle = doc.createElement('style');
     embedStyle.textContent = 'html,body { overflow-y:hidden !important; min-height:0 !important; }' +
       'nav, body > header, [hidden] { display:none !important; }';
-    if (route.file === chartRoute.file) {
-      embedStyle.textContent += '#selectedCoinIcon {display:none}';
-      doc.querySelector('[data-tab="chart"]')?.click();
-    }
-
-    doc.head.append(embedStyle);
     const coinControl = doc.getElementById('coin');
     const coinLabel = coinControl?.closest('label') ?? coinControl?.closest('.coin-picker') ?? coinControl;
     if (coinLabel) coinLabel.hidden = true;
@@ -136,14 +127,14 @@ function render(requested) {
   const screen = screens[activeScreen];
   const available = routes.filter(route => route.screen === activeScreen);
   const selected = available.find(route => route.file === chosenTool.get(activeScreen)) ?? available[0];
-  document.querySelector('#workspace-title').textContent = screen.title;
+  document.querySelector('#workspace-title').textContent = screen.title + (activeScreen === 'overview' ? ' ' + asset.value : '');
   document.querySelector('#workspace-description').textContent = screen.description;
   for (const link of nav.querySelectorAll('a')) {
     if (link.hash === '#' + activeScreen) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   }
   overview.hidden = activeScreen !== 'overview';
-  if (!overview.hidden) syncAsset(document);
+  if (!overview.hidden) MISOverview.select(asset.value);
   library.hidden = activeScreen !== 'indicators';
   if (!library.hidden) renderLibrary();
   tools.replaceChildren(...available.map(route => {
@@ -155,44 +146,17 @@ function render(requested) {
     return button;
   }));
   const frame = selected ? frameFor(selected) : null;
-  for (const [file, view] of views) view.hidden = file === chartRoute.file ? overview.hidden : view !== frame;
+  for (const view of views.values()) view.hidden = view !== frame;
   if (frame) {
     syncAsset(frame.contentDocument);
     frame.dispatchEvent(new Event('workspace-visible'));
   }
 }
 
-async function mountMonitor() {
-  try {
-    const response = await fetch('./ces_monitor.html');
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    const template = new DOMParser().parseFromString(await response.text(), 'text/html');
-    const dashboard = template.getElementById('dashboard');
-    if (!dashboard) throw new Error('Thiếu nội dung Live Monitor');
-    dashboard.querySelector('#coin').closest('label').hidden = true;
-    dashboard.querySelector('#settingsToggle')?.remove();
-    monitor.replaceChildren(dashboard);
-    syncAsset(document);
-    const script = document.createElement('script');
-    script.src = './ces_monitor153.js';
-    script.onerror = () => { monitor.textContent = 'Không tải được bộ điều khiển tín hiệu.'; };
-    document.head.append(script);
-  } catch (error) {
-    monitor.textContent = 'Không tải được bảng tín hiệu: ' + error.message;
-  }
-}
-
 asset.addEventListener('change', () => {
-  syncAsset(document);
+  if (activeScreen === 'overview') render('overview');
   for (const frame of views.values()) if (!frame.hidden) syncAsset(frame.contentDocument);
 });
-chart.addEventListener('toggle', () => {
-  if (!chart.open) return;
-  const frame = frameFor(chartRoute, chart);
-  syncAsset(frame.contentDocument);
-  frame.dispatchEvent(new Event('workspace-visible'));
-});
-mountMonitor();
 window.addEventListener('hashchange', () => render(location.hash.slice(1)));
 window.addEventListener('popstate', () => render(location.hash.slice(1)));
 render(location.hash.slice(1));
