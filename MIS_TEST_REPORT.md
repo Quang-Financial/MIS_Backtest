@@ -64,3 +64,11 @@ Staging: https://mis-backtest-qa-v167.pointydahlia32.chatgpt.site
 - Optimizer BTC có kết quả đạt trên bản thử ban đầu. Trong đợt kiểm tra lại sau sửa, ca Optimizer hết thời gian chờ 180 giây. Cần xác minh lại trước nghiệm thu đầy đủ.
 - Chạy lại Optimizer, Auto Backtest (100/100, 0 lỗi, 7 thiếu dữ liệu), Live Monitor, Data Hub và đồng bộ báo cáo đều đạt với bộ nến Bitstamp cố định được phục vụ qua API mô phỏng và bản chụp Fear & Greed. Đồng bộ GitHub dùng API mô phỏng. Xem tests/functional-staging-v167.json. Hai lần chờ quá 180 giây trong đợt dùng API trực tiếp ảnh hưởng Optimizer và Auto Backtest.
 - [CI smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45628340685) và [CI browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45628340974) đều đạt ở commit `66bef77`. Commit ghi bổ sung bằng chứng này chỉ thay đổi tài liệu và JSON kết quả.
+
+## Phạm vi nghiệm thu cập nhật
+
+Chủ dự án duyệt bỏ qua SUI cho V1.6.7. Kết quả SUI 185/200 tuần được giữ để truy vết. Không sửa danh sách coin hoặc quy tắc EMA200.
+
+Chromium 414 × 896, chế độ mobile/touch: chạy Historical Research BTC, copy AI Quick đủ 20 dòng, dừng lượt tiếp theo và khôi phục báo cáo trước với nội dung khớp chính xác. Ca này dùng bộ Bitstamp cố định. Safari trên iPhone thật vẫn chờ kiểm thử.
+
+CI của commit 2df321e: [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45628709476) và [browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45628706859) đều đạt.
