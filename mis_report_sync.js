@@ -5,7 +5,7 @@ function quick(r){
  const {all,results,selected,audit,...meta}=r;
  const groups={};for(const x of all){const k=x.phase||'unknown';const a=groups[k]??={};a[x.status]=(a[x.status]||0)+1}
  const {robustness,...checks}=audit||{};
- return {...meta,format:'ai-quick-v1',omitted:['all','results','robustness'],groups,accepted:results.length,audit:checks,selected:selected.map(({equity,...x})=>x)};
+ return {...meta,format:'ai-quick-v1',omitted:['all','results','robustness'],groups,accepted:results.length,audit:checks,selected:MISReport.compact(r,true).selected};
  }
  if(Array.isArray(r.rows))return {...r,format:'ai-quick-v1',omitted:['rejected weekly details'],rows:r.rows.map(({rows,...x})=>({...x,signalWeeks:rows?.length,validSignals:rows?.filter(v=>v.valid)}))};
  return {...r,format:'ai-quick-v1'};
@@ -23,10 +23,10 @@ async function publish(r,repo,token){
  const saved=await res.json();return saved.content.html_url;
 }
 function mount(getReport){
- const section=document.createElement('section');section.innerHTML='<h3>AI Report & GitHub Sync</h3><label>Loại báo cáo<select><option value="quick">AI Quick</option><option value="research">AI Research</option><option value="full">Full JSON</option></select></label><button type="button">Copy AI Report</button> <button type="button">Đồng bộ GitHub</button><p role="status"></p>';
- const [copy,sync]=section.querySelectorAll('button'),select=section.querySelector('select'),status=section.querySelector('p');
+ const section=document.createElement('section');section.innerHTML='<h3>AI Report & GitHub Sync</h3><label>Loại báo cáo<select><option value="quick">AI Quick</option><option value="research">AI Research</option><option value="full">Full JSON</option></select></label><button type="button">Copy AI Report</button> <button type="button">Xem dung lượng</button> <button type="button">Đồng bộ GitHub</button><p role="status"></p>';
+ const [copy,preview,sync]=section.querySelectorAll('button'),select=section.querySelector('select'),status=section.querySelector('p');
  const data=()=>{const r=getReport();if(!r)throw Error('Chạy Backtest trước');return select.value==='full'?r:select.value==='research'?(Array.isArray(r.all)?MISReport.compact(r):r):quick(r)};
- copy.onclick=async()=>{try{const s=JSON.stringify(data());await navigator.clipboard.writeText(s);status.textContent='Đã copy '+new TextEncoder().encode(s).length+' bytes'}catch(e){status.textContent=e.message}};
+ preview.onclick=()=>{try{status.textContent='Dung lượng: '+(MISReport.bytes(data()).length/1024).toFixed(1)+' KB'}catch(e){status.textContent=e.message}};copy.onclick=async()=>{try{const s=JSON.stringify(data());await navigator.clipboard.writeText(s);status.textContent='Đã copy '+new TextEncoder().encode(s).length+' bytes'}catch(e){status.textContent=e.message}};
  sync.onclick=async()=>{let token;try{const r=data();if(!confirm('Gửi báo cáo vào repository Private MIS_Reports?'))return;token=prompt('Nhập fine-grained token chỉ có Contents read/write cho MIS_Reports. Không gửi token vào ChatGPT. Token không được lưu.');if(!token)return;sync.disabled=true;const url=await publish(r,'Quang-Financial/MIS_Reports',token);status.replaceChildren(document.createTextNode('Đã lưu: '));const a=document.createElement('a');a.href=url;a.textContent=url;a.target='_blank';a.rel='noopener noreferrer';status.append(a)}catch(e){status.textContent=e.message}finally{token=null;sync.disabled=false}};
  document.body.append(section);
 }
