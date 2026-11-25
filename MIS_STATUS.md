@@ -15,3 +15,5 @@ Sáu ca đối chiếu PASS, mỗi ca 211 mốc tuần. Hai ca tái hiện sai k
 Kiểm toán snapshot Bitstamp 5.578 nến ngày đã hoàn tất. Sửa riêng điểm bắt đầu dữ liệu đối chứng để bỏ tuần đầu thiếu nến làm mốc EMA200 lùi một tuần. Trên bốn cấu hình, tín hiệu mua không đổi và 20 dòng Historical có cùng kết quả tài chính. Chín dòng đổi giá trị EMA200 lưu trong chi tiết giao dịch. Báo cáo ghi riêng giới hạn của đường dữ liệu và Fear & Greed.
 
 Nhánh V1.7 đã sửa warmup tuần UTC đầy đủ và dùng chung hàm căn dữ liệu cho Live Monitor, Optimizer và Auto Backtest. Test Node và hồi quy BTC 20/20 đã đạt. Còn mở đối chiếu Altcoin sau sửa, cơ chế snapshot chung và khóa cấu hình thực thi.
+
+Giao diện V1.7 có năm màn hình chính trên một thanh điều hướng. Các công cụ hiện hữu dùng cùng origin và bộ chọn tài sản trong phiên. Thư viện hiển thị cấu hình Live Monitor đọc và bốn đối chứng. Tập dữ liệu chuẩn dùng chung theo snapshot, vòng đời Strategy ID và nghiên cứu vùng mua là các hạng mục tiếp theo.

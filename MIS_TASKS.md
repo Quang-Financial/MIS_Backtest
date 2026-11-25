@@ -22,3 +22,5 @@
 - [ ] Hồi quy Altcoin sau sửa và kiểm thử tích hợp trong trình duyệt.
 - [ ] Chuẩn hóa snapshot dữ liệu, bao gồm nguồn Fear & Greed có thời điểm công bố nếu có.
 - [ ] Mở rộng test trên đầu vào thị trường cố định, Optimizer và Historical Research, bao gồm đồng nhất nguồn BTC gate.
+- [x] Ghép năm màn hình và giữ ngữ cảnh tài sản giữa Live Monitor, Historical Research, Optimizer và Auto Backtest.
+- [ ] Tích hợp snapshot nguồn chuẩn từ Data Hub và hồ sơ cấu hình có thể tái lập.

@@ -1,6 +1,6 @@
 const { chromium, webkit } = require('playwright');
 const assert = require('node:assert/strict');
-const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.html','ces_monitor.html','mis_datahub.html','ces_compare.html'];
+const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.html','ces_history.html','ces_monitor.html','mis_datahub.html','ces_compare.html'];
 (async()=>{
  for(const [name,engine,viewport] of [['desktop',chromium,{width:1440,height:900}],['mobile-webkit',webkit,{width:414,height:896}]]){
   const browser=await engine.launch();
@@ -16,6 +16,26 @@ const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.ht
     await page.waitForTimeout(300);
     assert.equal(await page.locator('body').count(),1);
     if(file==='index.html'){
+     const links=page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link');
+     assert.deepEqual(await links.allTextContents(),['Tổng quan','Bộ chỉ báo','Research','Backtest','Data Hub']);
+     await page.locator('#workspace-asset').selectOption('ETH');
+     await page.frameLocator('iframe[title="Live Monitor"]').locator('#coin').waitFor();
+     await page.waitForFunction(()=>document.querySelector('iframe[title="Live Monitor"]').contentDocument.querySelector('#coin').value==='ETH');
+     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Bộ chỉ báo',exact:true}).click();
+     assert.equal(await page.locator('#workspace-candidates article').count(),4);
+     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Research',exact:true}).click();
+     await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
+     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Backtest',exact:true}).click();
+     await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
+     await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
+     await page.waitForFunction(()=>document.querySelector('iframe[title="Auto Backtest"]').contentDocument.querySelector('#coin').value==='ETH');
+     await page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link',{name:'Data Hub',exact:true}).click();
+     await page.frameLocator('iframe[title="Data Hub"]').locator('#import').waitFor();
+     await page.goBack();
+     await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
+     console.log(name,'MIS five-screen navigation and asset context passed');
+    }
+    if(file==='mis_market.html'){
      for(const tab of await page.locator('[data-tab]').all()) await tab.click();
      await page.evaluate(()=>localStorage.setItem('mis-test-preserve','ok'));
      await page.reload();

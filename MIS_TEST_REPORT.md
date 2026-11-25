@@ -121,3 +121,9 @@ Mã của ứng dụng chỉ lưu giá trị Fear theo ngày. Chưa có bản ch
 Engine chỉ dùng tuần UTC đủ bảy nến ngày cho chỉ báo tuần và yêu cầu BTC gate có tuần xác nhận đầy đủ. Đỉnh BTC vẫn theo các giá cao đã quan sát, kể cả phần dữ liệu đầu chuỗi. Live Monitor, Optimizer và Auto Backtest dùng chung hàm căn khoảng ngày giữa tài sản và BTC, rồi kiểm tra độ phủ. Historical Research giữ các tùy chọn nguồn riêng.
 
 Tám ca Node đạt, bao gồm dữ liệu tương lai biến đổi, Fear thiếu, EMA200 chưa sẵn sàng ở 199 tuần và sẵn sàng đúng ở tuần đầy đủ thứ 200, cùng ca kiểm tra khoảng ngày chồng lấp và thiếu nến. Trên snapshot 5.578 nến BTC, 20/20 dòng khớp trạng thái, chỉ số giao dịch, ngày, hành động, giá, số lượng và tiền mặt với Engine c4d2768. Lần đầu EMA200 hợp lệ là 2015-06-22. Thông tin EMA200 trong audit có thể khác bản cũ. GitHub Actions của commit này cần được xác minh riêng. Chênh lệch khóa cấu hình Auto/Live còn mở.
+
+### Workspace năm màn hình
+
+Thêm kiểm tra trình duyệt cho thứ tự điều hướng, bốn cấu hình đối chứng, ngữ cảnh ETH từ Tổng quan sang Auto Backtest, chuyển vào Data Hub và quay lại bằng lịch sử trình duyệt. Các trang công cụ cũ còn dùng được ở đường dẫn trực tiếp. Bản đồ cấu hình chỉ đọc, chưa tự kích hoạt ứng viên.
+
+Kết quả chạy cục bộ: Chromium 1440 × 900 và 414 × 896 đều đạt điều hướng, chuyển công cụ, ngữ cảnh ETH, EMA200 và nhập/khôi phục Data Hub. Kiểm thử chặn mạng ngoài localhost và dùng dữ liệu OHLC giả lập cho Data Hub. Xem tests/workspace-browser-results.log.
