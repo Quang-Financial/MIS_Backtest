@@ -3,8 +3,8 @@
 | Việc | Trạng thái |
 |---|---|
 | Staging độc lập và cách ly dữ liệu | Hoạt động. |
-| Hồi quy BTC Historical CES-A | Đạt 20/20 trên bản gốc. |
-| Altcoin Historical Research | ETH, SOL, AVAX, LINK và OKB đã chạy. Kiểm thử lại BNB và SUI với số tuần đầy đủ. |
+| Hồi quy BTC Historical CES-A | Đạt 20/20 trước và sau sửa kiểm tra EMA200. |
+| Altcoin Historical Research | ETH, SOL, AVAX, LINK, OKB và BNB đã hoàn thành. SUI thiếu 15 tuần để khởi tạo EMA200. |
 | Optimizer, Auto Backtest, Live Monitor, Data Hub | Các ca chức năng đã chạy trên Chromium cô lập. |
 | Báo cáo và PWA | Đã thử lưu, khôi phục, dừng, copy, đồng bộ giả lập và offline. |
 | Đồng bộ tới GitHub thử thật | Chờ kho thử và quyền ghi riêng nếu cần nghiệm thu tích hợp thật. |

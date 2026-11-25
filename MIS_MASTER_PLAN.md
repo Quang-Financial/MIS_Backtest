@@ -9,3 +9,5 @@ Mã phát triển của V1.6.7 nằm trên `develop/v1.6.7` và được theo d�
 Trước khi bắt đầu, đọc MIS_STATUS, MIS_TASKS, MIS_ROADMAP và MIS_TEST_REPORT. Kiểm tra commit đầu nhánh, phạm vi và CI. Sau mỗi nhiệm vụ, ghi commit, môi trường, đầu vào, kết quả, bằng chứng và việc còn lại. Tách trạng thái đạt, thất bại và bị chặn. Nếu lỗi có thể sửa trong phạm vi kỹ thuật, tái hiện, sửa, chạy lại phép thử liên quan và hồi quy BTC.
 
 Chủ dự án phê duyệt trước mọi thay đổi chiến lược, merge hoặc phát hành. Dữ liệu cá nhân và Production nằm ngoài môi trường thử.
+
+Khi máy tính chủ dự án tắt, Cloud Work có thể sửa mã, kiểm thử với dữ liệu công khai, lưu bằng chứng và cập nhật GitHub. GitHub Actions chạy theo các sự kiện đã cấu hình. Staging dùng máy chủ độc lập. Chỉ các ca xác minh trên thiết bị thật hoặc dữ liệu cục bộ của chủ dự án cần thiết bị tương ứng.

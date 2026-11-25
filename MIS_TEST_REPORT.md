@@ -27,14 +27,14 @@ So sánh với `develop/v1.6.6.3` tại `5cc3eab12c4d6fd3d6e944fdf66c94a291ff41e
 | PWA và offline | Chromium 414 px mở offline đủ 7 đường dẫn đã kiểm tra, gồm trang Compare chuyển sang Optimizer. LocalStorage còn sau khi chuyển offline. |
 | Sửa lỗi | Bỏ đường dẫn icon BTC ban đầu trỏ tới tệp không có trong repo. Cơ chế icon nhúng của ứng dụng vẫn chọn BTC và Altcoin theo mã. Kiểm thử PWA chạy lại, xác nhận 0 phản hồi 404 nội bộ. |
 
-## Giới hạn nghiệm thu
+## Giới hạn nghiệm thu ban đầu
 
 - Hai mã SUI và BNB thiếu nến theo điều kiện 1.450 ngày. Giữ điều kiện hiện hành và không ghép dữ liệu nguồn khác.
 - Đồng bộ qua GitHub đã được kiểm thử bằng API mô phỏng. Staging chặn kết nối tới API GitHub để tránh ghi vào kho báo cáo thật.
 - Chrome trên máy người dùng đã mở tới trang đăng nhập của Staging. Kiểm thử chức năng được thực thi trong Chromium cô lập. Chưa có kết quả trên iPhone thật.
 - Hồi quy đối chiếu chính xác cho Historical CES-A BTC. Những màn hình và luồng trên được kiểm tra theo các ca đã ghi, chưa bao phủ mọi tổ hợp thiết lập.
 
-## Historical Research cho bảy Altcoin
+## Historical Research cho bảy Altcoin trên bản gốc
 
 Mỗi mã được chạy trong một ngữ cảnh trình duyệt riêng, sử dụng nến spot OKX và BTC gate Bitstamp.
 
@@ -51,3 +51,13 @@ Mỗi mã được chạy trong một ngữ cảnh trình duyệt riêng, sử d
 Staging: https://mis-backtest-qa-v167.pointydahlia32.chatgpt.site
 
 [Bằng chứng đợt kiểm thử ban đầu](https://chatgpt.com/library?file_id=libfile_1e62b7cce5f48191a971d9b3c2441419&account_id=personal)
+
+## Kiểm thử lại sau khi sửa kiểm tra EMA200
+
+- Đếm 200 tuần hoàn chỉnh từ các nến ngày liên tục, thay cho ngưỡng xấp xỉ 1.450 ngày. Công thức và điều kiện tín hiệu giữ nguyên.
+- BTC: báo cáo chi tiết 20/20 dòng tiếp tục khớp chính xác mốc V1.6.6.3.
+- BNB: 1.435 nến ngày có 204 tuần đầy đủ. Historical Research chạy, lưu và khôi phục đủ 20 dòng.
+- SUI: ứng dụng từ chối chạy rõ ràng vì có 185 tuần đầy đủ. Chờ nguồn hợp lệ đủ lịch sử hoặc chủ dự án duyệt ngoại lệ phạm vi nghiệm thu.
+- Chromium smoke mở bảy đường dẫn, chạy ca khởi tạo EMA200, nhập và khôi phục dữ liệu qua IndexedDB.
+- [GitHub Actions · smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45627252587) và [GitHub Actions · browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45627252522).
+- CI tại commit mã `5bfbaff`: cả hai workflow pull request báo success. Đợt chạy lại dữ liệu thật xác nhận BNB, SOL, AVAX và LINK. ETH và OKB từng chạy đủ trên bản gốc. Hai ca chạy lại đầu tiên hết thời gian chờ tải/kiểm thử nên chưa dùng làm bằng chứng cho bản sửa.
