@@ -72,3 +72,9 @@ Chủ dự án duyệt bỏ qua SUI cho V1.6.7. Kết quả SUI 185/200 tuần �
 Chromium 414 × 896, chế độ mobile/touch: chạy Historical Research BTC, copy AI Quick đủ 20 dòng, dừng lượt tiếp theo và khôi phục báo cáo trước với nội dung khớp chính xác. Ca này dùng bộ Bitstamp cố định. Safari trên iPhone thật vẫn chờ kiểm thử.
 
 CI của commit 2df321e: [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45628709476) và [browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45628706859) đều đạt.
+
+## Xác nhận truy cập và phạm vi
+
+Chủ dự án xác nhận mở được Staging V1.6.7 và duyệt bỏ qua kiểm thử iPhone thật. Ca Chromium mobile vẫn là bằng chứng kiểm thử mô phỏng. CI tại commit bcc347e: [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45629958363) và [browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45629958353) đều đạt.
+
+Đồng bộ thực tế vẫn cần kho thử được cấp quyền riêng. Mã hiện hành giới hạn đích là MIS_Reports và Staging chặn API ghi GitHub. Chỉ các ca mô phỏng đã được xác minh.
