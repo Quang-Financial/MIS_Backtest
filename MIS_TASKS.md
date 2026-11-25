@@ -60,3 +60,8 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 | CDS-002 | Trigger Cloud hai chiều vào đúng phiên Kiến trúc sư và Work, xác thực người gửi và ID tác vụ, chống trùng, lần thử hữu hạn, dừng/phê duyệt rõ ràng. | [Lệnh 7168878074](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7168878074) · [Kết quả kiểm chứng](MIS_REVIEW.md#cds-002--mis-cds-v11). |
 
 - [x] UX-INDICATOR-LIBRARY: tách cấu hình nghiên cứu, bộ lọc bắt buộc và danh sách đối chứng; một hàng mỗi chỉ báo. Kiểm thử và ảnh Chromium lưu trong MIS_TEST_REPORT. Chờ phản biện thiết kế độc lập.
+
+- [x] V170-P0-CONFIG: Auto và Tổng quan dùng cùng hàm xác lập cutoff/snapshot và mã cấu hình; xác minh qua caller trình duyệt trên fixture.
+- [x] UX-INDICATOR-DETAIL-QA: bảng sai khác tám loại chỉ báo, ảnh chi tiết, kiểm tra reload và ứng viên.
+- [ ] P0 nghiệm thu tổng thể: hồ sơ phê duyệt, snapshot lưu dùng lại, kiểm thử Altcoin thực và phản biện độc lập.
+- [ ] CDS-002: định tuyến đúng phiên đích còn BLOCKED. Duy trì STOP và ghi kết quả CAS cục bộ.

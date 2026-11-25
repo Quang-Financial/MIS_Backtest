@@ -44,3 +44,10 @@ ACK và tài liệu điều phối: PASS. Vòng phản biện/sửa BTC gate có
 | Chống lặp và quyền | BLOCKED cho nghiệm thu | Ca thử có kiểm tra ID/marker, người đăng và PONG sẵn có, tối đa một lần ghi/lượt. Chưa chứng minh chống trùng nguyên tử. Login chung không phân biệt được hai vai trò. |
 
 UX-INDICATOR-LIBRARY: PASS trên fixture trình duyệt, chờ review thiết kế độc lập. Chưa xác nhận cấu hình kích hoạt hoặc thay đổi chiến lược.
+
+### 7177329132 và 7177329818
+
+- PASS: Auto/Overview có cùng hash cấu hình thực thi và snapshot đóng nến, cùng kết quả gate/score trên fixture Chromium; BTC Historical thực 20/20.
+- PASS: QA chi tiết tám chỉ báo và bốn ứng viên trong hai viewport Chromium. Chờ nghiệm thu UX độc lập.
+- BLOCKED: snapshot lưu dùng lại, hồ sơ phê duyệt, Fear theo thời điểm công bố và hồi quy Altcoin thật. Giải ngân vẫn khóa.
+- CDS-002 PASS cho kiểm chứng mutex trên Git cục bộ; BLOCKED định tuyến ngược vào phiên hiện có và cam kết đăng đúng một lần. STOP giữ hiệu lực.

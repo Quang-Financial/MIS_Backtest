@@ -51,17 +51,11 @@ function renderLibrary() {
     config.textContent = 'Phiên bản ' + flex.version + ' · CES ≥ ' + flex.threshold +
       ' · Cấu hình nghiên cứu, chưa duyệt kích hoạt.';
     identity.textContent = 'Đang tính mã cấu hình nghiên cứu…';
-    const canonical = value => {
-      if (Array.isArray(value)) return value.map(canonical);
-      if (!value || typeof value !== 'object') return value;
-      return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])]));
-    };
     const tag = Symbol();
     identity.renderTag = tag;
-    crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(canonical(flex))))
-      .then(buffer => {
+    researchHash(flex)
+      .then(digest => {
         if (identity.renderTag !== tag) return;
-        const digest = Array.from(new Uint8Array(buffer), byte => byte.toString(16).padStart(2, '0')).join('');
         identity.textContent = 'Mã cấu hình nghiên cứu: ' + digest.slice(0, 12);
         identity.title = digest;
       }).catch(() => { if (identity.renderTag === tag) identity.textContent = 'Chưa tạo được mã cấu hình.'; });
@@ -75,9 +69,17 @@ function renderLibrary() {
     for (const row of flex.dynamic) {
       const name = CESDynamic.name(row);
       const frame = row.tf ?? legacyFrame[row.id] ?? '—';
+      const operators = { le: '≤', ge: '≥', up: 'Cắt lên', down: 'Cắt xuống' };
+      const pair = ['EMA','SMA','RSI/SMA','MACD','BB'].includes(row.type);
+      const single = ['RSI','ADX'].includes(row.type);
+      const periods = row.type === 'MACD' ? [row.p,row.q,row.s]
+        : pair ? [row.p,row.q] : single ? [row.p] : [];
+      const operation = ['RSI','Fear','ADX'].includes(row.type) ? [operators[row.op],row.limit].join(' ')
+        : [operators[row.op], ['up','down'].includes(row.op) ? '· ' + row.window + ' nến' : '',
+          row.type === 'BB' ? (row.band === 'upper' ? '· dải trên' : '· dải dưới') : ''].filter(Boolean).join(' ');
       const parameters = row.points ? row.points.map(([x,y]) => x + '→' + y).join(', ')
         : row.weeks ? row.weeks + ' tuần'
-        : [row.p, row.q, row.s].filter(Number.isFinite).join('/') + (row.limit == null ? '' : ' · ngưỡng ' + row.limit);
+        : [periods.join('/'), operation].filter(Boolean).join(' · ');
       const item = table.insertRow();
       for (const [index, value] of [name, frame, parameters || '—', String(row.weight),
         row.enabled ? row.hard ? 'Bật · bắt buộc' : 'Bật' : 'Tắt'].entries()) {
@@ -100,8 +102,17 @@ function renderLibrary() {
   candidates.replaceChildren(...['RA01','RA02','RA03','SMA01'].map(id => {
     const candidate = CESLibrary[id];
     const item = document.createElement('li');
-    item.textContent = id + ' · v' + candidate.flex.version + ' · ' + candidate.coin +
-      ' CES-' + candidate.mode + ' · Đối chứng nghiên cứu · Bằng chứng chưa liên kết.';
+    const detail = document.createElement('details');
+    const summary = document.createElement('summary');
+    summary.textContent = id + ' · v' + candidate.flex.version + ' · ' + candidate.coin + ' CES-' + candidate.mode;
+    const description = document.createElement('p');
+    description.textContent = 'Đối chứng nghiên cứu · CES ≥ ' + candidate.flex.threshold +
+      ' · BTC giảm ≥ ' + candidate.flex.btcDrawdown + '% · Chưa duyệt kích hoạt.';
+    const link = document.createElement('a');
+    link.href = '#research';
+    link.textContent = 'Mở bằng chứng Research';
+    detail.append(summary, description, link);
+    item.append(detail);
     return item;
   }));
 }

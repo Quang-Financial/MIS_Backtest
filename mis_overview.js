@@ -161,19 +161,23 @@ const MISOverview = (() => {
       try {
         const bars = await fullDaily(coin);
         if (asset !== coin) return;
-        showChart(bars);
-        zoneFor(bars);
         const btc = coin === 'BTC' ? bars : await fullDaily('BTC');
-        const fear = await fearDaily().catch(() => new Map());
+        const observations = await fearDaily().catch(() => new Map());
         if (asset !== coin) return;
-        const { a, b, end } = alignSignalData(coin, bars, btc);
+        const { a, b, end, fear, snapshotId } = await researchSnapshot(coin, bars, btc, observations);
         const saved = CESShared.load();
         const flex = CESAuto.lock(saved);
         const adjusted = saved.btcDrawdown !== flex.btcDrawdown || saved.belowEMA200 !== flex.belowEMA200;
         const signals = CESDynamic.signals(a, b, fear, { flex, threshold: flex.threshold }).signals;
         const entry = [...signals].filter(([time]) => time <= end + dayMs && time <= Date.now()).at(-1);
         if (!entry) throw Error('Chưa có tuần xác nhận');
+        const strategyId = await researchHash(flex);
+        if (asset !== coin) return;
+        showChart(a);
+        zoneFor(a);
         renderSignal(...entry, flex, end, adjusted);
+        at('identity').textContent = 'Cấu hình ' + strategyId.slice(0, 12) + ' · Snapshot ' + snapshotId.slice(0, 12);
+        at('identity').title = strategyId + ' / ' + snapshotId;
       } catch (error) {
         if (asset !== coin) return;
         reset();
@@ -187,6 +191,8 @@ const MISOverview = (() => {
   }
 
   function reset() {
+    at('identity').textContent = 'Cấu hình và snapshot: chờ dữ liệu';
+    at('identity').removeAttribute('title');
     emaLine = null;
     zoneIndex = null;
     zoneBand = null;

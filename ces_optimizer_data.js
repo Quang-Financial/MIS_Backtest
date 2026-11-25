@@ -30,3 +30,26 @@ function alignSignalData(coin, assetBars, btcBars) {
   validate(b, 'BTC');
   return { start, end, a, b };
 }
+
+function canonicalResearchValue(value) {
+  if (Array.isArray(value)) return value.map(canonicalResearchValue);
+  if (value === null || typeof value !== 'object') return value;
+  return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonicalResearchValue(value[key])]));
+}
+
+async function researchHash(value) {
+  const bytes = new TextEncoder().encode(JSON.stringify(canonicalResearchValue(value)));
+  const hash = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(hash), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function researchSnapshot(coin, assetBars, btcBars, fear, requestedEnd = Infinity, now = Date.now()) {
+  const day = 86400000;
+  const cutoff = Math.min(requestedEnd, Math.floor(now / day) * day - day);
+  const closed = bars => bars.filter(row => row.t <= cutoff);
+  const aligned = alignSignalData(coin, closed(assetBars), closed(btcBars));
+  const sentiment = new Map([...fear].filter(([date]) => date <= MISCES.iso(aligned.end)).sort(([a], [b]) => a.localeCompare(b)));
+  const snapshotId = await researchHash({ schema: 1, coin, cutoff: aligned.end,
+    asset: aligned.a, btc: aligned.b, fear: [...sentiment] });
+  return { ...aligned, fear: sentiment, snapshotId };
+}

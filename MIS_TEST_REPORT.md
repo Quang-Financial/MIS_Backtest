@@ -176,3 +176,26 @@ Kiểm soát của ca thử: phạm vi PR #4, bật comment người dùng, so k
 ### UX-INDICATOR-LIBRARY
 
 Chromium 1440×900 và 414×896 đạt ca đếm đúng một hàng cho mỗi chỉ báo từ cấu hình CESAuto.lock(CESShared.load()), bốn ứng viên đối chứng, tổng trọng số và mã hash. Không đổi cơ chế lưu, quy tắc chiến lược hoặc trạng thái kích hoạt. Mã hash ở bảng là định danh cấu hình nghiên cứu; chưa có hồ sơ Strategy ID được phê duyệt để giao dịch. [PC](tests/indicator-library-desktop.png) · [Mobile](tests/indicator-library-mobile-chromium.png).
+
+### 26/11 · P0 và QA chỉ báo
+
+Auto Backtest và Tổng quan chạy trên Chromium bằng fixture ETH/BTC qua hai giao diện thật. SHA-256 snapshot và cấu hình thực thi trùng, CES 0, BTC và EMA đạt, ngưỡng CES không đạt. Cấu hình lưu 0% và tắt EMA được áp khóa nghiên cứu 40% và bật EMA. Cutoff loại nến ngày UTC chưa đóng và Fear sau ngày dùng. Hồi quy Historical thực trên 5.578 nến Bitstamp giữ 20/20 dòng, chỉ số và khớp lệnh so với V1.6.7. Đây là đối chiếu cùng dữ liệu; chưa có hồ sơ phê duyệt, snapshot lưu dùng lại hoặc hồi quy Altcoin thật ở SHA này.
+
+| Chỉ báo | Tái hiện / kỳ vọng | Sai khác cũ và kiểm tra lại |
+|---|---|---|
+| RSI | Hàng RSI, p=7, giới hạn 0 | Bỏ q/s dư. Khung, trọng số 0, chi tiết mở/đóng PASS. |
+| EMA | EMA 7/20, cắt lên | Bỏ s và ngưỡng không dùng; hiển thị cửa sổ 3 nến. PASS chi tiết. |
+| SMA | SMA 7/20, cắt lên | Như EMA. PASS chi tiết. |
+| Fear | Fear 1D, giới hạn 0 | Bỏ chu kỳ không dùng. Giá trị 0 hiển thị đúng. PASS chi tiết. |
+| RSI/SMA | Cặp 7/20 | Bỏ s; hiển thị phép cắt và cửa sổ. PASS chi tiết. |
+| MACD | 7/20/5 | Giữ cả ba chu kỳ, ghi cửa sổ. PASS chi tiết. |
+| ADX | p=7, ngưỡng 0 | Bỏ q/s dư, giữ toán tử và ngưỡng 0. PASS chi tiết. |
+| BB | Dải trên 7/20, fixture tắt | Hiển thị dải và trạng thái Tắt. PASS chi tiết. |
+
+Cả tám hàng qua kiểm tra số hàng, khung, trọng số, trạng thái và chi tiết sau reload, cùng bốn mục đối chứng có liên kết Research. Bằng chứng kiểm định chưa liên kết tiếp tục ghi rõ. [Ảnh PC mở chi tiết](tests/indicator-detail-desktop.png) · [Ảnh điện thoại mở chi tiết](tests/indicator-detail-mobile-chromium.png) · [log](tests/morning-browser.log).
+
+### CDS-002 · kiểm chứng tiếp
+
+Tác vụ thử vẫn tạm dừng, lần chạy cuối ghi no_update. Không tái kích hoạt. Webhook PR từng đánh thức Work trong khoảng 10,5 giây; không có bằng chứng về PONG hoặc định tuyến vào phiên Kiến trúc sư hiện có. Theo phản biện, cơ chế đọc mỗi giờ hiện hữu chỉ hỗ trợ phát hiện nội dung, chờ danh nghĩa tối đa khoảng 60 phút cộng xử lý; chưa xác minh độ trễ thực. Không cần hành động chủ dự án trong phạm vi hiện hành.
+
+Proof cục bộ dùng compare-and-set cho một Git ref theo repository/PR/comment ID. Một trong tám worker chiếm quyền, lần phát lại bị từ chối. Thiết kế thực tế còn cần phân biệt danh tính theo vai trò và xử lý crash giữa lúc claim và post bằng đối soát nội dung, vì claim không tự bảo đảm đăng comment đúng một lần. Chưa tạo ref thật, trigger mới hay đổi quyền.

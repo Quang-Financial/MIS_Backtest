@@ -33,3 +33,5 @@ V170-OVERVIEW: Tổng quan hiện là dashboard chuyên dụng, gồm biểu đ�
 UX-5-SCREENS: trình bày năm màn hình đã chạy qua smoke Chromium desktop/mobile. Tổng quan có khóa nghiên cứu bằng CESAuto.lock, WATCH giả thuyết, và loại trạng thái cũ sau mất dữ liệu. P0 đầy đủ vẫn mở do chưa có snapshot và ID cấu hình thực thi xuyên màn hình.
 
 CDS-002: PASS kích hoạt lượt Work từ PR GitHub, khoảng 10,5 giây trong một lần đo. BLOCKED vòng hai chiều vào đúng hai phiên. Ca thử đã tạm dừng. UX-INDICATOR-LIBRARY đã cập nhật trên Staging và kiểm thử Chromium PC/mobile. V170-P0-CONFIG còn mở.
+
+26/11: P0 parity của hai caller đạt trong fixture cùng snapshot; BTC Historical thực 20/20. Bộ chỉ báo kiểm tra đủ tám loại. CDS-002 xác nhận STOP và bổ sung bằng chứng chống nhận trùng cục bộ.
