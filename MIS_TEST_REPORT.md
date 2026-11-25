@@ -60,4 +60,5 @@ Staging: https://mis-backtest-qa-v167.pointydahlia32.chatgpt.site
 - SUI: ứng dụng từ chối chạy rõ ràng vì có 185 tuần đầy đủ. Chờ nguồn hợp lệ đủ lịch sử hoặc chủ dự án duyệt ngoại lệ phạm vi nghiệm thu.
 - Chromium smoke mở bảy đường dẫn, chạy ca khởi tạo EMA200, nhập và khôi phục dữ liệu qua IndexedDB.
 - [GitHub Actions · smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45627252587) và [GitHub Actions · browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45627252522).
-- CI tại commit mã `5bfbaff`: cả hai workflow pull request báo success. Đợt chạy lại dữ liệu thật xác nhận BNB, SOL, AVAX và LINK. ETH và OKB từng chạy đủ trên bản gốc. Hai ca chạy lại đầu tiên hết thời gian chờ tải/kiểm thử nên chưa dùng làm bằng chứng cho bản sửa.
+- CI tại commit mã `5bfbaff`: cả hai workflow pull request báo success. Đợt chạy lại dữ liệu thật xác nhận 20 lượt mỗi mã cho ETH, SOL, AVAX, LINK, BNB và OKB. ETH và OKB hoàn thành sau khi chạy riêng với thời gian chờ kiểm thử dài hơn. Biểu đồ BTC 1D cũng đạt khi chạy lại riêng. Kết quả chi tiết ở tests/altcoin-regression-v167.json và tests/btc-browser-regression-v167.json.
+- Optimizer BTC có kết quả đạt trên bản thử ban đầu. Trong đợt kiểm tra lại sau sửa, ca Optimizer hết thời gian chờ 180 giây. Cần xác minh lại trước nghiệm thu đầy đủ.
