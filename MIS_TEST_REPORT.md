@@ -98,3 +98,20 @@ Mốc V1.6.7 là c4d2768. Chạy `node tests/engine-parity.test.cjs`. Cả Auto 
 ### Báo cáo BTC CES-A 2.000 cấu hình đã nhận
 
 Tệp gzip do chủ dự án cung cấp, SHA-256 `d8e7d9962863642543baff7a6b8e9ebd46d333ad9d16a9b8947671df62e86e63`. Báo cáo Full, partial=false, 2.000 dòng all, 813 dòng results. Đối chiếu trạng thái từng dòng: 813 pass, 836 noTrade, 218 vượt rủi ro (20 MDD, 12 MAE, 186 cả hai), 133 missing và 0 lỗi theo báo cáo. Top 20: 12 chưa giao dịch ngoài mẫu và 8 không đạt. Hạng 1, 2, 7 có 0 lệnh ngoài mẫu. Phép kiểm xác nhận nội dung tệp, không tái lập toàn bộ thử nghiệm hay xác nhận ứng viên. Giữ tệp gốc trong phạm vi riêng tư.
+
+### Kiểm toán warmup trên dữ liệu thị trường cố định
+
+Chạy `node tests/market-warmup-audit.cjs <btcusd-bitstamp.json>`. Bộ kiểm toán xác minh SHA-256 của snapshot Bitstamp BTC/USD 5.578 nến, 2011-08-18 đến 2026-11-24. Đối chứng loại bốn nến ngày của tuần UTC đầu chưa đủ. Đây là kiểm toán độ nhạy của đầu vào, có thể tác động tới cả các chỉ báo dựa trên chuỗi đầu vào; chưa phải bản sửa Engine.
+
+- Mốc có EMA200 hiện tại 2015-06-15. Khi bắt đầu từ tuần đầy đủ, mốc là 2015-06-22. Chênh EMA200 lớn nhất tại các mốc cả hai cùng có giá trị là 0,891299 USD, ở mốc chung cuối là 0,002299 USD.
+- So 796 mốc chung mỗi cấu hình RA01, RA02, RA03, SMA01. Không đổi cờ giá dưới EMA200 hoặc tín hiệu hợp lệ. SMA01 đổi điểm tại 2012-03-05, trước khi EMA200 sẵn sàng.
+- Báo cáo Historical CES-A đủ 20 dòng mỗi bên. ROI, CAGR, MDD, MAE, số lệnh, trạng thái và funnel giữ nguyên cả 20 dòng. Chín dòng khác nội dung audit giao dịch ở trường ema200. Kết quả JSON được lưu cùng script.
+
+### Đường tải dữ liệu hiện tại
+
+| Đường chạy | Nến | Fear & Greed |
+|---|---|---|
+| Live Monitor, Optimizer, Auto Backtest | Cùng dùng fullDaily: BTC kết hợp Bitstamp lịch sử và OKX; Altcoin lấy OKX. Các lượt chạy tải riêng, vì vậy chưa bảo đảm dùng cùng snapshot. | fearDaily lấy lịch sử và ánh xạ giá trị theo ngày UTC. |
+| Historical Research | BTC và BTC gate từ nguồn chọn qua Data Hub; nến Altcoin dùng fullDaily. | Engine được gọi với Map rỗng. Các cấu hình đối chứng hiện tại không dùng Fear. |
+
+Mã của ứng dụng chỉ lưu giá trị Fear theo ngày. Chưa có bản chụp nguồn kèm thời điểm công bố hoặc phiên bản sửa đổi để chứng minh giá trị nào đã có tại từng thời điểm lịch sử. Kiểm tra nhân quả của Fear trên dữ liệu thật vẫn mở.

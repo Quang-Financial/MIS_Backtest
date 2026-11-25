@@ -17,6 +17,7 @@
 - [x] Đối chiếu Auto Backtest và Live Monitor trong cùng cấu hình và thời điểm đóng nến.
 - [x] Xác minh cấu trúc và số lượng của báo cáo gốc BTC CES-A 2.000 cấu hình.
 - [ ] Quyết định cách thể hiện cấu hình thực thi sau khi Auto áp khóa và bảo toàn Strategy ID.
-- [ ] Xử lý tuần UTC đầu thiếu nến sau khi định lượng tác động lên hồi quy.
+- [x] Định lượng tác động tuần UTC đầu thiếu nến trên snapshot BTC Bitstamp.
+- [ ] Phiên bản hóa cách khởi tạo EMA200 bằng tuần đầy đủ và kiểm chứng BTC/Altcoin trước khi dùng.
 - [ ] Chuẩn hóa snapshot dữ liệu, bao gồm nguồn Fear & Greed có thời điểm công bố nếu có.
 - [ ] Mở rộng test trên đầu vào thị trường cố định, Optimizer và Historical Research, bao gồm đồng nhất nguồn BTC gate.
