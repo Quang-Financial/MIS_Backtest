@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "Data Hub Bitstamp mirror and real IndexedDB reload",
+      "result": "PASS",
+      "detail": {
+        "from": "2011-08-18",
+        "to": "2026-11-24",
+        "days": 5578,
+        "gaps": [],
+        "bad": []
+      }
+    },
+    {
+      "name": "Optimizer BTC and journal persistence",
+      "result": "PASS",
+      "detail": "BTC · CES-A · ROI 0,00%2022-01-01 → 2026-11-22 · MDD 0,00% · Mua 0RSI14 tuần · RSI14 ngày · EMA20/50 tuần · Fear & Greed · RSI14/SMA14 tuầnCES ≥ 65; BTC DD ≥ 40%Mua -0%/100% · TP +100%/25%, +200%/40% · Trail 15%Xóa"
+    },
+    {
+      "name": "Auto Backtest BTC and local restore",
+      "result": "PASS",
+      "detail": {
+        "done": 100,
+        "requested": 100,
+        "errors": 0,
+        "missing": 7
+      }
+    },
+    {
+      "name": "Live Monitor BTC market data",
+      "result": "PASS",
+      "detail": "Ngày xác nhận UTC: 2026-11-23"
+    },
+    {
+      "name": "Report Sync UI with simulated private GitHub and deduplication",
+      "result": "PASS",
+      "detail": {
+        "requestsPUT": 1,
+        "reportRows": 20,
+        "tokenClearedOnReload": true
+      }
+    }
+  ],
+  "errors": []
+}

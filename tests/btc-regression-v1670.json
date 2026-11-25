@@ -1,0 +1,32 @@
+{
+  "test": "BTC Historical Regression",
+  "baseline": "develop/v1.6.6.3",
+  "candidate": "cfe309a2a5179a95555dbc4bbf1e16530f2f0518",
+  "data": {
+    "repository": "Quang-Financial/MIS_Data",
+    "path": "data/btcusd-bitstamp.json",
+    "blob": "5dd55b58604a2d99f08f5d2d857a9ba6a7363607",
+    "bars": 5578
+  },
+  "options": {
+    "to": "2026-11-24",
+    "capital": 10000,
+    "fee": 0.1,
+    "slippage": 0.05,
+    "mdd": 30,
+    "mae": 25
+  },
+  "result": {
+    "equalReports": true,
+    "rowsPerVersion": 20,
+    "invalidPrimaryMetrics": 0,
+    "fullPeriodROI": {
+      "RA01": 223.55345557721012,
+      "RA02": 223.55345557721012,
+      "RA03": 399.6791509308964,
+      "SMA01": 248.89712616374885
+    }
+  },
+  "scope": "Historical CES-A engine only; no browser, CES-B, CI or altcoin validation",
+  "method": "Executed historical engine source in isolated JS environments with identical real BTC candles; shared dependency sources verified for core modules; exact serialized report comparison. Initial harness used wrong slippage key, corrected before final run."
+}

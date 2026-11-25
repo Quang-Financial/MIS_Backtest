@@ -1,0 +1,13 @@
+{
+  "browser": "Chromium",
+  "viewport": {
+    "width": 414,
+    "height": 896
+  },
+  "isMobile": true,
+  "hasTouch": true,
+  "dataset": "Bitstamp BTC/USD 5578 candles",
+  "clipboardRows": 20,
+  "copyFormat": "ai-quick-v1",
+  "interruptedRunPreservedExactPriorReport": true
+}
