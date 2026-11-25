@@ -10,3 +10,13 @@
 | Đồng bộ tới GitHub thử thật | Đạt. [Ca tích hợp GitHub Actions](https://github.com/Quang-Financial/MIS_Reports_Staging/actions/runs/45632940439) ghi đúng một lần và đọc lại khi gửi trùng. |
 | iPhone thật | Chủ dự án duyệt bỏ qua trong V1.6.7. Giữ bằng chứng Chromium mobile. |
 | Merge và phát hành | Chờ chủ dự án duyệt. |
+
+## Chuẩn bị V1.7.0
+
+- [x] Chốt nguồn đối chiếu V1.6.7 tại commit c4d2768.
+- [x] Đối chiếu Auto Backtest và Live Monitor trong cùng cấu hình và thời điểm đóng nến.
+- [x] Xác minh cấu trúc và số lượng của báo cáo gốc BTC CES-A 2.000 cấu hình.
+- [ ] Quyết định cách thể hiện cấu hình thực thi sau khi Auto áp khóa và bảo toàn Strategy ID.
+- [ ] Xử lý tuần UTC đầu thiếu nến sau khi định lượng tác động lên hồi quy.
+- [ ] Chuẩn hóa snapshot dữ liệu, bao gồm nguồn Fear & Greed có thời điểm công bố nếu có.
+- [ ] Mở rộng test trên đầu vào thị trường cố định, Optimizer và Historical Research, bao gồm đồng nhất nguồn BTC gate.

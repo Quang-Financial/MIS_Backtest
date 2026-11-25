@@ -8,3 +8,15 @@
 | Phát hành | Chủ dự án duyệt chính thức. Ghi phiên bản, commit và phương án quay lại. |
 
 Ưu tiên đưa các phép kiểm lặp lại vào GitHub Actions. Dùng dữ liệu cố định cho hồi quy và kiểm thử độc lập cho nguồn dữ liệu thị trường.
+
+| Phiên bản | Phạm vi định hướng |
+|---|---|
+| V1.7.0 | Unified Architecture: năm màn hình, dữ liệu và Engine chung, Strategy ID và điều hướng. |
+| V1.7.1 | Buy Zone Research: Drawdown, chất lượng điểm mua, lợi nhuận và rủi ro theo kỳ nắm giữ. |
+| V1.7.2 | Indicator Research: ngưỡng, chu kỳ, trọng số, Ablation và Stability. |
+| V1.7.3 | Robustness Research: đa khung, đa chu kỳ, OOS, Walk Forward, Stress Test và CES-A/B. |
+| V1.7.4 | Research Integration: liên kết cấu hình, kết quả và bằng chứng giữa năm màn hình. |
+| V1.8.0 | Live Decision: chu kỳ, vùng mua, WAIT/WATCH/BUY READY, kế hoạch giải ngân và cảnh báo. |
+| V1.8.1 | Paper Trading: tín hiệu thực tế, mô phỏng vị thế, đối chiếu Backtest và Live. |
+| V1.9.0 | Portfolio Management: vốn, danh mục và hiệu quả đầu tư. |
+| V2.0.0 | Multi-Strategy: nghiên cứu TES/RES sau khi CES đủ bằng chứng và chủ dự án phê duyệt. |

@@ -11,3 +11,7 @@ Trước khi bắt đầu, đọc MIS_STATUS, MIS_TASKS, MIS_ROADMAP và MIS_TES
 Chủ dự án phê duyệt trước mọi thay đổi chiến lược, merge hoặc phát hành. Dữ liệu cá nhân và Production nằm ngoài môi trường thử.
 
 Khi máy tính chủ dự án tắt, Cloud Work có thể sửa mã, kiểm thử với dữ liệu công khai, lưu bằng chứng và cập nhật GitHub. GitHub Actions chạy theo các sự kiện đã cấu hình. Staging dùng máy chủ độc lập. Chỉ các ca xác minh trên thiết bị thật hoặc dữ liệu cục bộ của chủ dự án cần thiết bị tương ứng.
+
+## Kiến trúc V1.7–V2.0
+
+Thanh điều hướng theo thứ tự **Tổng quan → Bộ chỉ báo → Research → Backtest → Data Hub**. Luồng dữ liệu nghiên cứu đi từ Data Hub qua Backtest và Research đến Bộ chỉ báo và Tổng quan. Dùng chung dữ liệu chuẩn, Engine, Strategy ID và hồ sơ nghiên cứu. Tổng quan chỉ sử dụng cấu hình đã phê duyệt và kích hoạt. Các tín hiệu gắn với thời điểm nến đã đóng, cấu hình, phiên bản Engine và phiên bản dữ liệu.

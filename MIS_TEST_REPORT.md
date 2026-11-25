@@ -84,3 +84,17 @@ Chủ dự án xác nhận mở được Staging V1.6.7 và duyệt bỏ qua ki�
 [GitHub Actions run #1](https://github.com/Quang-Financial/MIS_Reports_Staging/actions/runs/45632940439) đạt trên kho riêng tư Quang-Financial/MIS_Reports_Staging. Phép thử dùng hàm publish của commit e3e731e với danh sách đích đổi riêng trong môi trường kiểm thử. Hai lần gửi cùng báo cáo giả lập trả cùng URL, với đúng một yêu cầu PUT và một lần đọc lại thành công. Dùng GITHUB_TOKEN của workflow trong kho thử. UI đồng bộ đã kiểm thử riêng bằng API giả lập. Staging web vẫn chặn API ghi GitHub.
 
 Hoàn thành phạm vi nghiệm thu đã duyệt gồm BTC và sáu Altcoin. SUI và iPhone thật nằm ngoài phạm vi theo quyết định chủ dự án. Chờ phê duyệt riêng cho merge và phát hành.
+
+## Đối chiếu Engine cho V1.7.0
+
+Mốc V1.6.7 là c4d2768. Chạy `node tests/engine-parity.test.cjs`. Cả Auto Backtest và Live Monitor đều gọi `CESDynamic.signals`, bên dưới gọi `MISCES.signals`. Optimizer cũng gọi cùng Engine. Historical Research gọi với bản đồ Fear rỗng và đường nhập dữ liệu BTC khác, cần đối chiếu riêng.
+
+- PASS 6 ca × 211 mốc tuần. So toàn bộ snapshot tín hiệu gồm điểm CES, cờ mua, drawdown BTC, EMA200, các giá trị chỉ báo và trạng thái đạt của từng điều kiện. Chạy RA01, RA02, RA03, SMA01, cấu hình tổng hợp RSI/EMA/SMA/Fear và ca thiếu Fear. Live cắt dữ liệu tại một mốc đóng nến. Auto nhận thêm 48 ngày tương lai bị biến đổi mạnh. Snapshot tại và trước mốc cắt khớp chính xác. Test kiểm tra điểm và thông báo quyết định trên DOM mô phỏng. Việc tránh look-ahead chỉ được xác minh cho hạng mục và fixture này.
+- Sai khác 1: Auto áp khóa drawdown tối thiểu 40% và bắt buộc dưới EMA200. Live đọc cấu hình đã lưu. Fixture 2025-01-20, CES 100, drawdown -0,990099%, Live với ngưỡng 0% và tắt EMA200 cho valid=true. Auto với ngưỡng 40% và bật EMA200 cho valid=false. Cùng Engine, khác cấu hình thực thi.
+- Sai khác 2: Engine gốc tính EMA200 từ cả tuần đầu bắt đầu giữa tuần. Fixture 2024-11-04 có 199 tuần đầy đủ nhưng Engine đã trả EMA200 = 179,75443941897242. Validator chặn tập chỉ có 199 tuần đầy đủ. Khi tập dài hơn, tuần đầu thiếu vẫn đi vào seed của Engine. Các chỉ báo động tuần/tháng đã lọc nến tổng hợp đủ ngày.
+- Fear & Greed hiện tra theo ngày UTC trong snapshot. Chưa xác minh thời điểm công bố hoặc sửa đổi lịch sử từ nguồn thật. Chưa kiểm thử đồng nhất đường tải dữ liệu và cache ở hai màn hình.
+- Không sửa Engine, cấu hình RA01/RA02/RA03/SMA01 hoặc BUY/SELL trong đợt đối chiếu này.
+
+### Báo cáo BTC CES-A 2.000 cấu hình đã nhận
+
+Tệp gzip do chủ dự án cung cấp, SHA-256 `d8e7d9962863642543baff7a6b8e9ebd46d333ad9d16a9b8947671df62e86e63`. Báo cáo Full, partial=false, 2.000 dòng all, 813 dòng results. Đối chiếu trạng thái từng dòng: 813 pass, 836 noTrade, 218 vượt rủi ro (20 MDD, 12 MAE, 186 cả hai), 133 missing và 0 lỗi theo báo cáo. Top 20: 12 chưa giao dịch ngoài mẫu và 8 không đạt. Hạng 1, 2, 7 có 0 lệnh ngoài mẫu. Phép kiểm xác nhận nội dung tệp, không tái lập toàn bộ thử nghiệm hay xác nhận ứng viên. Giữ tệp gốc trong phạm vi riêng tư.

@@ -7,3 +7,7 @@ Cập nhật ngày 25/11/2026, giờ Việt Nam. Mốc nguồn của đợt ki�
 Trạng thái: hoàn thành kiểm thử trong phạm vi nghiệm thu đã duyệt, chờ quyết định phát hành. Hồi quy BTC đạt. BNB đã chạy đủ 20 lượt. Chủ dự án duyệt bỏ qua SUI trong phạm vi nghiệm thu V1.6.7. Sáu Altcoin còn lại đã chạy đủ 20 lượt mỗi mã. Đồng bộ qua GitHub API thật đạt trong kho thử riêng tư. Chủ dự án đã mở được Staging V1.6.7 và duyệt bỏ ca iPhone thật khỏi phạm vi nghiệm thu. Production và PR giữ nguyên trạng thái phát hành.
 
 Mã nguồn đã kiểm thử: [5bfbaff](https://github.com/Quang-Financial/MIS_Backtest/commit/5bfbaff35b3ee12fd6fc9aee1903b0f4cbaa9b3d). Xem [CI](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45627252522) và MIS_TEST_REPORT để đối chiếu môi trường và phạm vi.
+
+## V1.7.0 · kiểm tra nền tảng
+
+Sáu ca đối chiếu PASS, mỗi ca 211 mốc tuần. Hai ca tái hiện sai khác về chính sách khóa cấu hình và tuần đầu không đầy đủ. Đây là kiểm thử dữ liệu tổng hợp bằng Auto Backtest core và hàm cập nhật Live Monitor. Chưa kết luận parity cho nguồn dữ liệu hoặc giao diện thực tế. Ghi chi tiết trong MIS_TEST_REPORT.md và tests/engine-parity-results.jsonl.
