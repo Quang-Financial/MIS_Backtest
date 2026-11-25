@@ -103,7 +103,11 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      assert.match(await page.locator('#overview-zone').textContent(),/Chưa có drawdown/);
 
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Cấu hình chiến lược'}).click();
-     assert.equal(await page.locator('#workspace-candidates article').count(),4);
+     assert.equal(await page.locator('#workspace-candidates li').count(),4);
+     assert.equal(await page.locator('#workspace-indicator-table tbody tr').count(),
+       await page.evaluate(()=>CESAuto.lock(CESShared.load()).dynamic.length));
+     assert.match(await page.locator('#workspace-weight').textContent(),/Tổng trọng số đang bật/);
+     await page.waitForFunction(()=>/Mã cấu hình nghiên cứu: [a-f0-9]{12}/.test(document.querySelector('#workspace-config-id').textContent));
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-indicators-'+name+'.png'});
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Bằng chứng vùng mua'}).click();

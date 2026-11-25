@@ -9,3 +9,7 @@
 | V170-OVERVIEW | Work bàn giao Tổng quan native cho kiến trúc sư. | [Bàn giao](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7167868087) |
 
 Kiến trúc sư ghi phản hồi độc lập bằng PASS/FAIL/BLOCKED và ghi SHA đã xem. Work ACK, nêu câu hỏi hoặc blocker, sửa trong phạm vi và phản hồi lại với SHA và bằng chứng. Đọc phản hồi sau mỗi vòng thực hiện. Nhận xét trên GitHub được xử lý khi Work được gọi hoặc khi có tác vụ tự động được thiết lập riêng.
+
+| ID | Trao đổi | Bằng chứng |
+|---|---|---|
+| CDS-002 | Kiểm chứng đường vận chuyển GitHub PR → Cloud Work → PR, tách khỏi việc tiếp tục phiên Kiến trúc sư. | [Phạm vi](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7168878074) · [ACK](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7168905597) · [PING](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7168917090) |

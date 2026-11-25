@@ -160,3 +160,19 @@ PASS trên PC 1440 × 900 và mobile 414 × 896. Fixture lưu ngưỡng BTC 0% v
 | Data Hub | [PC](tests/ux-data-desktop.png) | [Mobile](tests/ux-data-mobile-chromium.png) |
 
 [Log](tests/ux-five-screens-browser.log). Giữ các quy tắc Engine, dữ liệu, kho báo cáo và các đường dẫn công cụ độc lập.
+
+### CDS-002 · Phương án và ranh giới kiểm thử
+
+| Phương án | Độ trễ | Phạm vi |
+|---|---|---|
+| Webhook GitHub PR gốc | Theo sự kiện; đo thực tế ở ca thử, chưa có SLA. | PR được phép, bật sự kiện comment/review khi cần. Schema không có comment Issue thường. Scheduled Work chạy một tác vụ riêng. |
+| Scheduled Work polling | Chu kỳ nhanh nhất một giờ; nếu sự kiện phân bố đều, thời gian chờ theo lịch trung bình khoảng 30 phút, tối đa danh nghĩa 60 phút cộng thời gian hàng đợi/xử lý. | Có thể kiểm tra Issue #5 qua connector đọc, nhưng vẫn là lượt Work riêng. Chưa bật. |
+| OpenAI API hoặc dịch vụ trung gian | Chưa đo. | Thêm chi phí, quyền hoặc hạ tầng. Ngoài phạm vi. |
+
+[OpenAI Help: Scheduled tasks](https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt) và [Work/Codex](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex). Plus đủ điều kiện theo tài khoản/workspace; khả năng tạo trên tài khoản hiện tại được xác nhận qua tác vụ thử. Không kết luận không tiêu hao hạn mức gói. Không cần máy cá nhân chạy liên tục.
+
+Kiểm soát của ca thử: phạm vi PR #4, bật comment người dùng, so khớp GitHub login và toàn bộ marker chứa ID tác vụ, kiểm tra PONG có sẵn, tôn trọng marker STOP, tối đa một lần ghi mỗi lượt chạy. Đây là chống gửi lặp theo kiểm tra trước khi ghi; chưa chứng minh khóa nguyên tử khi các lượt chạy song song. Hai vai trò cùng sử dụng một tài khoản GitHub nên login xác thực tài khoản, chưa phân biệt được vai trò phát lệnh. Nội dung comment không tự cấp quyền hoặc xác nhận merge/phát hành.
+
+### UX-INDICATOR-LIBRARY
+
+Chromium 1440×900 và 414×896 đạt ca đếm đúng một hàng cho mỗi chỉ báo từ cấu hình CESAuto.lock(CESShared.load()), bốn ứng viên đối chứng, tổng trọng số và mã hash. Không đổi cơ chế lưu, quy tắc chiến lược hoặc trạng thái kích hoạt. Mã hash ở bảng là định danh cấu hình nghiên cứu; chưa có hồ sơ Strategy ID được phê duyệt để giao dịch. [PC](tests/indicator-library-desktop.png) · [Mobile](tests/indicator-library-mobile-chromium.png).

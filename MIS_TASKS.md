@@ -52,3 +52,11 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - [x] Năm màn hình: tóm tắt trước, nhóm nâng cao mở theo nhu cầu, giữ các thao tác và báo cáo hiện hành.
 - [ ] V170-P0-CONFIG: định danh/hash bất biến xuyên màn hình, đối chiếu caller trên cùng snapshot, hồ sơ phê duyệt và Legacy Live.
 - [ ] Thiết kế so sánh hai báo cáo A/B cạnh nhau khi có hồ sơ nghiên cứu chung. Hai chế độ A/B hiện vẫn chọn được riêng.
+
+### CDS-002 · MIS-CDS V1.1
+
+| ID | Tiêu chí | Bằng chứng |
+|---|---|---|
+| CDS-002 | Trigger Cloud hai chiều vào đúng phiên Kiến trúc sư và Work, xác thực người gửi và ID tác vụ, chống trùng, lần thử hữu hạn, dừng/phê duyệt rõ ràng. | [Lệnh 7168878074](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7168878074) · [Kết quả kiểm chứng](MIS_REVIEW.md#cds-002--mis-cds-v11). |
+
+- [x] UX-INDICATOR-LIBRARY: tách cấu hình nghiên cứu, bộ lọc bắt buộc và danh sách đối chứng; một hàng mỗi chỉ báo. Kiểm thử và ảnh Chromium lưu trong MIS_TEST_REPORT. Chờ phản biện thiết kế độc lập.

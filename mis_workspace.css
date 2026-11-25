@@ -62,3 +62,18 @@ iframe{min-height:0;vertical-align:top}
 .workspace-summary div{background:#edf3f5;padding:9px;border-radius:8px}
 .workspace-summary dt{font-size:.83rem;color:#475e68}.workspace-summary dd{margin:4px 0 0;font-weight:650}
 #workspace-history>summary,#workspace-library summary{cursor:pointer;padding:8px 0;font-weight:650}
+
+.indicator-table{width:100%;border-collapse:collapse;text-align:left;table-layout:fixed}
+.indicator-table th,.indicator-table td{padding:8px;border-bottom:1px solid #d5e1e5;vertical-align:top;overflow-wrap:anywhere}
+.indicator-table th:nth-child(3){width:34%}
+.indicator-table details p{font-size:.82rem;overflow-wrap:anywhere}
+#workspace-candidates{display:block;padding-left:1.3rem}
+#workspace-candidates li{padding:6px 0}
+@media(max-width:620px){
+  .indicator-table,.indicator-table tbody,.indicator-table tr{display:block}
+  .indicator-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .indicator-table tr{border-bottom:1px solid #d5e1e5;padding:8px 0}
+  .indicator-table td{display:grid;grid-template-columns:90px minmax(0,1fr);gap:8px;padding:3px 0;border:0}
+  .indicator-table td::before{content:attr(data-label);color:#475e68;font-size:.8rem}
+  .indicator-table td details{grid-column:2}
+}

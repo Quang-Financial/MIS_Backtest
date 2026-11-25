@@ -34,34 +34,76 @@ function syncAsset(doc) {
 }
 
 function renderLibrary() {
-  const config = document.querySelector('#workspace-config');
+  const get = suffix => document.querySelector('#workspace-' + suffix);
+  const config = get('config');
+  const identity = get('config-id');
+  const table = get('indicator-table').tBodies[0];
+  const gates = get('config-gates');
+  const weight = get('weight');
+  const candidates = get('candidates');
+  table.replaceChildren();
+  gates.replaceChildren();
+  identity.textContent = '';
+  weight.textContent = '';
   try {
-    const flex = CESShared.load();
-    config.textContent = 'Chưa có cấu hình kích hoạt đã duyệt. Bản lưu v' + flex.version + ' · CES ≥ ' + flex.threshold + ' · BTC giảm ≥ ' + flex.btcDrawdown + '% · ' +
-      (flex.belowEMA200 ? 'Yêu cầu dưới EMA200 tuần' : 'Bộ lọc EMA200 đã tắt') + ' · ' +
-      flex.dynamic.filter(row => row.enabled).map(CESDynamic.name).join(', ');
+    const saved = CESShared.load();
+    const flex = CESAuto.lock(saved);
+    config.textContent = 'Phiên bản ' + flex.version + ' · CES ≥ ' + flex.threshold +
+      ' · Cấu hình nghiên cứu, chưa duyệt kích hoạt.';
+    identity.textContent = 'Đang tính mã cấu hình nghiên cứu…';
+    const canonical = value => {
+      if (Array.isArray(value)) return value.map(canonical);
+      if (!value || typeof value !== 'object') return value;
+      return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])]));
+    };
+    const tag = Symbol();
+    identity.renderTag = tag;
+    crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(canonical(flex))))
+      .then(buffer => {
+        if (identity.renderTag !== tag) return;
+        const digest = Array.from(new Uint8Array(buffer), byte => byte.toString(16).padStart(2, '0')).join('');
+        identity.textContent = 'Mã cấu hình nghiên cứu: ' + digest.slice(0, 12);
+        identity.title = digest;
+      }).catch(() => { if (identity.renderTag === tag) identity.textContent = 'Chưa tạo được mã cấu hình.'; });
+    for (const text of ['Drawdown BTC ≥ ' + flex.btcDrawdown + '%', 'Giá đóng tuần dưới EMA200W']) {
+      const item = document.createElement('li');
+      item.textContent = text;
+      gates.append(item);
+    }
+    weight.textContent = 'Tổng trọng số đang bật: ' + CESDynamic.validate(flex.dynamic) + ' · chuẩn hóa điểm về 100.';
+    const legacyFrame = {weekly:'1W',daily:'1D',ema:'1W',fear:'1D',base:'1W'};
+    for (const row of flex.dynamic) {
+      const name = CESDynamic.name(row);
+      const frame = row.tf ?? legacyFrame[row.id] ?? '—';
+      const parameters = row.points ? row.points.map(([x,y]) => x + '→' + y).join(', ')
+        : row.weeks ? row.weeks + ' tuần'
+        : [row.p, row.q, row.s].filter(Number.isFinite).join('/') + (row.limit == null ? '' : ' · ngưỡng ' + row.limit);
+      const item = table.insertRow();
+      for (const [index, value] of [name, frame, parameters || '—', String(row.weight),
+        row.enabled ? row.hard ? 'Bật · bắt buộc' : 'Bật' : 'Tắt'].entries()) {
+        const cell = item.insertCell();
+        cell.dataset.label = ['Chỉ báo','Khung','Tham số','Trọng số','Trạng thái'][index];
+        cell.textContent = value;
+      }
+      const extra = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = 'Chi tiết';
+      const description = document.createElement('p');
+      description.textContent = (row.hardMax == null ? '' : 'Ngưỡng bắt buộc: ' + row.hardMax + '. ') +
+        'Tham số thực thi: ' + JSON.stringify(row) + '. Nguồn: cấu hình nghiên cứu hiện tại. Bằng chứng kiểm định chưa liên kết.';
+      extra.append(summary, description);
+      item.cells[2].append(extra);
+    }
   } catch (error) {
     config.textContent = 'Không đọc được cấu hình: ' + error.message;
   }
-  const cards = ['RA01', 'RA02', 'RA03', 'SMA01'].map(id => {
+  candidates.replaceChildren(...['RA01','RA02','RA03','SMA01'].map(id => {
     const candidate = CESLibrary[id];
-    const card = document.createElement('article');
-    const title = document.createElement('strong');
-    title.textContent = id + ' · ' + candidate.coin + ' CES-' + candidate.mode;
-    const details = document.createElement('p');
-    details.textContent = 'BTC giảm ≥ ' + candidate.flex.btcDrawdown + '% · CES ≥ ' + candidate.flex.threshold +
-      ' · ' + candidate.flex.dynamic.filter(row => row.enabled).map(CESDynamic.name).join(', ');
-    const parameters = document.createElement('details');
-    const heading = document.createElement('summary');
-    heading.textContent = 'Tham số và nguồn';
-    const body = document.createElement('p');
-    body.textContent = 'Phiên bản cấu hình ' + candidate.flex.version +
-      ' · Đối chứng trong thư viện CES · Phê duyệt và chỉ số kiểm định: chưa liên kết.';
-    parameters.append(heading, body);
-    card.append(title, details, parameters);
-    return card;
-  });
-  document.querySelector('#workspace-candidates').replaceChildren(...cards);
+    const item = document.createElement('li');
+    item.textContent = id + ' · v' + candidate.flex.version + ' · ' + candidate.coin +
+      ' CES-' + candidate.mode + ' · Đối chứng nghiên cứu · Bằng chứng chưa liên kết.';
+    return item;
+  }));
 }
 
 function openScreen(id, file) {

@@ -32,3 +32,15 @@ ACK và tài liệu điều phối: PASS. Vòng phản biện/sửa BTC gate có
 | UX năm màn hình | PASS smoke | Chromium 1440×900 và 414×896, dữ liệu giả lập. Mười ảnh và log trong MIS_TEST_REPORT. Chờ phản biện độc lập về thiết kế. |
 | Số liệu nghiên cứu vùng mua, Fear theo thời điểm và Altcoin thật | BLOCKED | Research ghi Chờ nghiên cứu. Đợt này không thay đổi phương pháp nghiên cứu. |
 | So sánh A/B | PASS bảo toàn chế độ hiện có; BLOCKED đối chiếu cạnh nhau | Giữ chế độ A/B trong các trình chạy. Chưa có màn hình so sánh hai báo cáo cạnh nhau. |
+
+### CDS-002 · MIS-CDS V1.1
+
+| Kiểm chứng | Trạng thái | Bằng chứng |
+|---|---|---|
+| Tạo webhook PR #4 bằng quyền hiện tại | PASS | Tài khoản tạo được tác vụ gốc, lọc PR và login tác giả. Không yêu cầu kết nối lại hoặc thêm quyền. |
+| GitHub → lượt Work mới | PASS | PING 17:02:40 UTC; task bắt đầu 17:02:50.509 UTC, khoảng 10,5 giây. [PING](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7168917090) |
+| Work → phản hồi GitHub | BLOCKED | Chưa thấy PONG khi hết cửa sổ kiểm tra. Scheduler báo đang chạy, chưa có kết quả hoặc chat đích. Không đo được độ trễ hoàn vòng. Đã tạm dừng tác vụ và [ghi STOP](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7169040108). |
+| Hai chiều vào đúng hai cuộc trò chuyện | BLOCKED | Trigger tạo tác vụ Work riêng; chưa có cấu hình định tuyến vào cuộc trò chuyện Kiến trúc sư hiện có. Mô hình schema không có trigger Issue thường. |
+| Chống lặp và quyền | BLOCKED cho nghiệm thu | Ca thử có kiểm tra ID/marker, người đăng và PONG sẵn có, tối đa một lần ghi/lượt. Chưa chứng minh chống trùng nguyên tử. Login chung không phân biệt được hai vai trò. |
+
+UX-INDICATOR-LIBRARY: PASS trên fixture trình duyệt, chờ review thiết kế độc lập. Chưa xác nhận cấu hình kích hoạt hoặc thay đổi chiến lược.

@@ -31,3 +31,5 @@ GitHub là kênh trao đổi chính. CDS-001 đã ACK, có sổ liên kết và 
 V170-OVERVIEW: Tổng quan hiện là dashboard chuyên dụng, gồm biểu đồ giá mặc định, vị trí drawdown giả thuyết, đa khung, CES, điều kiện và bằng chứng. Kiểm thử cục bộ đạt. Trạng thái nghiệm thu thiết kế giữ FAIL theo phản biện cho đến lượt review độc lập.
 
 UX-5-SCREENS: trình bày năm màn hình đã chạy qua smoke Chromium desktop/mobile. Tổng quan có khóa nghiên cứu bằng CESAuto.lock, WATCH giả thuyết, và loại trạng thái cũ sau mất dữ liệu. P0 đầy đủ vẫn mở do chưa có snapshot và ID cấu hình thực thi xuyên màn hình.
+
+CDS-002: PASS kích hoạt lượt Work từ PR GitHub, khoảng 10,5 giây trong một lần đo. BLOCKED vòng hai chiều vào đúng hai phiên. Ca thử đã tạm dừng. UX-INDICATOR-LIBRARY đã cập nhật trên Staging và kiểm thử Chromium PC/mobile. V170-P0-CONFIG còn mở.

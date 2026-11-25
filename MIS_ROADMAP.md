@@ -24,3 +24,5 @@
 [Quy trình MIS-CDS](MIS_DISCUSSION.md) áp dụng cho mỗi mốc. PR #4 tiếp nhận phản biện V1.7. Tiêu chí kỹ thuật và bằng chứng được theo dõi theo ID trong MIS_TASKS.md.
 
 UX-5-SCREENS triển khai theo thứ tự bảo vệ trạng thái Tổng quan → tóm tắt và mở rộng chi tiết cho năm màn hình → kiểm tra ảnh và phản biện độc lập. Nghiên cứu vùng mua, snapshot thống nhất và so sánh báo cáo A/B được theo dõi riêng.
+
+**CDS-002 · P0 phối hợp**: xác minh webhook gốc và khả năng định tuyến đến đúng phiên trước khi mở rộng hai chiều. Dùng giao thức Issue/PR V1.0 trong lúc phần định tuyến còn mở. So sánh polling theo giờ và đọc theo yêu cầu trong MIS_TEST_REPORT, chưa bật polling.

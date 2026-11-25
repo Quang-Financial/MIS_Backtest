@@ -38,10 +38,19 @@
       <div id="workspace-tools" aria-label="Công cụ của màn hình"></div>
     </div>
     <section id="workspace-library" aria-label="Thư viện cấu hình" hidden>
-      <h2>Cấu hình đang theo dõi</h2>
+      <h2>Cấu hình nghiên cứu</h2>
       <p id="workspace-config"></p>
-      <h2>Ứng viên đối chứng</h2>
-      <div id="workspace-candidates"></div>
+      <p id="workspace-config-id"></p>
+      <h3>Bộ lọc bắt buộc</h3>
+      <ul id="workspace-config-gates"></ul>
+      <h3>Chỉ báo có trọng số</h3>
+      <p id="workspace-weight"></p>
+      <table class="indicator-table" id="workspace-indicator-table">
+        <thead><tr><th scope="col">Chỉ báo</th><th scope="col">Khung</th><th scope="col">Tham số</th><th scope="col">Trọng số</th><th scope="col">Trạng thái</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h3>Ứng viên đối chứng</h3>
+      <ul id="workspace-candidates"></ul>
     </section>
     <section id="workspace-overview" aria-label="Theo dõi thị trường">
       <div class="overview-meta">
