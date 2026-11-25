@@ -13,3 +13,5 @@ jobs:
       - run: |
           for f in *.js; do node --check "$f" || exit 1; done
           node tests/report-sync.test.cjs
+
+          node tests/datahub.test.cjs
