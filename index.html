@@ -134,7 +134,7 @@
       <h2>Bằng chứng vùng mua</h2>
       <p>Nghiên cứu vùng giả thuyết từ snapshot đã ghim tại Tổng quan.</p>
       <div class="research-fields">
-        <label>Cấu hình thử <select id="research-config"><option value="">Cấu hình hiện tại</option><option>RA01</option><option>RA02</option><option>RA03</option><option>SMA01</option></select></label>
+        <label>Cấu hình thử <select id="research-config"><option value="">Cấu hình hiện tại</option><option>RA01</option><option>RA02</option><option>RA03</option><option>SMA01</option><option>A04</option></select></label>
         <label>Phí nghiên cứu (%) <input id="research-fee" type="number" min="0" max="10" step="0.01" value="0.1" required></label>
         <label>Trượt giá nghiên cứu (%) <input id="research-slip" type="number" min="0" max="10" step="0.01" value="0.05" required></label>
       </div>
@@ -149,16 +149,22 @@
           Số đỉnh tham chiếu chỉ là chỉ dấu độ đa dạng, các mẫu có thể chồng lấp. Lợi nhuận vùng là biến động giá, chưa tính chi phí và không phải kết quả giao dịch.
           Hồi phục tính từ đáy trong kỳ đến ngày đóng ở giá mẫu trở lên. IS/OOS tách 70/30 theo thời gian, không tối ưu trên OOS.
           A/B dùng cùng tín hiệu và mặc định của Auto; kết quả gồm benchmark mua-giữ chưa tính chi phí.
-          Walk-forward và kiểm định nhiều chu kỳ độc lập đang chờ.</p>
+          Các năm UTC trọn vẹn chạy riêng với vốn đặt lại. Chúng là phân đoạn lịch, không đại diện chu kỳ thị trường độc lập. Walk-forward đang chờ.</p>
       </details>
       <div class="research-scroll" tabindex="0" aria-label="Thống kê vùng mua">
         <table id="research-zones"><thead><tr><th>Mẫu</th><th>Vùng</th><th>Ngày giữ</th><th>Mẫu đủ/tổng</th><th>Đỉnh tham chiếu</th><th>ROI trung vị %</th><th>MAE trung vị %</th><th>Ngày hồi phục</th><th>Số hồi phục</th></tr></thead><tbody></tbody></table>
       </div>
       <h3>Đóng góp chỉ báo</h3>
       <p id="research-indicators"></p>
+      <details data-explanation>
+        <summary>Các lần bỏ chỉ báo và thay tham số</summary>
+        <div class="research-scroll" tabindex="0" aria-label="Các lần thử độ nhạy">
+          <table id="research-variants"><thead><tr><th>Lần thử</th><th>Thay đổi so với gốc</th><th>Tuần qua gate</th></tr></thead><tbody></tbody></table>
+        </div>
+      </details>
       <h3>So sánh CES-A / CES-B</h3>
       <div class="research-scroll" tabindex="0" aria-label="Kết quả A/B">
-        <table id="research-robustness"><thead><tr><th>Kịch bản</th><th>Mẫu</th><th>CES</th><th>Trạng thái</th><th>Tuần đủ/tổng</th><th>ROI %</th><th>CAGR %</th><th>MDD %</th><th>MAE %</th><th>Calmar</th><th>Benchmark %</th></tr></thead><tbody></tbody></table>
+        <table id="research-robustness"><thead><tr><th>Kịch bản</th><th>Mẫu</th><th>Ngày đầu UTC</th><th>Ngày cuối UTC</th><th>CES</th><th>Trạng thái</th><th>Tuần đủ/tổng</th><th>ROI %</th><th>CAGR %</th><th>MDD %</th><th>MAE %</th><th>Calmar</th><th>Benchmark %</th></tr></thead><tbody></tbody></table>
       </div>
       <details id="workspace-history"><summary>Mở Historical Research</summary></details>
       <section aria-labelledby="paper-heading">
@@ -199,6 +205,7 @@
         <div><dt>Nến cuối UTC</dt><dd id="data-last">Chưa có dữ liệu</dd></div>
         <div><dt>Chất lượng</dt><dd id="data-quality">Chưa kiểm toán</dd></div>
         <div><dt>Warmup EMA200W</dt><dd id="data-warmup">Chưa kiểm tra</dd></div>
+        <div><dt>Snapshot nghiên cứu đã ghim</dt><dd id="data-pinned">Chưa có snapshot</dd></div>
       </dl>
     </section>
     <div id="workspace-frames"></div>

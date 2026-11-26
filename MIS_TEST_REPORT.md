@@ -372,3 +372,22 @@ Chuẩn [V1.7](MIS_DESIGN_STANDARD.md). Thiết kế ưu tiên luồng có thể
 **Tái lập:** trên Staging chọn mã, vào Tổng quan cập nhật/ghim snapshot, mở Research, chọn RA01 và chạy. Đổi về cấu hình dùng Fear để kiểm tra trạng thái bị chặn. Tạo vốn mô phỏng, nhập số tiền và ghi một lần; ghi lại cùng ngày/mã phải bị chặn; tải lại trang rồi kiểm tra vị thế và tải JSON. Test Node dùng nến SOL/BTC đã lưu để chạy A/B và dùng dữ liệu tổng hợp kiểm tra mốc 70/30, phí, vượt tiền/vị thế. Chromium desktop/mobile kiểm luồng chính bằng fixture. Replay Overview/Auto với dữ liệu thị trường cũ khớp từng byte với JSON đã commit; kiểm tra nâng cấp cache và lưu trữ cũ trên hai viewport PASS. [Node](tests/integrated-ces.test.cjs) · [Browser](tests/ces-r4/browser.log) · [Nâng cấp](tests/ces-r4/storage-upgrade.json).
 
 SUI 185/200 tuần tại mốc dữ liệu ghim. iPhone thật, lợi nhuận và Strategy ID đã duyệt chưa xác minh. Kết quả paper là diễn tập thủ công theo giá đóng đã biết.
+
+### 24H Sprint · CDS-V14 REV5
+
+| Luồng mục tiêu | Kết quả MIS02 | Điều kiện và bằng chứng |
+|---|---|---|
+| Tổng quan | PASS | BTC đóng nến ở 24/11/2026 UTC, ghim snapshot và kiểm tra mã định danh trên trình duyệt. |
+| Bộ chỉ báo | PASS | Mã cấu hình khóa khớp Tổng quan và Auto trên BTC; hồi quy thao tác năm màn hình trong browser smoke. |
+| Vùng mua | PASS | 60 dòng BTC theo IS/OOS, kỳ 30/90/180/365/730 ngày và sáu vùng; Node kiểm tra không dùng kỳ nắm giữ vượt biên phân đoạn. Vùng là giả thuyết theo giá đóng ngày. |
+| Nghiên cứu chỉ báo | PASS | Trên cùng BTC snapshot, A04 lưu nguyên trong thư viện. Có 8 dòng ablation/độ nhạy, với hard gates giữ nguyên. Cấu hình dùng Fear bị chặn vì provenance. |
+| Backtest nhiều giai đoạn | PASS | Các năm UTC đầy đủ chạy độc lập có ngày bắt đầu/kết thúc và vốn đặt lại. Có năm 2018 và 2024 trong mẫu BTC, 64 dòng khi gộp A/B, IS/OOS, các năm và stress. |
+| CES-A/B | PASS | Engine, dữ liệu và chi phí chung cho mỗi kịch bản. Ca BTC phân biệt không giao dịch với thiếu dữ liệu hoặc có giao dịch. |
+| Dữ liệu xuyên màn hình | PASS | BTC snapshot hash trùng giữa Tổng quan, Research, Auto và thẻ snapshot Data Hub. Báo cáo A04 giữ snapshot nhưng có mã cấu hình nghiên cứu riêng. |
+| Live research | PASS | Hồ sơ phê duyệt trống và kiểm tra nến cũ cho trạng thái cảnh báo, không kích hoạt tín hiệu sẵn sàng mua. |
+| Paper | PASS khung fixture | Lượt tay nguyên tử theo snapshot OKX/USDT, từ chối lặp cùng ngày/mã, tải JSON. Thu thập tín hiệu Live và đối chiếu khớp chưa kiểm chứng. |
+| Danh mục | PASS khung fixture | Đọc lại sổ, vị thế và định giá cùng đơn vị sau reload. Chưa kiểm thử nhập sổ từ bên ngoài và chưa có dữ liệu nhiều thiết bị. |
+
+[JSON BTC](tests/ces-sprint/btc-e2e.json) ghi kết quả Chromium desktop 1440×900 và mobile 414×896. Đầu vào là dữ liệu thị trường BTC Bitstamp đóng băng tới 24/11/2026 UTC, phát lại qua HTTP cục bộ bằng fixture. [Browser log](tests/ces-sprint/browser.log) và [nâng cấp cache](tests/ces-sprint/storage-upgrade.json) dùng dữ liệu thử cô lập. CI tái chạy BTC qua `MIS_BTC_SPRINT=1` trong browser smoke. Có thể mở Staging độc lập, ghim snapshot BTC và chạy Research A04 để tái lập luồng trên dữ liệu lấy được tại thời điểm kiểm thử.
+
+Mức 8/10 ở đây đếm luồng mục tiêu đã chạy qua kiểm thử phát triển. Điểm nghiệm thu 80/100 và kết luận độc lập chờ MIS03. Phân đoạn theo năm không tuyên bố là chu kỳ thị trường độc lập. Walk-forward, Historical/Optimizer theo snapshot chung, mốc công bố Fear, SUI warmup và iPhone thật còn chờ. So sánh kỹ thuật không chứng minh hiệu quả đầu tư.

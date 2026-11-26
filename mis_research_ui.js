@@ -45,8 +45,9 @@
     get('research-download').disabled = true;
     get('research-risk').textContent = '';
     get('research-context').textContent = '';
+    get('research-context').removeAttribute('title');
     get('research-indicators').textContent = '';
-    for (const id of ['research-zones', 'research-robustness']) table(id, []);
+    for (const id of ['research-zones', 'research-robustness', 'research-variants']) table(id, []);
   }
 
   get('research-run').addEventListener('click', async () => {
@@ -70,6 +71,7 @@
       if (researchRevision !== revision) return;
       audit = { schema: 1, coin, preset: preset || null, snapshotId: snapshot.snapshotId, configId, flex, end: snapshot.end,
         frames, options, rules: { A: defaultRules('A'), B: defaultRules('B') }, zone, base, stressOptions, stress };
+      get('research-context').title = configId + ' / ' + snapshot.snapshotId;
       get('research-context').textContent = coin + ' · chốt dữ liệu ' + date(snapshot.end) +
         ' UTC · OOS từ ' + date(zone.split) + ' · ' + frames.days + ' ngày / ' +
         frames.weeks + ' tuần / ' + frames.months + ' tháng đầy đủ · cấu hình ' +
@@ -79,8 +81,14 @@
         row.cycles, format(metric.roi), format(metric.mae), format(metric.recovery), metric.recovered
       ])));
       table('research-robustness', [['Gốc', base], ['Phí/trượt ×2', stress]].flatMap(([scenario, result]) =>
-        result.rows.map(row => [scenario, row.label, row.mode, row.status, row.usable + '/' + row.weeks,
+        result.rows.map(row => [scenario, row.label, date(row.from), date(row.through), row.mode, row.status, row.usable + '/' + row.weeks,
           format(row.roi), format(row.cagr), format(row.mdd), format(row.mae), format(row.calmar), format(row.benchmark)])));
+      if (!base.blocked) table('research-variants', [
+        ...base.ablation.map(row => ['Ablation', row.name, row.passingWeeks]),
+        ...base.stability.map(row => ['Độ nhạy', ['CES ≥ ' + row.threshold, ...row.changes.map(change =>
+          change.name + ' · ngưỡng ' + format(change.limit) + ' · cửa sổ ' + format(change.window) +
+          ' · trọng số ' + format(change.weight))].join(' / '), row.passingWeeks])
+      ]);
       get('research-risk').textContent = base.blocked ?
         'A/B, stress và ablation bị chặn vì cấu hình dùng Fear & Greed BTC mà thời điểm công bố lịch sử chưa được xác minh.' : '';
       get('research-indicators').textContent = base.blocked ? 'Chưa thể chấm đóng góp chỉ báo trên dữ liệu này.' :
@@ -243,6 +251,26 @@
     resetResearch();
     get('research-status').textContent = 'Chạy nghiên cứu từ snapshot đã ghim cho ' + asset.value + '.';
   });
+  let snapshotRevision = 0;
+  async function showPinned() {
+    const revision = ++snapshotRevision;
+    const coin = asset.value;
+    const label = get('data-pinned');
+    label.removeAttribute('title');
+    label.textContent = 'Đang kiểm tra snapshot…';
+    try {
+      const snapshot = await pinned(coin);
+      if (revision !== snapshotRevision) return;
+      label.title = snapshot.snapshotId;
+      label.textContent = coin + ' · ' + date(snapshot.end) + ' UTC · ' + hash(snapshot.snapshotId);
+    } catch (error) {
+      if (revision === snapshotRevision) label.textContent = error.message;
+    }
+  }
+  asset.addEventListener('change', showPinned);
+  window.addEventListener('mis-snapshot-pinned', showPinned);
+  showPinned();
+
   const refreshPaper = () => showPaper().catch(error => { get('paper-status').textContent = error.message; });
   window.addEventListener('mis-snapshot-pinned', refreshPaper);
   refreshPaper();

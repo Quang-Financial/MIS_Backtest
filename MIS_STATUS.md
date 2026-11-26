@@ -67,3 +67,5 @@ Ma trận nghiệm thu kỹ thuật V1.7 đã ghi SHA ứng dụng, SHA bằng c
 QA-PILOT-001 developer retest covers five screens, disclosure, stale/missing gates, Auto JSON export/restore and Service Worker storage upgrade. [Design standard](MIS_DESIGN_STANDARD.md). Independent acceptance and release remain separate.
 
 CDS-V14 REV4 có ứng viên CES Spot tích hợp để kiểm thử. Bằng chứng phân biệt fixture UI, dữ liệu thị trường ghi cố định, và quan sát Live còn chờ. Xem ma trận trong [MIS_TEST_REPORT.md](MIS_TEST_REPORT.md).
+
+24H Sprint có ứng viên tích hợp đạt 8/10 luồng trọng tâm ở vòng kiểm thử MIS02. Paper và danh mục đạt luồng fixture khung. Ma trận và SHA gửi MIS03 để retest độc lập.

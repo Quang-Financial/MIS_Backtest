@@ -100,3 +100,5 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - QA-PILOT-001: Disclosure UI, keyboard/touch, stale/missing recovery and storage regressions run by MIS02; independent retest assigned by pinned SHA on PR #4.
 
 - CDS-V14 REV4: Luồng nghiên cứu vùng, chỉ báo và A/B, trạng thái Live nghiên cứu, sổ paper và danh mục mô phỏng đã chạy được ở vòng dev. MIS03 retest trên SHA ghim. Walk-forward, provenance Fear, đối chứng nhiều chu kỳ và quan sát thật nằm trong backlog tối ưu [ma trận](MIS_TEST_REPORT.md).
+
+- CDS-V14 REV5: Đã kiểm thử tám luồng đích trên BTC cố định; paper và danh mục cũng có fixture khung. MIS03 cần kiểm thử độc lập mã ghim, đối chiếu đúng mức phạm vi ở ma trận Sprint.

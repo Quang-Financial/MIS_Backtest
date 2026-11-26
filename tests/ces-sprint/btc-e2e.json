@@ -1,0 +1,39 @@
+{
+  "hashes": {
+    "BTC": "89168eb95d1094f6224d131e64cc30c1548c94c946f214c5f4755a3932625b74",
+    "SOL": "c458acae16650d993247049d780b6f1b71186051aa5ba1da45ad2ba63c98ed33",
+    "AVAX": "eea5124e64eedd271f97f60c1ab8c2f47c925766c0d262999cb066e7400b0084",
+    "LINK": "63ba6edc1f02752f7b867b8bf6e8696cd6a63d3ff1028897c07b823350578a9e",
+    "OKB": "fe1557496ea719e3693086b207320d42dce0975b0bb7bcb690ab613dd8abd813",
+    "BNB": "58dd55aaccb1701be3abcd7483de40b05e561954527741cf60ada9379b9a3385",
+    "fear": "cb2ff1a078775ef96fd58cca9bded4e5f7f5712dde11d839111a435ff0a2dbc6"
+  },
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "identity": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271 / d397471cc16f7bad7a1dfad7d34465d4e9bf8e6867e0d688059dc340592bb022",
+      "variant": "645c1c427345e8831b9957758040ca30f30a711e5d17e935d0127ec419e30719 / d397471cc16f7bad7a1dfad7d34465d4e9bf8e6867e0d688059dc340592bb022",
+      "zones": 60,
+      "robustnessRows": 64,
+      "ablationAndStabilityRows": 8,
+      "liveStale": "PASS",
+      "fearBlocked": "PASS"
+    },
+    {
+      "viewport": {
+        "width": 414,
+        "height": 896
+      },
+      "identity": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271 / d397471cc16f7bad7a1dfad7d34465d4e9bf8e6867e0d688059dc340592bb022",
+      "variant": "645c1c427345e8831b9957758040ca30f30a711e5d17e935d0127ec419e30719 / d397471cc16f7bad7a1dfad7d34465d4e9bf8e6867e0d688059dc340592bb022",
+      "zones": 60,
+      "robustnessRows": 64,
+      "ablationAndStabilityRows": 8,
+      "liveStale": "PASS",
+      "fearBlocked": "PASS"
+    }
+  ]
+}

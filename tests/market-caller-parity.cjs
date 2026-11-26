@@ -65,7 +65,7 @@ async function runAuto(page, coin, inputMode) {
   await hookSignals(page);
   await page.selectOption('#coin', coin);
   await page.selectOption('#research', 'ablation');
-  await page.fill('#from', new Date(markets[coin][0].t).toISOString().slice(0, 10));
+  await page.fill('#from', new Date((coin === 'BTC' ? btc : markets[coin])[0].t).toISOString().slice(0, 10));
   await page.fill('#to', closedThrough);
   await page.fill('#split', '2025-07-01');
   await page.locator('#usePinned').setChecked(inputMode === 'pinned');
@@ -196,9 +196,70 @@ async function legacyBookmark(browser, layout, viewport) {
   }
 }
 
+async function btcSprint(browser, viewport) {
+  const context = await browser.newContext({ viewport });
+  try {
+    await marketRoutes(context);
+    const page = await context.newPage();
+    await page.goto(origin + '/index.html');
+    await page.locator('#overview-pin').click({ timeout: 20000 });
+    await page.getByText(/Đã ghim BTC đến/).waitFor();
+    const live = await page.locator('#overview-identity').getAttribute('title');
+    assert.match(await page.locator('#overview-approval').textContent(), /Chưa có hồ sơ/);
+    assert.doesNotMatch(await page.locator('#overview-decision').textContent(), /BUY READY/);
+    const auto = await context.newPage();
+    const { provenance } = await runAuto(auto, 'BTC', 'pinned');
+    const identity = provenance.effectiveStrategyId + ' / ' + provenance.snapshotId;
+    assert.equal(live, identity);
+    const nav = page.locator('#workspace-nav');
+    await nav.getByText('Data Hub', { exact: true }).click();
+    await page.waitForFunction(() => document.querySelector('#data-pinned').title.length === 64);
+    assert.equal(await page.locator('#data-pinned').getAttribute('title'), provenance.snapshotId);
+    await nav.getByText('Bộ chỉ báo', { exact: true }).click();
+    await page.waitForFunction(() => document.querySelector('#workspace-config-id').title.length === 64);
+    assert.equal(await page.locator('#workspace-config-id').getAttribute('title'), provenance.effectiveStrategyId);
+    await nav.getByText('Research', { exact: true }).click();
+    await page.locator('#research-run').click();
+    await page.getByText(/Đã tạo hồ sơ nghiên cứu BTC/).waitFor();
+    assert.equal(await page.locator('#research-context').getAttribute('title'), identity);
+    assert.match(await page.locator('#research-risk').textContent(), /thời điểm công bố lịch sử/);
+    assert.equal(await page.locator('#research-robustness tbody tr').count(), 0);
+    assert.equal(await page.locator('#research-zones tbody tr').count(), 60);
+    await page.locator('#research-config').selectOption('A04');
+    await page.locator('#research-run').click();
+    await page.getByText(/Đã tạo hồ sơ nghiên cứu BTC/).waitFor();
+    const variant = await page.locator('#research-context').getAttribute('title');
+    assert.notEqual(variant, identity);
+    assert.ok(variant.endsWith(' / ' + provenance.snapshotId));
+    await page.getByText('Các lần bỏ chỉ báo và thay tham số', { exact: false }).click();
+    const variants = await page.locator('#research-variants tbody tr').allTextContents();
+    assert.ok(variants.some(text => text.includes('Ablation')));
+    assert.ok(variants.some(text => text.includes('Độ nhạy')));
+    const rows = await page.locator('#research-robustness tbody tr').allTextContents();
+    assert.ok(rows.some(text => text.includes('Năm 2018')));
+    assert.ok(rows.some(text => text.includes('Năm 2024')));
+    assert.ok(rows.some(text => text.includes('Phí/trượt ×2')));
+    assert.ok(rows.some(text => text.includes('Không giao dịch')));
+    await nav.getByText('Tổng quan', { exact: true }).click();
+    await page.evaluate(value => { Date.now = () => value; }, now + 14 * day);
+    await page.locator('#overview-refresh').click();
+    await page.waitForFunction(() => document.querySelector('#overview-decision').textContent.includes('Dữ liệu nến đã cũ'));
+    return { viewport, identity, variant, zones: 60, robustnessRows: rows.length,
+      ablationAndStabilityRows: variants.length, liveStale: 'PASS', fearBlocked: 'PASS' };
+  } finally {
+    await context.close();
+  }
+}
+
 (async () => {
   const browser = await chromium.launch();
   try {
+    if (process.env.MIS_BTC_SPRINT === '1') {
+      const results = [];
+      for (const viewport of Object.values(viewports)) results.push(await btcSprint(browser, viewport));
+      console.log(JSON.stringify({ hashes, results }, null, 2));
+      return;
+    }
     const results = [];
     const legacyBookmarks = [];
     for (const [layout, viewport] of Object.entries(viewports)) {

@@ -251,8 +251,8 @@ async function disclosure(page, control, screen, device) {
      await page.locator('#research-config').selectOption('RA01');
      await page.locator('#research-run').click();
      await page.locator('#research-status').getByText(/Đã tạo hồ sơ nghiên cứu ETH/).waitFor();
-     assert.equal(await page.locator('#research-zones tbody tr').count(),48);
-     assert.equal(await page.locator('#research-robustness tbody tr').count(),8);
+     assert.equal(await page.locator('#research-zones tbody tr').count(),60);
+     assert.ok(await page.locator('#research-robustness tbody tr').count()>8);
      const auditDownload=page.waitForEvent('download');
      await page.locator('#research-download').click();
      assert.match((await auditDownload).suggestedFilename(),/^MIS-research-ETH-.*\.json$/);
@@ -277,7 +277,7 @@ async function disclosure(page, control, screen, device) {
      await page.locator('#workspace-asset').selectOption('ETH');
      console.log(name,'integrated research, Fear block, paper fill dedup and portfolio reload passed');
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-research-'+name+'.png'});
-     await disclosure(page,page.locator('#workspace-research > details[data-explanation] > summary'),'research',name);
+     await disclosure(page,page.locator('#workspace-research > details[data-explanation] > summary').first(),'research',name);
      await page.getByText('Mở Historical Research',{exact:true}).click();
      await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();

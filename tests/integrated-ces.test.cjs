@@ -24,10 +24,10 @@ test('zone boundaries and forward horizons use no hold crossing IS/OOS', () => {
   const oos = result.rows.find(row => row.label === 'OOS' && row.index === 1);
   assert.equal(result.split, t + day * 245);
   assert.equal(is.candidates, 2);
-  assert.equal(is.metrics[0].samples, 1);
+  assert.equal(is.metrics[1].samples, 1);
   assert.equal(oos.candidates, 1);
-  assert.equal(oos.metrics[0].samples, 0);
-  assert.equal(oos.metrics[0].roi, null);
+  assert.equal(oos.metrics[1].samples, 0);
+  assert.equal(oos.metrics[1].roi, null);
   assert.deepEqual(frames(bars), { days: 350, weeks: 50, months: 10 });
 });
 
@@ -44,7 +44,10 @@ test('real frozen data produces A/B partitions; historical Fear blocks causal ev
   const original = JSON.stringify(flex);
   const result = robustness(snapshot, flex, options, rules);
   assert.equal(JSON.stringify(flex), original);
-  assert.deepEqual(result.rows.map(row => row.label + row.mode), ['ISA', 'ISB', 'OOSA', 'OOSB']);
+  assert.deepEqual(result.rows.slice(0, 4).map(row => row.label + row.mode), ['ISA', 'ISB', 'OOSA', 'OOSB']);
+  const years = result.rows.slice(4).filter(row => row.mode === 'A');
+  assert.ok(years.length >= 2);
+  assert.ok(years.every((row, i) => i === 0 || years[i - 1].through + day === row.from));
   assert.ok(result.rows.some(row => Number.isFinite(row.benchmark)));
   assert.ok(result.stability.length > 0);
 });

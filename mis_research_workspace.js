@@ -2,7 +2,7 @@
   'use strict';
   const day = 86400000;
   const boundaries = [40, 45, 50, 55, 60, 70];
-  const horizons = [90, 180, 365, 730];
+  const horizons = [30, 90, 180, 365, 730];
 
   function zone(peak, price) {
     const drawdown = Math.max(0, 100 * (1 - price / peak));
@@ -71,6 +71,16 @@
     const { a, b, fear } = snapshot;
     const split = Math.floor(a.length * 7 / 10);
     const windows = [['IS', 0, split], ['OOS', split, a.length]];
+    const yearStart = new Map(a.map((bar, index) => [bar.t, index]));
+    const final = a.at(-1).t + day;
+    const years = [];
+    for (let year = new Date(a[0].t).getUTCFullYear(); Date.UTC(year + 1, 0, 1) <= final; year++) {
+      const start = yearStart.get(Date.UTC(year, 0, 1));
+      const endTime = Date.UTC(year + 1, 0, 1);
+      const end = endTime === final ? a.length : yearStart.get(endTime);
+      if (start !== undefined && end !== undefined) years.push(['Năm ' + year, start, end]);
+    }
+    windows.push(...years);
     if (flex.dynamic.some(row => row.enabled && (row.type === 'Fear' || row.id === 'fear'))) {
       return { blocked: true, rows: [] };
     }
@@ -85,13 +95,13 @@
         const samples = [...signals].filter(([at]) => at >= bars[0].t && at <= bars.at(-1).t);
         const usable = samples.filter(([, signal]) => [signal.score, signal.ema200, signal.btcDD].every(Number.isFinite));
         if (!usable.length) {
-          rows.push({ label, mode, status: 'Thiếu dữ liệu', usable: 0, weeks: samples.length });
+          rows.push({ label, mode, from: bars[0].t, through: bars.at(-1).t, status: 'Thiếu dữ liệu', usable: 0, weeks: samples.length });
           continue;
         }
         const stats = root.MISCES.simulateCustom(bars, signals,
           { ...options, rules: rulesFor(mode) }, mode);
         const cagr = 100 * ((stats.final / options.capital) ** (365.25 / (bars.length - 1)) - 1);
-        rows.push({ label, mode, status: stats.buyCount ? 'Có giao dịch' : 'Không giao dịch',
+        rows.push({ label, mode, from: bars[0].t, through: bars.at(-1).t, status: stats.buyCount ? 'Có giao dịch' : 'Không giao dịch',
           usable: usable.length, weeks: samples.length, buys: stats.buyCount, roi: stats.roi,
           mdd: stats.mdd, mae: stats.mae, cagr, calmar: stats.mdd < 0 ? cagr / Math.abs(stats.mdd) : null,
           benchmark: 100 * (bars.at(-1).c / bars[0].o - 1) });

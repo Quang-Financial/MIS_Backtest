@@ -21,3 +21,10 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/mis-http.log 2>&1 &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8765/index.html >/dev/null && break; sleep 1; done
           node tests/browser-smoke.cjs
+          mis_fixture_dir=$(mktemp -d)
+          for coin in SOL AVAX LINK BNB OKB; do
+            gzip -dc "tests/fixtures/${coin,,}-okx-2026-11-24.json.gz" >"$mis_fixture_dir/$coin.json"
+          done
+          gzip -dc tests/fixtures/btcusd-bitstamp.json.gz >"$mis_fixture_dir/BTC.json"
+          gzip -dc tests/fixtures/fear-alternative-me.json.gz >"$mis_fixture_dir/Fear.json"
+          MIS_BTC_SPRINT=1 node tests/market-caller-parity.cjs "$mis_fixture_dir" "$mis_fixture_dir/BTC.json" "$mis_fixture_dir/Fear.json"
