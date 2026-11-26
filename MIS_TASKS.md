@@ -73,3 +73,11 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - [x] Kiểm tra kích hoạt webhook PR mới với mã riêng và chống trùng trên GitHub.
 - [ ] Ba vòng tự động có ACK và mốc thời gian; xác nhận độc lập định tuyến đúng vai trò.
 - [x] Giữ lịch dự phòng theo giờ; UX tiếp tục hoãn.
+
+### Triển khai song song
+
+- [x] B: chi tiết chỉ báo có trường dễ đọc và phân biệt tỷ phần/trọng số, kiểm định chưa liên kết ghi rõ.
+- [x] B: ghim snapshot tại Tổng quan, dùng lại trong Auto Backtest qua IndexedDB.
+- [x] B: xác minh replay ETH trên nến thật và kiểm thử năm màn hình bằng fixture.
+- [ ] B: hồi quy thị trường các Altcoin còn lại; review độc lập và provenance Fear.
+- [ ] A: ma trận T01–T06, ưu tiên tách output-only ra khỏi thao tác connector.

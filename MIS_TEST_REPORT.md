@@ -211,3 +211,25 @@ Kiểm tra hai yêu cầu tạo cùng tệp trên nhánh thử: một commit th�
 CDS-003 run `8e196fbf-657c-8323-936a-605de0a5992f`: bắt đầu 00:42:19.310 UTC, kết thúc 00:45:52.867 UTC (213,56 giây), trạng thái cuối `no_update`. Không có kết quả chi tiết, chat_ref, lỗi hoặc thông báo cần phê duyệt trong dữ liệu truy cập được. Môi trường ghi inherited, chưa xác minh connector thực sự được gọi. Quyền đọc/ghi trực tiếp và lần reviewer theo giờ đã có bằng chứng riêng; không suy ra quyền hoặc nguyên nhân lỗi của lượt webhook.
 
 CDS-004 bỏ claim và ghi tệp, chỉ đọc PR #4/Issue #5, so marker và GitHub login rồi ghi tối đa một ACK lên Issue #5. Issue thường không là nguồn của trigger PR, tránh tự kích hoạt. Kiểm tra trước khi ghi chưa chứng minh chống trùng nguyên tử khi có nhiều lượt song song. Tạo lúc đầu báo giới hạn 5/5, tạo lại sau khi tác vụ kiểm tra CDS-003 đã ở trạng thái tắt. Không đổi quyền hoặc lịch giờ.
+
+### Luồng B · chi tiết chỉ báo và snapshot ghim
+
+- Chromium desktop/mobile: tám nhóm RSI, EMA, SMA, Fear, RSI/SMA, MACD, ADX, BB. Mỗi nhóm có đúng một hàng, khung và trọng số đúng fixture; tỷ phần 0% cho trọng số 0/chỉ báo tắt, 16,67% cho mỗi chỉ báo còn lại. Chi tiết có trường ngữ nghĩa; JSON chỉ hiện khi mở mục kỹ thuật. Ứng viên chưa liên kết bằng chứng ghi đúng trạng thái chờ.
+- Auto Backtest đọc snapshot ETH đã ghim từ IndexedDB trong tab khác với mạng ngoài bị chặn. Xác nhận hash snapshot, hash cấu hình, CES và gate khớp Tổng quan. Dùng checkbox rõ ràng; mặc định Auto vẫn tải như trước. Snapshot phải khớp tài sản/ngày và hash. Lưu riêng một bản ghim cho mỗi tài sản trong trình duyệt.
+- Dữ liệu thật: 2.000 nến ETH/USDT OKX đã đóng, 2021-06-04 đến 2026-11-24, BTC/USD Bitstamp giữ lịch sử trước ETH. Hai lượt Historical CES-A tái lập 20/20 dòng: 12 thiếu phạm vi, 8 không giao dịch. Đây là replay trên dữ liệu cố định, chưa phải hồi quy sáu Altcoin hoặc parity Live theo thời gian thực. [JSON kết quả](tests/eth-market-results.json).
+- [Ảnh PC](tests/indicator-readable-desktop.png) · [ảnh mobile](tests/indicator-readable-mobile.png) · [log](tests/parallel-browser.log).
+
+### Luồng A · ma trận CDS005
+
+| Test | Tiêu chí và trạng thái |
+|---|---|
+| T01 | Webhook PR #4, đầu ra đúng HELLO CDS005-T01. Prompt cấm mọi công cụ. [START riêng](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179689853). |
+| T02 | BLOCKED bởi T01 chưa xác minh đầu ra. Lượt riêng chỉ đọc ID một comment, trả ID trong kết quả, không ghi. |
+| T03 | BLOCKED trước runtime đọc và trả kết quả ổn định. Lượt riêng ghi một ACK sang Issue #5 để tránh tự kích hoạt PR. |
+| T04 | So sánh từng lớp. Work hiện tại đọc và ghi được qua GitHub; lịch reviewer đã đo một vòng. Webhook có thời điểm started_at, nhưng chưa ghi env thực thi, chat_ref, tool call hoặc quyền runtime trong kết quả truy cập được. Không quy lỗi vào connector, quyền, cấu hình hay môi trường. |
+| T05 | BLOCKED xác minh reviewer độc lập qua sự kiện. Schema gốc có webhook PR; chưa có đích được xác thực cho một phiên Kiến trúc sư riêng hoặc đúng phiên đang có. |
+| T06 | BLOCKED, chỉ chạy ba vòng có đối chiếu ID, độ trễ và ngưỡng STOP sau khi T01–T05 đạt. |
+
+Nguồn đối chiếu: [Scheduled Tasks](https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt), [Work/Codex](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex), [GitHub Connector](https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt). Tác vụ webhook hỗ trợ hoạt động PR được cấp quyền; đọc connector trong Work tương tác không chứng minh thao tác trong lượt webhook. Duy trì lịch dự phòng và STOP các POC cũ.
+
+T01 **PASS wake / BLOCKED đầu ra**. Run c8792726-4858-8320-8c8d-6f222f32912f bắt đầu 01:21:26.177 UTC. Tại 01:25:13 UTC tạm dừng; sau khoảng 227 giây chưa có HELLO, kết quả hoặc lỗi, run vẫn in_progress ở lần đọc cuối trước khi dừng. Kết quả cho thấy hiện tượng có thể tái hiện với prompt không yêu cầu GitHub; chưa biết launcher, runner, output delivery hoặc lý do khác. Giữ T02/T03 tạm chặn để tránh lặp mất kiểm soát.

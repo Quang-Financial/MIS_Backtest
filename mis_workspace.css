@@ -77,3 +77,6 @@ iframe{min-height:0;vertical-align:top}
   .indicator-table td::before{content:attr(data-label);color:#475e68;font-size:.8rem}
   .indicator-table td details{grid-column:2}
 }
+.indicator-table dl{display:grid;gap:4px;margin:5px 0;font-size:.82rem}
+.indicator-table dt{font-weight:650}.indicator-table dd{margin:0 0 5px}
+.indicator-table pre{white-space:pre-wrap;overflow-wrap:anywhere}

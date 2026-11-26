@@ -19,6 +19,7 @@ const MISOverview = (() => {
   let zoneIndex = null;
   let emaLine = null;
   let zoneBand = null;
+  let currentSnapshot = null;
 
   function draw() {
     const canvas = at('chart');
@@ -164,7 +165,8 @@ const MISOverview = (() => {
         const btc = coin === 'BTC' ? bars : await fullDaily('BTC');
         const observations = await fearDaily().catch(() => new Map());
         if (asset !== coin) return;
-        const { a, b, end, fear, snapshotId } = await researchSnapshot(coin, bars, btc, observations);
+        const snapshot = await researchSnapshot(coin, bars, btc, observations);
+        const { a, b, end, fear, snapshotId } = snapshot;
         const saved = CESShared.load();
         const flex = CESAuto.lock(saved);
         const adjusted = saved.btcDrawdown !== flex.btcDrawdown || saved.belowEMA200 !== flex.belowEMA200;
@@ -178,6 +180,8 @@ const MISOverview = (() => {
         renderSignal(...entry, flex, end, adjusted);
         at('identity').textContent = 'Cấu hình ' + strategyId.slice(0, 12) + ' · Snapshot ' + snapshotId.slice(0, 12);
         at('identity').title = strategyId + ' / ' + snapshotId;
+        currentSnapshot = snapshot;
+        at('pin').disabled = false;
       } catch (error) {
         if (asset !== coin) return;
         reset();
@@ -191,6 +195,9 @@ const MISOverview = (() => {
   }
 
   function reset() {
+    currentSnapshot = null;
+    at('pin').disabled = true;
+    at('pin-status').textContent = '';
     at('identity').textContent = 'Cấu hình và snapshot: chờ dữ liệu';
     at('identity').removeAttribute('title');
     emaLine = null;
@@ -221,5 +228,19 @@ const MISOverview = (() => {
 
   new ResizeObserver(draw).observe(at('chart'));
   at('refresh').addEventListener('click', refresh);
+  at('pin').addEventListener('click', async () => {
+    const snapshot = currentSnapshot;
+    if (!snapshot) return;
+    const coin = asset;
+    at('pin').disabled = true;
+    try {
+      await pinnedResearchSnapshot(coin, snapshot);
+      if (snapshot === currentSnapshot) at('pin-status').textContent = 'Đã ghim ' + coin + ' đến ' + date(snapshot.end);
+    } catch {
+      if (snapshot === currentSnapshot) at('pin-status').textContent = 'Không lưu được snapshot.';
+    } finally {
+      if (snapshot === currentSnapshot) at('pin').disabled = false;
+    }
+  });
   return { select };
 })();

@@ -41,3 +41,7 @@ CDS-002 được ưu tiên theo lệnh 7178436261. Lịch điều phối hiện 
 CDS-003 xác minh wake Work 7,31 giây và claim GitHub 1/2, chặn trùng tạo tệp. 0/3 vòng tự động, webhook thử đã tạm dừng. Tiếp tục dùng lịch reviewer hiện có; tạm hoãn UX.
 
 CDS-004: PASS wake 9,20 giây. ACK đơn BLOCKED, phép thử tạm dừng. Chưa xác định nguyên nhân nền tảng; giữ fallback theo giờ.
+
+Hai luồng tiếp tục độc lập. Luồng B bổ sung snapshot ghim và trình bày chỉ báo, có smoke Chromium và replay ETH. Luồng A kiểm tra T01 độc lập để tách connector khỏi đường xuất kết quả.
+
+CDS005 T01 đã đánh thức Work và được tạm dừng sau khoảng 227 giây chưa có đầu ra. T02/T03 chờ xác minh runner; T05/T06 chưa nghiệm thu. Bản thử V1.7 đã cập nhật Staging.

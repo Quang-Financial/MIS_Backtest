@@ -64,7 +64,8 @@ function renderLibrary() {
       item.textContent = text;
       gates.append(item);
     }
-    weight.textContent = 'Tổng trọng số đang bật: ' + CESDynamic.validate(flex.dynamic) + ' · chuẩn hóa điểm về 100.';
+    const total = CESDynamic.validate(flex.dynamic);
+    weight.textContent = 'Tổng trọng số đang bật: ' + total + ' · điểm chuẩn hóa trên 100.';
     const legacyFrame = {weekly:'1W',daily:'1D',ema:'1W',fear:'1D',base:'1W'};
     for (const row of flex.dynamic) {
       const name = CESDynamic.name(row);
@@ -90,10 +91,34 @@ function renderLibrary() {
       const extra = document.createElement('details');
       const summary = document.createElement('summary');
       summary.textContent = 'Chi tiết';
-      const description = document.createElement('p');
-      description.textContent = (row.hardMax == null ? '' : 'Ngưỡng bắt buộc: ' + row.hardMax + '. ') +
-        'Tham số thực thi: ' + JSON.stringify(row) + '. Nguồn: cấu hình nghiên cứu hiện tại. Bằng chứng kiểm định chưa liên kết.';
-      extra.append(summary, description);
+      const details = document.createElement('dl');
+      const share = row.enabled ? 100 * row.weight / total : 0;
+      const fields = [
+        ['Khung thời gian', frame], ['Thông số thực thi', parameters || 'Chưa có'],
+        ['Trọng số gốc', String(row.weight)],
+        ['Tỷ phần chuẩn hóa', share.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) + '%'],
+        ['Bộ lọc chỉ báo', !row.enabled ? 'Tắt' : !row.hard ? 'Không bắt buộc'
+          : row.hardMax == null ? 'Phải đạt điều kiện' : 'Giá trị ≤ ' + row.hardMax],
+        ['Cách tính điểm', !row.enabled ? 'Không tham gia' : row.points
+          ? 'Nội suy theo các mốc giá trị → điểm và chuẩn hóa theo tổng trọng số'
+          : 'Đạt điều kiện: nhận tỷ phần chuẩn hóa; không đạt: 0 điểm'],
+        ['Dữ liệu tại thời điểm đánh giá', row.enabled ? 'Chưa đối chiếu dữ liệu của snapshot' : 'Không áp dụng'],
+        ['Nguồn và kiểm định', 'Cấu hình nghiên cứu hiện tại · Bằng chứng kiểm định chưa liên kết'],
+      ];
+      for (const [label, value] of fields) {
+        const term = document.createElement('dt');
+        const content = document.createElement('dd');
+        term.textContent = label;
+        content.textContent = value;
+        details.append(term, content);
+      }
+      const raw = document.createElement('details');
+      const rawTitle = document.createElement('summary');
+      rawTitle.textContent = 'JSON kỹ thuật';
+      const json = document.createElement('pre');
+      json.textContent = JSON.stringify(row, null, 2);
+      raw.append(rawTitle, json);
+      extra.append(summary, details, raw);
       item.cells[2].append(extra);
     }
   } catch (error) {
@@ -108,10 +133,9 @@ function renderLibrary() {
     const description = document.createElement('p');
     description.textContent = 'Đối chứng nghiên cứu · CES ≥ ' + candidate.flex.threshold +
       ' · BTC giảm ≥ ' + candidate.flex.btcDrawdown + '% · Chưa duyệt kích hoạt.';
-    const link = document.createElement('a');
-    link.href = '#research';
-    link.textContent = 'Mở bằng chứng Research';
-    detail.append(summary, description, link);
+    const evidence = document.createElement('p');
+    evidence.textContent = 'Bằng chứng Research của ứng viên: chưa liên kết.';
+    detail.append(summary, description, evidence);
     item.append(detail);
     return item;
   }));

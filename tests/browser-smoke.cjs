@@ -92,18 +92,16 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      await page.getByText('WATCH · Vùng giả thuyết, điểm CES chưa đạt.',{exact:true}).waitFor();
      assert.match(await page.locator('#overview-gate-dd').textContent(),/40%/);
      assert.match(await page.locator('#overview-approval').textContent(),/khác khóa/);
+     await page.locator('#overview-pin').click();
+     await page.getByText(/Đã ghim ETH đến/).waitFor();
      const liveIdentity=await page.locator('#overview-identity').getAttribute('title');
      assert.match(liveIdentity,/^[a-f0-9]{64} \/ [a-f0-9]{64}$/);
      const parityPage=await context.newPage();
      try{
-      await parityPage.route(market,route=>{
-       const cursor=Number(new URL(route.request().url()).searchParams.get('after'))||Infinity;
-       return route.fulfill({json:{code:'0',data:fixture.filter(row=>Number(row[0])<cursor).slice(-100).reverse()}});
-      });
-      await parityPage.route(sentiment,route=>route.fulfill({json:{data:fixture.map(row=>({timestamp:String(Number(row[0])/1000),value:'20'}))}}));
       await parityPage.goto('http://127.0.0.1:8765/ces_auto.html');
       await parityPage.selectOption('#coin','ETH');
       await parityPage.selectOption('#research','ablation');
+      await parityPage.locator('#usePinned').check();
       await parityPage.fill('#to',new Date(today-dailyMs).toISOString().slice(0,10));
       await parityPage.evaluate(()=>{
        const original=CESDynamic.signals;
@@ -118,6 +116,7 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
       assert.match(await parityPage.locator('#status').textContent(),/Hoàn tất/);
       const provenance=await parityPage.evaluate(()=>report.provenance);
       assert.equal(provenance.effectiveStrategyId+' / '+provenance.snapshotId,liveIdentity);
+      assert.equal(provenance.inputMode,'pinned');
       assert.equal(provenance.originalBase.btcDrawdown,0);
       assert.equal(provenance.base.btcDrawdown,40);
       const signal=await parityPage.evaluate(()=>globalThis.firstAutoSignal);
@@ -163,14 +162,18 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
       assert.equal(cells[4],index===7?'Tắt':index===0?'Bật · bắt buộc':'Bật');
       const toggle=row.getByText('Chi tiết',{exact:true});
       await toggle.click();
-      assert.match(await row.locator('details p').textContent(),/qa-/);
-      assert.equal(await row.locator('details').evaluate(node=>node.open),true);
+      assert.match(await row.locator('details dl').textContent(),/Tỷ phần chuẩn hóa/);
+      assert.match(await row.locator('details dl').textContent(),index===7?/Không tham gia/:/nhận tỷ phần/);
+      assert.match(await row.locator('details dl dd').nth(3).textContent(),index===0||index===7?/^0%$/:/^16,67%$/);
+      await row.getByText('JSON kỹ thuật',{exact:true}).click();
+      assert.match(await row.locator('pre').textContent(),/qa-/);
+      assert.equal(await row.locator('details').first().evaluate(node=>node.open),true);
       await toggle.click();
-      assert.equal(await row.locator('details').evaluate(node=>node.open),false);
+      assert.equal(await row.locator('details').first().evaluate(node=>node.open),false);
      }
      for(const item of await page.locator('#workspace-candidates li').all()){
       await item.locator('summary').click();
-      assert.equal(await item.getByRole('link').getAttribute('href'),'#research');
+      assert.match(await item.textContent(),/chưa liên kết/);
       await item.locator('summary').click();
      }
      await rows[5].getByText('Chi tiết',{exact:true}).click();

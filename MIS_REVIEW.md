@@ -80,3 +80,8 @@ Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275
 - PASS kích hoạt: PR START [7179403991](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179403991) 01:04:22 UTC → run `7f8d6630-181c-832f-948e-6f92a12eccc6` 01:04:31.196 UTC, 9,20 giây.
 - BLOCKED ACK: không thấy ACK, không có kết quả hoặc lỗi connector, chưa thấy timestamp kết thúc trước khi tạm dừng vào 01:07:24 UTC (khoảng 173 giây từ start). Không đo được thời gian ghi hoặc chứng minh chống trùng. [STOP](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179456056). Cả hai POC trước vẫn dừng.
 - Kiểm thử tối giản cũng chưa phản hồi, nên loại được việc **bắt buộc phải claim** khỏi luồng thử, nhưng chưa xác định lỗi thực thi hay quyền connector. Giao tiếp hai AI và 3 vòng chưa chạy vì cổng kiểm chứng ACK chưa đạt. Tiếp tục fallback theo giờ đã kiểm chứng.
+
+### 7179541586 / 7179540936 · hai luồng
+
+- Luồng B PASS trên Chromium: chi tiết chỉ báo có ngữ nghĩa, trạng thái kiểm định rõ, Auto dùng lại snapshot ghim. Replay ETH thật PASS tái lập; 12 dòng thiếu dữ liệu, 8 không lệnh, chưa xác minh các Altcoin còn lại và dữ liệu Fear theo thời điểm công bố.
+- Luồng A theo dõi T01–T06 trong MIS_TEST_REPORT. T01 được thiết kế để tách khả năng trả kết quả khỏi GitHub. Reviewer theo giờ tiếp tục làm dự phòng.

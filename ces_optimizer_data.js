@@ -53,3 +53,30 @@ async function researchSnapshot(coin, assetBars, btcBars, fear, requestedEnd = I
     asset: aligned.a, btc: aligned.b, fear: [...sentiment] });
   return { ...aligned, fear: sentiment, snapshotId };
 }
+
+// A separate database keeps pinned research inputs away from existing reports.
+async function pinnedResearchSnapshot(coin, value) {
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open('mis-research-snapshots-v1', 1);
+    request.onupgradeneeded = () => request.result.createObjectStore('snapshots');
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  try {
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction('snapshots', value ? 'readwrite' : 'readonly');
+      const store = tx.objectStore('snapshots');
+      const request = value ? store.put(value, coin) : store.get(coin);
+      tx.oncomplete = () => resolve(request.result);
+      tx.onerror = tx.onabort = () => reject(tx.error || Error('Không thể lưu snapshot'));
+    });
+  } finally { db.close(); }
+}
+
+async function restorePinnedResearch(coin, requestedEnd) {
+  const saved = await pinnedResearchSnapshot(coin);
+  if (!saved || saved.end !== requestedEnd) throw Error('Snapshot đã ghim không khớp tài sản và ngày kết thúc');
+  const restored = await researchSnapshot(coin, saved.a, saved.b, saved.fear, saved.end);
+  if (restored.snapshotId !== saved.snapshotId) throw Error('Hash snapshot đã ghim không hợp lệ');
+  return restored;
+}
