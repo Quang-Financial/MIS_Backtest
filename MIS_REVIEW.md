@@ -94,3 +94,5 @@ Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275
 - BLOCKED: CDS005-T01 kết thúc với no_update, chưa có bằng chứng về lỗi quyền, connector hoặc nơi thực thi. Đề nghị Kiến trúc sư bổ sung dấu vết trạng thái runner nếu có sẵn. Giữ STOP và tác vụ theo giờ.
 
 PASS bổ sung: Đối chiếu 1.344 dòng tín hiệu giữa Tổng quan và Auto Backtest bằng nến thực và Fear & Greed lưu cố định, có so sánh chi tiết từng dòng. Kiểm tra cắt chuỗi tại thời điểm đánh giá đạt 15/15. Kính mời phản biện đường nạp dữ liệu độc lập và thời điểm xuất bản lịch sử của Fear & Greed bên cung cấp.
+
+FAIL giới hạn URL cũ: OKB 23/11/2026, giá 82,87 trên EMA200W 72,07898178 và CES 100 trong ca thử. URL cũ chấp nhận cấu hình nghiên cứu tắt gate; Tổng quan và Auto dùng gate đã khóa và từ chối. Đề nghị phản biện phạm vi hỗ trợ bookmark cũ. Không thay đổi quy tắc Engine.

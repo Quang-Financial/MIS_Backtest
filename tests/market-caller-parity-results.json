@@ -11,7 +11,12 @@
   "results": [
     {
       "coin": "SOL",
+      "layout": "desktop",
       "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
       "fearDays": 3215,
       "prefixDates": [
         "2025-04-07T00:00:00.000Z",
@@ -111,7 +116,12 @@
     },
     {
       "coin": "AVAX",
+      "layout": "desktop",
       "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
       "fearDays": 3215,
       "prefixDates": [
         "2025-04-07T00:00:00.000Z",
@@ -211,7 +221,12 @@
     },
     {
       "coin": "LINK",
+      "layout": "desktop",
       "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
       "fearDays": 3215,
       "prefixDates": [
         "2025-04-07T00:00:00.000Z",
@@ -311,7 +326,12 @@
     },
     {
       "coin": "OKB",
+      "layout": "desktop",
       "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
       "fearDays": 3215,
       "prefixDates": [
         "2025-04-07T00:00:00.000Z",
@@ -411,7 +431,537 @@
     },
     {
       "coin": "BNB",
+      "layout": "desktop",
       "comparedWeeklyRows": 204,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
+      "fearDays": 3215,
+      "prefixDates": [
+        "2026-10-26T00:00:00.000Z",
+        "2026-11-09T00:00:00.000Z",
+        "2026-11-23T00:00:00.000Z"
+      ],
+      "closedThrough": "2026-11-24",
+      "timestamp": 1795392000000,
+      "signal": {
+        "date": "2026-11-23",
+        "close": 559.59,
+        "ema200": 562.395172010025,
+        "btcDD": -51.55731278509883,
+        "fear": 11,
+        "score": 47.78517849702436,
+        "valid": false,
+        "reason": "Hard Filter không đạt",
+        "rsiWeekly": 36.82594929171833,
+        "rsiDaily": 28.040774704509218,
+        "ema20": 677.1389206004748,
+        "ema50": 691.346754684982,
+        "rsiSma": 54.294971573071564,
+        "emaCross": false,
+        "rsiCross": false,
+        "parts": {
+          "weekly": 16.51323375410438,
+          "daily": 17.130530601505843,
+          "ema": 0,
+          "fear": 14.141414141414142,
+          "base": 0
+        },
+        "hardFailures": [
+          "weekly",
+          "daily",
+          "fear"
+        ],
+        "ath": 126272,
+        "athDate": "2025-10-06",
+        "btcClose": 61169.55,
+        "details": [
+          {
+            "name": "RSI14 tuần",
+            "weight": 30,
+            "enabled": true,
+            "a": 36.82594929171833,
+            "pass": false,
+            "points": 16.513233754104377,
+            "hard": true
+          },
+          {
+            "name": "RSI14 ngày",
+            "weight": 20,
+            "enabled": true,
+            "a": 28.040774704509218,
+            "pass": false,
+            "points": 17.130530601505843,
+            "hard": true
+          },
+          {
+            "name": "EMA20/50 tuần",
+            "weight": 25,
+            "enabled": true,
+            "a": 677.1389206004748,
+            "b": 691.346754684982,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          },
+          {
+            "name": "Fear & Greed",
+            "weight": 15,
+            "enabled": true,
+            "a": 11,
+            "pass": false,
+            "points": 14.141414141414142,
+            "hard": true
+          },
+          {
+            "name": "RSI14/SMA14 tuần",
+            "weight": 9,
+            "enabled": true,
+            "a": 36.82594929171833,
+            "b": 54.294971573071564,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          }
+        ]
+      },
+      "gates": {
+        "drawdown": true,
+        "ema200": true,
+        "score": false
+      },
+      "snapshotId": "b1eaf674f0eec2d18a3244783ca17882be2c143023668ad0888c36cd1fe6ed2b",
+      "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
+    },
+    {
+      "coin": "SOL",
+      "layout": "mobile",
+      "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
+      "fearDays": 3215,
+      "prefixDates": [
+        "2025-04-07T00:00:00.000Z",
+        "2026-02-02T00:00:00.000Z",
+        "2026-11-23T00:00:00.000Z"
+      ],
+      "closedThrough": "2026-11-24",
+      "timestamp": 1795392000000,
+      "signal": {
+        "date": "2026-11-23",
+        "close": 70.73,
+        "ema200": 108.03847492698661,
+        "btcDD": -51.55731278509883,
+        "fear": 11,
+        "score": 47.785270504887364,
+        "valid": false,
+        "reason": "Hard Filter không đạt",
+        "rsiWeekly": 36.776679726017335,
+        "rsiDaily": 28.13922274812684,
+        "ema20": 92.43117203423553,
+        "ema50": 102.46382152216849,
+        "rsiSma": 53.46375337981447,
+        "emaCross": false,
+        "rsiCross": false,
+        "parts": {
+          "weekly": 16.61276823026801,
+          "daily": 17.031088133205213,
+          "ema": 0,
+          "fear": 14.141414141414142,
+          "base": 0
+        },
+        "hardFailures": [
+          "weekly",
+          "daily",
+          "fear"
+        ],
+        "ath": 126272,
+        "athDate": "2025-10-06",
+        "btcClose": 61169.55,
+        "details": [
+          {
+            "name": "RSI14 tuần",
+            "weight": 30,
+            "enabled": true,
+            "a": 36.776679726017335,
+            "pass": false,
+            "points": 16.61276823026801,
+            "hard": true
+          },
+          {
+            "name": "RSI14 ngày",
+            "weight": 20,
+            "enabled": true,
+            "a": 28.13922274812684,
+            "pass": false,
+            "points": 17.031088133205213,
+            "hard": true
+          },
+          {
+            "name": "EMA20/50 tuần",
+            "weight": 25,
+            "enabled": true,
+            "a": 92.43117203423553,
+            "b": 102.46382152216849,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          },
+          {
+            "name": "Fear & Greed",
+            "weight": 15,
+            "enabled": true,
+            "a": 11,
+            "pass": false,
+            "points": 14.141414141414142,
+            "hard": true
+          },
+          {
+            "name": "RSI14/SMA14 tuần",
+            "weight": 9,
+            "enabled": true,
+            "a": 36.776679726017335,
+            "b": 53.46375337981447,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          }
+        ]
+      },
+      "gates": {
+        "drawdown": true,
+        "ema200": true,
+        "score": false
+      },
+      "snapshotId": "09c7c7716376e324ac3c6216fd9c992f71d30bc4607ff22e3ece45595020217c",
+      "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
+    },
+    {
+      "coin": "AVAX",
+      "layout": "mobile",
+      "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
+      "fearDays": 3215,
+      "prefixDates": [
+        "2025-04-07T00:00:00.000Z",
+        "2026-02-02T00:00:00.000Z",
+        "2026-11-23T00:00:00.000Z"
+      ],
+      "closedThrough": "2026-11-24",
+      "timestamp": 1795392000000,
+      "signal": {
+        "date": "2026-11-23",
+        "close": 6.687,
+        "ema200": 21.83032036695025,
+        "btcDD": -51.55731278509883,
+        "fear": 11,
+        "score": 39.12311386938799,
+        "valid": false,
+        "reason": "Hard Filter không đạt",
+        "rsiWeekly": 39.108117182291025,
+        "rsiDaily": 32.05188290472384,
+        "ema20": 8.470699652778276,
+        "ema50": 10.544197674736049,
+        "rsiSma": 49.419113271548305,
+        "emaCross": false,
+        "rsiCross": false,
+        "parts": {
+          "weekly": 11.90279357112924,
+          "daily": 13.078906156844607,
+          "ema": 0,
+          "fear": 14.141414141414142,
+          "base": 0
+        },
+        "hardFailures": [
+          "weekly",
+          "daily",
+          "fear"
+        ],
+        "ath": 126272,
+        "athDate": "2025-10-06",
+        "btcClose": 61169.55,
+        "details": [
+          {
+            "name": "RSI14 tuần",
+            "weight": 30,
+            "enabled": true,
+            "a": 39.108117182291025,
+            "pass": false,
+            "points": 11.90279357112924,
+            "hard": true
+          },
+          {
+            "name": "RSI14 ngày",
+            "weight": 20,
+            "enabled": true,
+            "a": 32.05188290472384,
+            "pass": false,
+            "points": 13.078906156844607,
+            "hard": true
+          },
+          {
+            "name": "EMA20/50 tuần",
+            "weight": 25,
+            "enabled": true,
+            "a": 8.470699652778276,
+            "b": 10.544197674736049,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          },
+          {
+            "name": "Fear & Greed",
+            "weight": 15,
+            "enabled": true,
+            "a": 11,
+            "pass": false,
+            "points": 14.141414141414142,
+            "hard": true
+          },
+          {
+            "name": "RSI14/SMA14 tuần",
+            "weight": 9,
+            "enabled": true,
+            "a": 39.108117182291025,
+            "b": 49.419113271548305,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          }
+        ]
+      },
+      "gates": {
+        "drawdown": true,
+        "ema200": true,
+        "score": false
+      },
+      "snapshotId": "e17a98a0de9be595241bce02187b95e370677e8583f8f883b0b9c2638e250080",
+      "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
+    },
+    {
+      "coin": "LINK",
+      "layout": "mobile",
+      "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
+      "fearDays": 3215,
+      "prefixDates": [
+        "2025-04-07T00:00:00.000Z",
+        "2026-02-02T00:00:00.000Z",
+        "2026-11-23T00:00:00.000Z"
+      ],
+      "closedThrough": "2026-11-24",
+      "timestamp": 1795392000000,
+      "signal": {
+        "date": "2026-11-23",
+        "close": 8.824,
+        "ema200": 13.01069495102061,
+        "btcDD": -51.55731278509883,
+        "fear": 11,
+        "score": 25.942703648859744,
+        "valid": false,
+        "reason": "Hard Filter không đạt",
+        "rsiWeekly": 41.266374248871635,
+        "rsiDaily": 33.316723387628855,
+        "ema20": 10.773192832320277,
+        "ema50": 11.268863395700507,
+        "rsiSma": 55.50091010137852,
+        "emaCross": false,
+        "rsiCross": false,
+        "parts": {
+          "weekly": 0,
+          "daily": 11.801289507445603,
+          "ema": 0,
+          "fear": 14.141414141414142,
+          "base": 0
+        },
+        "hardFailures": [
+          "weekly",
+          "daily",
+          "fear"
+        ],
+        "ath": 126272,
+        "athDate": "2025-10-06",
+        "btcClose": 61169.55,
+        "details": [
+          {
+            "name": "RSI14 tuần",
+            "weight": 30,
+            "enabled": true,
+            "a": 41.266374248871635,
+            "pass": false,
+            "points": 0,
+            "hard": true
+          },
+          {
+            "name": "RSI14 ngày",
+            "weight": 20,
+            "enabled": true,
+            "a": 33.316723387628855,
+            "pass": false,
+            "points": 11.801289507445603,
+            "hard": true
+          },
+          {
+            "name": "EMA20/50 tuần",
+            "weight": 25,
+            "enabled": true,
+            "a": 10.773192832320277,
+            "b": 11.268863395700507,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          },
+          {
+            "name": "Fear & Greed",
+            "weight": 15,
+            "enabled": true,
+            "a": 11,
+            "pass": false,
+            "points": 14.141414141414142,
+            "hard": true
+          },
+          {
+            "name": "RSI14/SMA14 tuần",
+            "weight": 9,
+            "enabled": true,
+            "a": 41.266374248871635,
+            "b": 55.50091010137852,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          }
+        ]
+      },
+      "gates": {
+        "drawdown": true,
+        "ema200": true,
+        "score": false
+      },
+      "snapshotId": "c39e8ef5c0cd9161791523954811cd1bb1cc7adbb59309378b33b93340d3ecee",
+      "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
+    },
+    {
+      "coin": "OKB",
+      "layout": "mobile",
+      "comparedWeeklyRows": 285,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
+      "fearDays": 3215,
+      "prefixDates": [
+        "2025-04-07T00:00:00.000Z",
+        "2026-02-02T00:00:00.000Z",
+        "2026-11-23T00:00:00.000Z"
+      ],
+      "closedThrough": "2026-11-24",
+      "timestamp": 1795392000000,
+      "signal": {
+        "date": "2026-11-23",
+        "close": 82.87,
+        "ema200": 72.07898178393938,
+        "btcDD": -51.55731278509883,
+        "fear": 11,
+        "score": 41.37739545051002,
+        "valid": false,
+        "reason": "Giá chưa dưới EMA200",
+        "rsiWeekly": 38.463155337931575,
+        "rsiDaily": 31.110067828131932,
+        "ema20": 102.06094810634832,
+        "ema50": 98.34337068119429,
+        "rsiSma": 59.734008836494596,
+        "emaCross": false,
+        "rsiCross": false,
+        "parts": {
+          "weekly": 13.205746792057425,
+          "daily": 14.030234517038451,
+          "ema": 0,
+          "fear": 14.141414141414142,
+          "base": 0
+        },
+        "hardFailures": [
+          "weekly",
+          "daily",
+          "fear"
+        ],
+        "ath": 126272,
+        "athDate": "2025-10-06",
+        "btcClose": 61169.55,
+        "details": [
+          {
+            "name": "RSI14 tuần",
+            "weight": 30,
+            "enabled": true,
+            "a": 38.463155337931575,
+            "pass": false,
+            "points": 13.205746792057425,
+            "hard": true
+          },
+          {
+            "name": "RSI14 ngày",
+            "weight": 20,
+            "enabled": true,
+            "a": 31.110067828131932,
+            "pass": false,
+            "points": 14.030234517038451,
+            "hard": true
+          },
+          {
+            "name": "EMA20/50 tuần",
+            "weight": 25,
+            "enabled": true,
+            "a": 102.06094810634832,
+            "b": 98.34337068119429,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          },
+          {
+            "name": "Fear & Greed",
+            "weight": 15,
+            "enabled": true,
+            "a": 11,
+            "pass": false,
+            "points": 14.141414141414142,
+            "hard": true
+          },
+          {
+            "name": "RSI14/SMA14 tuần",
+            "weight": 9,
+            "enabled": true,
+            "a": 38.463155337931575,
+            "b": 59.734008836494596,
+            "pass": false,
+            "points": 0,
+            "hard": false
+          }
+        ]
+      },
+      "gates": {
+        "drawdown": true,
+        "ema200": false,
+        "score": false
+      },
+      "snapshotId": "2e0953c9c5f3bf29efdb6a04e4232f0b2ea0ab3c07f4e8860d99f9ed28472687",
+      "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
+    },
+    {
+      "coin": "BNB",
+      "layout": "mobile",
+      "comparedWeeklyRows": 204,
+      "inputModes": [
+        "pinned",
+        "network"
+      ],
       "fearDays": 3215,
       "prefixDates": [
         "2026-10-26T00:00:00.000Z",
@@ -509,5 +1059,16 @@
       "snapshotId": "b1eaf674f0eec2d18a3244783ca17882be2c143023668ad0888c36cd1fe6ed2b",
       "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
     }
-  ]
+  ],
+  "legacyComparison": {
+    "coin": "OKB",
+    "date": "2026-11-23",
+    "close": 82.87,
+    "ema200": 72.07898178393938,
+    "score": 100,
+    "legacyValid": true,
+    "overviewValid": false,
+    "legacyReason": "Đủ điều kiện",
+    "overviewReason": "Giá chưa dưới EMA200"
+  }
 }

@@ -140,7 +140,12 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
       await parityPage.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Lỗi:'));
       assert.match(await parityPage.locator('#status').textContent(),/Hash snapshot đã ghim không hợp lệ/);
       await parityPage.evaluate(()=>pinnedResearchSnapshot('ETH',globalThis.originalPinnedFixture));
-      assert.equal(await parityPage.evaluate(async()=>!(await pinnedResearchSnapshot('SOL'))),true);
+      await parityPage.selectOption('#coin','SOL');
+      await parityPage.click('#run');
+      await parityPage.getByText(/Snapshot đã ghim không khớp tài sản/).waitFor();
+      await parityPage.selectOption('#coin','ETH');
+      await parityPage.click('#run');
+      await parityPage.getByText('Hoàn tất · đã lưu trên thiết bị',{exact:true}).waitFor();
       console.log(name,'pinned input rejects wrong date and tampered hash; no cross-asset reuse');
      }finally{await parityPage.close();}
      await page.unroute(market);

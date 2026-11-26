@@ -12,6 +12,7 @@ const day = 86400000;
 const now = end + day + 12 * 3600000;
 const origin = 'http://127.0.0.1:8765';
 const coins = ['SOL', 'AVAX', 'LINK', 'OKB', 'BNB'];
+const viewports = { desktop: { width: 1440, height: 900 }, mobile: { width: 414, height: 896 } };
 const hashes = {};
 function load(path, key) {
   const bytes = readFileSync(path);
@@ -35,30 +36,54 @@ async function hookSignals(page) {
   });
 }
 
-async function parity(browser, coin) {
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+async function marketRoutes(context) {
+  await context.addInitScript(value => { Date.now = () => value; }, now);
+  await context.route('**/*', route => {
+    const url = new URL(route.request().url());
+    if (url.origin === origin) {
+      if (url.pathname === '/btc_bitstamp_preokx.json') {
+        return route.fulfill({ json: { bars: btc.map(({ t, o, h, l, c }) => [t, o, h, l, c]) } });
+      }
+      return route.continue();
+    }
+    if (url.hostname === 'api.alternative.me' && url.pathname === '/fng/') {
+      return route.fulfill({ json: { data: fear } });
+    }
+    if (url.hostname === 'www.okx.com' && url.pathname.endsWith('/history-candles')) {
+      const ticker = url.searchParams.get('instId')?.split('-')[0];
+      const cursor = Number(url.searchParams.get('after')) || Infinity;
+      const rows = (markets[ticker] ?? []).filter(bar => bar.t < cursor)
+        .slice(-100).reverse().map(bar => [bar.t, bar.o, bar.h, bar.l, bar.c, 0, 0, 0, 1].map(String));
+      return route.fulfill({ json: { code: '0', data: rows } });
+    }
+    return route.abort();
+  });
+}
+
+async function runAuto(page, coin, inputMode) {
+  await page.goto(origin + '/ces_auto.html');
+  await hookSignals(page);
+  await page.selectOption('#coin', coin);
+  await page.selectOption('#research', 'ablation');
+  await page.fill('#from', new Date(markets[coin][0].t).toISOString().slice(0, 10));
+  await page.fill('#to', closedThrough);
+  await page.fill('#split', '2025-07-01');
+  await page.locator('#usePinned').setChecked(inputMode === 'pinned');
+  await page.click('#run');
+  await page.waitForFunction(() => !document.querySelector('#run').disabled);
+  assert.match(await page.locator('#status').textContent(), /Hoàn tất/);
+  const provenance = await page.evaluate(() => report.provenance);
+  assert.equal(provenance.closedThrough, closedThrough);
+  assert.equal(provenance.inputMode, inputMode);
+  const signals = await page.evaluate(() => globalThis.baselineSignals);
+  const fearDays = await page.evaluate(() => globalThis.baselineFearDays);
+  return { provenance, signals, fearDays };
+}
+
+async function parity(browser, coin, layout, viewport) {
+  const context = await browser.newContext({ viewport });
   try {
-    await context.addInitScript(value => { Date.now = () => value; }, now);
-    await context.route('**/*', route => {
-      const url = new URL(route.request().url());
-      if (url.origin === origin) {
-        if (url.pathname === '/btc_bitstamp_preokx.json') {
-          return route.fulfill({ json: { bars: btc.map(({ t, o, h, l, c }) => [t, o, h, l, c]) } });
-        }
-        return route.continue();
-      }
-      if (url.hostname === 'api.alternative.me' && url.pathname === '/fng/') {
-        return route.fulfill({ json: { data: fear } });
-      }
-      if (url.hostname === 'www.okx.com' && url.pathname.endsWith('/history-candles')) {
-        const ticker = url.searchParams.get('instId')?.split('-')[0];
-        const cursor = Number(url.searchParams.get('after')) || Infinity;
-        const rows = (markets[ticker] ?? []).filter(bar => bar.t < cursor)
-          .slice(-100).reverse().map(bar => [bar.t, bar.o, bar.h, bar.l, bar.c, 0, 0, 0, 1].map(String));
-        return route.fulfill({ json: { code: '0', data: rows } });
-      }
-      return route.abort();
-    });
+    await marketRoutes(context);
     const overview = await context.newPage();
     await overview.goto(origin + '/index.html');
     await overview.waitForFunction(() => !document.querySelector('#overview-refresh').disabled);
@@ -69,26 +94,24 @@ async function parity(browser, coin) {
 
     const auto = await context.newPage();
     await auto.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
-    await auto.goto(origin + '/ces_auto.html');
-    await hookSignals(auto);
-    await auto.selectOption('#coin', coin);
-    await auto.selectOption('#research', 'ablation');
-    await auto.fill('#from', new Date(markets[coin][0].t).toISOString().slice(0, 10));
-    await auto.fill('#to', closedThrough);
-    await auto.fill('#split', '2025-07-01');
-    await auto.locator('#usePinned').check();
-    await auto.click('#run');
-    await auto.waitForFunction(() => !document.querySelector('#run').disabled);
-    assert.match(await auto.locator('#status').textContent(), /Hoàn tất/);
-    const provenance = await auto.evaluate(() => report.provenance);
-    assert.equal(provenance.closedThrough, closedThrough);
-    assert.equal(provenance.inputMode, 'pinned');
+    const { provenance, signals: autoSignals, fearDays } = await runAuto(auto, coin, 'pinned');
     assert.equal(await overview.locator('#overview-identity').getAttribute('title'),
       provenance.effectiveStrategyId + ' / ' + provenance.snapshotId);
     const overviewSignals = await overview.evaluate(() => globalThis.baselineSignals);
-    const autoSignals = await auto.evaluate(() => globalThis.baselineSignals);
     assert.ok(overviewSignals.length >= 200);
     assert.deepEqual(autoSignals, overviewSignals);
+
+    const freshContext = await browser.newContext({ viewport });
+    try {
+      await marketRoutes(freshContext);
+      const independent = await runAuto(await freshContext.newPage(), coin, 'network');
+      assert.equal(independent.provenance.snapshotId, provenance.snapshotId);
+      assert.equal(independent.provenance.effectiveStrategyId, provenance.effectiveStrategyId);
+      assert.deepEqual(independent.signals, overviewSignals);
+      assert.deepEqual(independent.fearDays, fearDays);
+    } finally {
+      await freshContext.close();
+    }
     const [timestamp, signal] = overviewSignals.filter(([t]) => t <= end + day).at(-1);
     const anchoredSignals = overviewSignals.filter(([time, row]) => time <= timestamp && Number.isFinite(row.ema200));
     const anchors = [anchoredSignals[0], anchoredSignals[Math.floor(anchoredSignals.length / 2)], anchoredSignals.at(-1)];
@@ -117,11 +140,51 @@ async function parity(browser, coin) {
     assert.equal(await overview.locator('#overview-gate-score').textContent(), gateLabel(gates.score) + ' · ≥ ' + base.threshold);
     assert.equal(await overview.locator('#overview-eligibility').textContent(),
       signal.valid ? 'Điều kiện nghiên cứu đạt' : 'Điều kiện nghiên cứu chưa đạt');
-    const fearDays = await auto.evaluate(() => globalThis.baselineFearDays);
     assert.ok(fearDays.length > 0 && fearDays.every(date => date <= closedThrough));
     assert.deepEqual(await overview.evaluate(() => globalThis.baselineFearDays), fearDays);
-    return { coin, comparedWeeklyRows: overviewSignals.length, fearDays: fearDays.length, prefixDates: anchors.map(([time]) => new Date(time).toISOString()), closedThrough, timestamp, signal, gates,
+    return { coin, layout, comparedWeeklyRows: overviewSignals.length, inputModes: ['pinned', 'network'], fearDays: fearDays.length, prefixDates: anchors.map(([time]) => new Date(time).toISOString()), closedThrough, timestamp, signal, gates,
       snapshotId: provenance.snapshotId, effectiveStrategyId: provenance.effectiveStrategyId };
+  } finally {
+    await context.close();
+  }
+}
+
+async function legacyComparison(browser) {
+  const context = await browser.newContext({ viewport: viewports.desktop });
+  try {
+    await marketRoutes(context);
+    const overview = await context.newPage();
+    await overview.goto(origin + '/index.html');
+    await overview.waitForFunction(() => !document.querySelector('#overview-refresh').disabled);
+    await overview.evaluate(() => {
+      const config = CESShared.load();
+      CESShared.saveCommon({ ...config, btcDrawdown: 0, belowEMA200: false, threshold: 0 });
+      localStorage.setItem('mis-ces-dynamic-v150', JSON.stringify([
+        { id: 'test-fear', type: 'Fear', tf: '1D', enabled: true, hard: false,
+          p: 14, q: 20, s: 5, window: 1, op: 'le', limit: 100, weight: 100 }
+      ]));
+    });
+    await hookSignals(overview);
+    await overview.selectOption('#workspace-asset', 'OKB');
+    await overview.getByText('Đã cập nhật dữ liệu xác nhận.', { exact: true }).waitFor();
+    const legacy = await context.newPage();
+    await legacy.goto(origin + '/ces_monitor.html');
+    await hookSignals(legacy);
+    await legacy.selectOption('#coin', 'OKB');
+    await legacy.click('#update');
+    await legacy.getByText('Đã cập nhật dữ liệu xác nhận.', { exact: true }).waitFor();
+    const legacyRow = await legacy.evaluate(() => globalThis.baselineSignals.at(-1)[1]);
+    const overviewRow = await overview.evaluate(() => globalThis.baselineSignals.at(-1)[1]);
+    assert.equal(legacyRow.close, overviewRow.close);
+    assert.equal(legacyRow.ema200, overviewRow.ema200);
+    assert.equal(legacyRow.score, overviewRow.score);
+    assert.equal(legacyRow.valid, true);
+    assert.equal(overviewRow.valid, false);
+    return {
+      coin: 'OKB', date: overviewRow.date, close: overviewRow.close, ema200: overviewRow.ema200,
+      score: overviewRow.score, legacyValid: legacyRow.valid, overviewValid: overviewRow.valid,
+      legacyReason: legacyRow.reason, overviewReason: overviewRow.reason
+    };
   } finally {
     await context.close();
   }
@@ -131,8 +194,10 @@ async function parity(browser, coin) {
   const browser = await chromium.launch();
   try {
     const results = [];
-    for (const coin of coins) results.push(await parity(browser, coin));
-    console.log(JSON.stringify({ hashes, results }, null, 2));
+    for (const [layout, viewport] of Object.entries(viewports)) {
+      for (const coin of coins) results.push(await parity(browser, coin, layout, viewport));
+    }
+    console.log(JSON.stringify({ hashes, results, legacyComparison: await legacyComparison(browser) }, null, 2));
   } finally {
     await browser.close();
   }
