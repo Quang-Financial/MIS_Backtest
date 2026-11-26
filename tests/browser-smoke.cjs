@@ -255,6 +255,15 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      assert.match(result,/cần 200 tuần/);
      console.log(name,'EMA200 validation uses complete weeks');
     }
+    if(file==='ces_monitor.html'){
+     await page.goto('http://127.0.0.1:8765/ces_monitor.html?coin=okb&belowEMA200=false');
+     await page.waitForURL('http://127.0.0.1:8765/index.html?asset=okb#overview');
+     assert.equal(await page.locator('#workspace-asset').inputValue(),'OKB');
+     assert.equal(await page.locator('#workspace-title').textContent(),'Tổng quan OKB');
+     await page.reload();
+     assert.equal(await page.locator('#workspace-asset').inputValue(),'OKB');
+     console.log(name,'legacy Live bookmark opens canonical Overview and retains asset on reload');
+    }
     if(file==='mis_datahub.html'){
      const fixture=[{t:Date.UTC(2020,0,1),o:100,h:110,l:90,c:105},{t:Date.UTC(2020,0,2),o:105,h:120,l:100,c:115}];
      await page.locator('#file').setInputFiles({name:'synthetic.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(fixture))});
