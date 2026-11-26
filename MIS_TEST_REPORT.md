@@ -205,3 +205,9 @@ Proof cục bộ dùng compare-and-set cho một Git ref theo repository/PR/comm
 Phép thử tách biệt theo [lệnh 7178916202](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178916202). Webhook lọc PR #4 và tác giả; mỗi lượt đọc lại comment, chỉ nhận marker nguyên văn, kiểm tra chuỗi duy nhất và STOP, claim riêng bằng tạo tệp GitHub, chỉ ghi một bước và không retry nếu trạng thái ghi không chắc chắn. Mốc ARCH-3 là điểm dừng. Các marker mô phỏng hai vai trò nên không dùng để xác nhận quyền hoặc phiên Kiến trúc sư độc lập.
 
 Kiểm tra hai yêu cầu tạo cùng tệp trên nhánh thử: một commit thành công `2998d549`, một HTTP 422 vì tệp đã tồn tại. Đây là kiểm tra quyền claim; tác vụ mất kết nối sau khi claim cần đối soát thủ công thay vì gửi lại mù. Lịch giám sát mỗi giờ giữ nguyên.
+
+### CDS-004 · chẩn đoán và ACK tối giản
+
+CDS-003 run `8e196fbf-657c-8323-936a-605de0a5992f`: bắt đầu 00:42:19.310 UTC, kết thúc 00:45:52.867 UTC (213,56 giây), trạng thái cuối `no_update`. Không có kết quả chi tiết, chat_ref, lỗi hoặc thông báo cần phê duyệt trong dữ liệu truy cập được. Môi trường ghi inherited, chưa xác minh connector thực sự được gọi. Quyền đọc/ghi trực tiếp và lần reviewer theo giờ đã có bằng chứng riêng; không suy ra quyền hoặc nguyên nhân lỗi của lượt webhook.
+
+CDS-004 bỏ claim và ghi tệp, chỉ đọc PR #4/Issue #5, so marker và GitHub login rồi ghi tối đa một ACK lên Issue #5. Issue thường không là nguồn của trigger PR, tránh tự kích hoạt. Kiểm tra trước khi ghi chưa chứng minh chống trùng nguyên tử khi có nhiều lượt song song. Tạo lúc đầu báo giới hạn 5/5, tạo lại sau khi tác vụ kiểm tra CDS-003 đã ở trạng thái tắt. Không đổi quyền hoặc lịch giờ.

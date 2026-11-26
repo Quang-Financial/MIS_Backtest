@@ -39,3 +39,5 @@ CDS-002: PASS kích hoạt lượt Work từ PR GitHub, khoảng 10,5 giây tron
 CDS-002 được ưu tiên theo lệnh 7178436261. Lịch điều phối hiện có đang kích hoạt mỗi giờ; vòng QUESTION → ACK qua Issue #5 đã xác minh trong 101 giây nhờ câu hỏi gần mốc chạy. Lịch giữ nguyên. Trạng thái hai chiều theo sự kiện tiếp tục BLOCKED. Không cập nhật ứng dụng hoặc Staging trong vòng này.
 
 CDS-003 xác minh wake Work 7,31 giây và claim GitHub 1/2, chặn trùng tạo tệp. 0/3 vòng tự động, webhook thử đã tạm dừng. Tiếp tục dùng lịch reviewer hiện có; tạm hoãn UX.
+
+CDS-004: PASS wake 9,20 giây. ACK đơn BLOCKED, phép thử tạm dừng. Chưa xác định nguyên nhân nền tảng; giữ fallback theo giờ.

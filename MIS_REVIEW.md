@@ -74,3 +74,9 @@ Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275
 - PASS: một trong hai yêu cầu đồng thời tạo khóa GitHub thành công. Phép thử connector trực tiếp, không chứng minh quyền ghi bên trong lượt webhook.
 - BLOCKED: sau cửa sổ quan sát hơn 150 giây, không có claim WORK-1, không có WORK-1 và scheduler vẫn in_progress không có kết quả. Hoàn thành 0/3 vòng. Chưa xác định tác vụ chờ chạy, chờ công cụ hoặc nguyên nhân khác. Không có bằng chứng cần cấp quyền thêm.
 - Đã tạm dừng webhook mới và đăng [STOP](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179073222). STOP cũ giữ hiệu lực. Reviewer theo giờ tiếp tục, một vòng trước đã đo 101 giây nhờ gần thời điểm chạy. Chưa có trigger ngược xác minh được hoặc định danh riêng từng vai trò.
+
+### CDS-004
+
+- PASS kích hoạt: PR START [7179403991](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179403991) 01:04:22 UTC → run `7f8d6630-181c-832f-948e-6f92a12eccc6` 01:04:31.196 UTC, 9,20 giây.
+- BLOCKED ACK: không thấy ACK, không có kết quả hoặc lỗi connector, chưa thấy timestamp kết thúc trước khi tạm dừng vào 01:07:24 UTC (khoảng 173 giây từ start). Không đo được thời gian ghi hoặc chứng minh chống trùng. [STOP](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179456056). Cả hai POC trước vẫn dừng.
+- Kiểm thử tối giản cũng chưa phản hồi, nên loại được việc **bắt buộc phải claim** khỏi luồng thử, nhưng chưa xác định lỗi thực thi hay quyền connector. Giao tiếp hai AI và 3 vòng chưa chạy vì cổng kiểm chứng ACK chưa đạt. Tiếp tục fallback theo giờ đã kiểm chứng.
