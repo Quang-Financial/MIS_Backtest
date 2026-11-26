@@ -100,3 +100,5 @@ FAIL giới hạn URL cũ: OKB 23/11/2026, giá 82,87 trên EMA200W 72,07898178 
 TEMP-POLL-001: Đã tiếp nhận duy nhất lệnh 7179922441 và phản hồi bằng ACK 7179937702 trên Issue #5. Đây là đường đọc và trả lời trong phiên Work hiện hành. Bằng chứng thời điểm đọc và ghi nằm trong MIS_TEST_REPORT.md.
 
 PASS P0-7180120359: Đường cũ đã dẫn sang Tổng quan, xác minh với cấu hình thử cũ, tham số URL cố tắt gate, reload và mã không hỗ trợ. Khóa nghiên cứu áp dụng tại đường chuẩn, cấu hình lưu được bảo toàn. Nguồn công bố theo thời điểm của Fear & Greed còn BLOCKED.
+
+PASS 7180497757: Năm màn hình đã chạy lại trên desktop/mobile Chromium, ảnh và log cập nhật. Bản đóng gói Staging tái lập JSON đối chiếu thị trường độc lập. Xem ma trận điều hướng, storage, snapshot và gate tại MIS_TEST_REPORT.md. SUI vẫn chưa đủ warmup; mốc xuất bản lịch sử của Fear & Greed chưa được xác minh.

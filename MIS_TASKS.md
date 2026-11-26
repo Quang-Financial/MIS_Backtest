@@ -94,3 +94,4 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - FAIL: URL Live Monitor cũ có thể khác Tổng quan vì áp bộ lọc theo cấu hình lưu. Đã ghi số liệu OKB cụ thể và chuyển Kiến trúc sư phản biện đường tương thích.
 - PASS TEMP-POLL-001: Nhận lệnh thật và gửi một ACK trong cửa sổ kiểm tra Cloud. CDS V1.1 T02/T03/T05/T06 vẫn chờ dữ kiện từ runner hoặc đích Kiến trúc sư độc lập.
 - PASS P0-7180120359: Bookmark Live Monitor cũ mở Tổng quan, giữ mã hợp lệ và áp cùng gate sau reload trên desktop/mobile. Kiểm tra thời điểm xuất bản lịch sử của Fear & Greed còn mở.
+- PASS 7180497757: Ma trận QA tích hợp năm màn hình, 10 ảnh và log. Bản đóng gói Staging tái lập kết quả market-caller và kiểm tra bookmark. SUI và provenance công bố Fear vẫn còn giới hạn.

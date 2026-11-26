@@ -57,3 +57,5 @@ Parity đường chuẩn đạt trên desktop/mobile Chromium cả khi Auto dùn
 TEMP-POLL-001 xác minh kiểm tra Issue #5 và PR #4 trong phiên Cloud đang hoạt động. Kết quả chi tiết ở MIS_TEST_REPORT.md. Khi cửa sổ kiểm tra kết thúc, tác vụ dự phòng theo giờ tiếp tục. Hai workflow ở 70acba07 đều PASS ([smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45737427675), [browser](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45737427683)).
 
 P0 Live Monitor cũ đã xử lý: bookmark mở Tổng quan cùng mã hợp lệ, và ca OKB CES 100 vẫn chặn ở EMA200W sau reload. Kiểm thử trên Chromium desktop/mobile. Giám sát tạm thời đã kết thúc với 16 lần đọc mỗi luồng và 2 ACK cho hai ID riêng.
+
+QA tích hợp V1.7 trả kết quả cho 7180497757. Năm màn hình PASS trên Chromium desktop/mobile. Báo cáo có 10 ảnh, log và ranh giới dữ liệu thị trường. Staging vẫn chạy mã ứng dụng từ a75b7bc; commit 677b2bed bổ sung kiểm thử bookmark, không sửa mã ứng dụng.
