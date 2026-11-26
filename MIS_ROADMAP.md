@@ -25,4 +25,21 @@
 
 UX-5-SCREENS triển khai theo thứ tự bảo vệ trạng thái Tổng quan → tóm tắt và mở rộng chi tiết cho năm màn hình → kiểm tra ảnh và phản biện độc lập. Nghiên cứu vùng mua, snapshot thống nhất và so sánh báo cáo A/B được theo dõi riêng.
 
-**CDS-002 · P0 phối hợp**: xác minh webhook gốc và khả năng định tuyến đến đúng phiên trước khi mở rộng hai chiều. Dùng giao thức Issue/PR V1.0 trong lúc phần định tuyến còn mở. So sánh polling theo giờ và đọc theo yêu cầu trong MIS_TEST_REPORT, chưa bật polling.
+**Điều phối:** áp dụng Fast Execution hiện hành; native wake còn BLOCKED, không lặp thử nghiệm thiếu hướng mới.
+
+## Kế hoạch ưu tiên bản tích hợp đủ chức năng test (26/11/2026)
+Theo chỉ đạo chủ dự án, xây khung toàn bộ CES Spot trước, hạng mục khó đạt mức trung gian 80%, tối ưu đồng bộ sau. Không phải phê duyệt chiến lược mới hoặc release. Dự toán ngày làm việc hữu hiệu, chưa đo throughput và không bảo đảm ngày lịch:
+
+| Gói | Mốc | Ngày dự kiến |
+|---|---|---:|
+| A | V1.7.0 khung 5 màn hình | 0,5 |
+| A | V1.7.1 vùng mua | 1–1,5 |
+| A | V1.7.2 chỉ báo | 1–1,5 |
+| A | V1.7.3 đa khung/chu kỳ, A/B | 1–2 |
+| A | V1.7.4 tích hợp | 0,5–1 |
+| B | V1.8.0 Live Decision nghiên cứu | 1–1,5 |
+| B | V1.8.1 Paper Trading | 0,5–1 |
+| C | V1.9.0 vốn/danh mục mô phỏng | 0,5–1 |
+| Tổng | Bản test tích hợp | 6–10 |
+
+MIS02 thực hiện tuần tự theo phụ thuộc, MIS03 chuẩn bị test song song và retest trực tiếp; MIS01 theo dõi milestone, hỗ trợ blocker. Không dừng để tối ưu thẩm mỹ nhỏ hoặc nghiệm thu release từng mốc. Mỗi chức năng phải có luồng test thực, phần thiếu ghi pending/disabled, không giả lập kết quả thành thật. Giữ hard gates, causal data, bảo toàn dữ liệu, cấu hình chưa duyệt không kích hoạt, SUI/Fear provenance ghi giới hạn. V2.0 ngoài phạm vi. Sau bản test, lập backlog tối ưu và dự toán cuối theo bằng chứng; thời gian paper observation và chờ phiên Work không nằm trong 6–10 ngày. Tiêu chuẩn [V1.7](MIS_DESIGN_STANDARD.md).
