@@ -1,0 +1,93 @@
+{
+  "btcSha256": "89168eb95d1094f6224d131e64cc30c1548c94c946f214c5f4755a3932625b74",
+  "rows": [
+    {
+      "coin": "SOL",
+      "sha256": "c458acae16650d993247049d780b6f1b71186051aa5ba1da45ad2ba63c98ed33",
+      "candles": 2000,
+      "failedPages": [],
+      "result": "PASS",
+      "snapshotId": "6a33d04b432fa345eb86335bc3f3dbd319d36b455767d315c0466c14a379fa0a",
+      "from": "2021-06-04",
+      "to": "2026-11-24",
+      "historicalRows": 20,
+      "matchedGateWeeks": 285,
+      "statusCounts": {
+        "Insufficient Data": 12,
+        "No Trade": 8
+      }
+    },
+    {
+      "coin": "AVAX",
+      "sha256": "eea5124e64eedd271f97f60c1ab8c2f47c925766c0d262999cb066e7400b0084",
+      "candles": 2000,
+      "failedPages": [],
+      "result": "PASS",
+      "snapshotId": "813109acf1dd9d36bcc4c949f46d9a28752cc403dcfb9182bd111ee6c2da894f",
+      "from": "2021-06-04",
+      "to": "2026-11-24",
+      "historicalRows": 20,
+      "matchedGateWeeks": 285,
+      "statusCounts": {
+        "Insufficient Data": 12,
+        "No Trade": 8
+      }
+    },
+    {
+      "coin": "LINK",
+      "sha256": "63ba6edc1f02752f7b867b8bf6e8696cd6a63d3ff1028897c07b823350578a9e",
+      "candles": 2000,
+      "failedPages": [],
+      "result": "PASS",
+      "snapshotId": "8d4c9e11bf2eade4a685b00663f06e8876e714ddc1c2763b8575693ce7038bb6",
+      "from": "2021-06-04",
+      "to": "2026-11-24",
+      "historicalRows": 20,
+      "matchedGateWeeks": 285,
+      "statusCounts": {
+        "Insufficient Data": 12,
+        "No Trade": 8
+      }
+    },
+    {
+      "coin": "BNB",
+      "sha256": "58dd55aaccb1701be3abcd7483de40b05e561954527741cf60ada9379b9a3385",
+      "candles": 1435,
+      "failedPages": [],
+      "result": "PASS",
+      "snapshotId": "f6f48f07a417afb2609ca6174bee5e94b3039d8d119c037d99c963400f28bb61",
+      "from": "2022-12-21",
+      "to": "2026-11-24",
+      "historicalRows": 20,
+      "matchedGateWeeks": 204,
+      "statusCounts": {
+        "Insufficient Data": 12,
+        "No Trade": 8
+      }
+    },
+    {
+      "coin": "OKB",
+      "sha256": "fe1557496ea719e3693086b207320d42dce0975b0bb7bcb690ab613dd8abd813",
+      "candles": 2000,
+      "failedPages": [],
+      "result": "PASS",
+      "snapshotId": "1906eab07e748cd5d2ce13e41bb07c075609c17be485db4fa0adf3bb02503acd",
+      "from": "2021-06-04",
+      "to": "2026-11-24",
+      "historicalRows": 20,
+      "matchedGateWeeks": 285,
+      "statusCounts": {
+        "Insufficient Data": 12,
+        "No Trade": 8
+      }
+    },
+    {
+      "coin": "SUI",
+      "sha256": "f1a048c6ba0a6e4eb110fded7a83367265dc5910ab278f8183405f8aec3a32cd",
+      "candles": 1302,
+      "failedPages": [],
+      "result": "BLOCKED",
+      "reason": "SUI chỉ có 185 tuần đầy đủ; cần 200 tuần để khởi tạo EMA200 tuần."
+    }
+  ]
+}

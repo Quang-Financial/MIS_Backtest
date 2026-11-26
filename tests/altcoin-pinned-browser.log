@@ -1,0 +1,26 @@
+desktop actual Auto/Overview config and closed snapshot hashes match
+desktop pinned input rejects wrong date and tampered hash; no cross-asset reuse
+desktop MIS five-screen navigation and asset context passed
+desktop index.html loaded
+desktop mis_market.html loaded
+desktop ces_optimizer.html loaded
+desktop ces_auto.html loaded
+desktop EMA200 validation uses complete weeks
+desktop ces_history.html loaded
+desktop ces_monitor.html loaded
+desktop Data Hub synthetic import, IndexedDB reload and audit passed
+desktop mis_datahub.html loaded
+desktop ces_compare.html loaded
+mobile-chromium actual Auto/Overview config and closed snapshot hashes match
+mobile-chromium pinned input rejects wrong date and tampered hash; no cross-asset reuse
+mobile-chromium MIS five-screen navigation and asset context passed
+mobile-chromium index.html loaded
+mobile-chromium mis_market.html loaded
+mobile-chromium ces_optimizer.html loaded
+mobile-chromium ces_auto.html loaded
+mobile-chromium EMA200 validation uses complete weeks
+mobile-chromium ces_history.html loaded
+mobile-chromium ces_monitor.html loaded
+mobile-chromium Data Hub synthetic import, IndexedDB reload and audit passed
+mobile-chromium mis_datahub.html loaded
+mobile-chromium ces_compare.html loaded

@@ -127,6 +127,21 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
       assert.equal(await page.locator('#overview-gate-ema').textContent(),'Đạt');
       assert.match(await page.locator('#overview-gate-score').textContent(),/^Chưa đạt/);
       console.log(name,'actual Auto/Overview config and closed snapshot hashes match');
+      await parityPage.evaluate(async()=>{ globalThis.originalPinnedFixture=await pinnedResearchSnapshot('ETH'); });
+      await parityPage.fill('#to',new Date(today-2*dailyMs).toISOString().slice(0,10));
+      await parityPage.click('#run');
+      await parityPage.getByText(/Snapshot đã ghim không khớp/).waitFor();
+      await parityPage.fill('#to',new Date(today-dailyMs).toISOString().slice(0,10));
+      await parityPage.evaluate(async()=>{
+       await pinnedResearchSnapshot('ETH',{...globalThis.originalPinnedFixture,snapshotId:'0'.repeat(64)});
+       document.querySelector('#status').textContent='';
+      });
+      await parityPage.click('#run');
+      await parityPage.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Lỗi:'));
+      assert.match(await parityPage.locator('#status').textContent(),/Hash snapshot đã ghim không hợp lệ/);
+      await parityPage.evaluate(()=>pinnedResearchSnapshot('ETH',globalThis.originalPinnedFixture));
+      assert.equal(await parityPage.evaluate(async()=>!(await pinnedResearchSnapshot('SOL'))),true);
+      console.log(name,'pinned input rejects wrong date and tampered hash; no cross-asset reuse');
      }finally{await parityPage.close();}
      await page.unroute(market);
      await page.unroute(sentiment);

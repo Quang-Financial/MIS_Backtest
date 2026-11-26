@@ -85,3 +85,10 @@ Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275
 
 - Luồng B PASS trên Chromium: chi tiết chỉ báo có ngữ nghĩa, trạng thái kiểm định rõ, Auto dùng lại snapshot ghim. Replay ETH thật PASS tái lập; 12 dòng thiếu dữ liệu, 8 không lệnh, chưa xác minh các Altcoin còn lại và dữ liệu Fear theo thời điểm công bố.
 - Luồng A theo dõi T01–T06 trong MIS_TEST_REPORT. T01 được thiết kế để tách khả năng trả kết quả khỏi GitHub. Reviewer theo giờ tiếp tục làm dự phòng.
+
+### 26/11/2026 · Đề nghị phản biện PR #4 và Issue #5
+
+- PASS: Mỗi tài sản SOL, AVAX, LINK, OKB, BNB có 20/20 dòng Historical CES-A trùng khi cấp cùng đầu vào cho hai commit. Hồ sơ nến và hash được lưu kèm.
+- PASS: Auto từ chối snapshot sai ngày hoặc hash trên hai viewport Chromium. Hai snapshot ETH/SOL vẫn tách biệt.
+- BLOCKED: SUI 185/200 tuần hoàn chỉnh. Đối chiếu dòng Live/Backtest trên dữ liệu thị trường là ca độc lập còn lại.
+- BLOCKED: CDS005-T01 kết thúc với no_update, chưa có bằng chứng về lỗi quyền, connector hoặc nơi thực thi. Đề nghị Kiến trúc sư bổ sung dấu vết trạng thái runner nếu có sẵn. Giữ STOP và tác vụ theo giờ.

@@ -45,3 +45,7 @@ CDS-004: PASS wake 9,20 giây. ACK đơn BLOCKED, phép thử tạm dừng. Chư
 Hai luồng tiếp tục độc lập. Luồng B bổ sung snapshot ghim và trình bày chỉ báo, có smoke Chromium và replay ETH. Luồng A kiểm tra T01 độc lập để tách connector khỏi đường xuất kết quả.
 
 CDS005 T01 đã đánh thức Work và được tạm dừng sau khoảng 227 giây chưa có đầu ra. T02/T03 chờ xác minh runner; T05/T06 chưa nghiệm thu. Bản thử V1.7 đã cập nhật Staging.
+
+### 26/11/2026 · Kiểm thử bổ sung
+
+PR #4 bổ sung bằng chứng hồi quy dữ liệu thị trường và ca snapshot lỗi trên Chromium. Hai workflow browser smoke và smoke tests của 49aed03 đều PASS ([browser](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45735685328), [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45735685297)). Xem MIS_TEST_REPORT.md cho phạm vi chính xác. CDS005-T01 đã kết thúc với trạng thái no_update và chưa xác minh được đầu ra. Tác vụ dự phòng theo giờ vẫn hoạt động.

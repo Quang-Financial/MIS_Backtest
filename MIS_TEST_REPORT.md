@@ -233,3 +233,18 @@ CDS-004 bỏ claim và ghi tệp, chỉ đọc PR #4/Issue #5, so marker và Git
 Nguồn đối chiếu: [Scheduled Tasks](https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt), [Work/Codex](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex), [GitHub Connector](https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt). Tác vụ webhook hỗ trợ hoạt động PR được cấp quyền; đọc connector trong Work tương tác không chứng minh thao tác trong lượt webhook. Duy trì lịch dự phòng và STOP các POC cũ.
 
 T01 **PASS wake / BLOCKED đầu ra**. Run c8792726-4858-8320-8c8d-6f222f32912f bắt đầu 01:21:26.177 UTC. Tại 01:25:13 UTC tạm dừng; sau khoảng 227 giây chưa có HELLO, kết quả hoặc lỗi, run vẫn in_progress ở lần đọc cuối trước khi dừng. Kết quả cho thấy hiện tượng có thể tái hiện với prompt không yêu cầu GitHub; chưa biết launcher, runner, output delivery hoặc lý do khác. Giữ T02/T03 tạm chặn để tránh lặp mất kiểm soát.
+
+### 26/11/2026 · Hồi quy Altcoin và snapshot
+
+| Hạng mục | Kết quả |
+|---|---|
+| SOL, AVAX, LINK, OKB | PASS, mỗi mã 2.000 nến 1D UTC OKX, 20/20 dòng Historical CES-A khớp baseline 544b21f, 285 điểm so sánh BTC Drawdown |
+| BNB | PASS, 1.435 nến, 20/20 dòng khớp, 204 điểm so sánh BTC Drawdown |
+| SUI | BLOCKED, 1.302 nến và 185 tuần hoàn chỉnh so với yêu cầu 200 |
+| Chromium desktop/mobile | PASS, xác minh Auto Backtest với trường hợp ngày sai, hash bị sửa và cách ly ETH/SOL |
+
+Mốc nến cuối 24/11/2026 UTC. Các mã đủ warmup đều có 12 dòng Insufficient Data và 8 dòng No Trade. Kết quả kiểm chứng ổn định khi cấp cùng đầu vào, với Fear & Greed trống. ETH được replay riêng tại 49aed03. [JSON](tests/altcoin-market-regression-results.json) · [log Chromium](tests/altcoin-pinned-browser.log).
+
+Tái lập bằng cách giải nén các tệp OKX trong `tests/fixtures` và lưu mỗi tệp theo tên mã viết hoa, ví dụ `SOL.json`. Chạy `node tests/altcoin-market-regression.cjs <thư-mục-OKX> <btc-bitstamp.json> <checkout-544b21f>`. Dùng SHA-256 của BTC và từng mã trong JSON kết quả để xác nhận đầu vào.
+
+CDS005-T01 · PASS wake / BLOCKED HELLO. Run ghi nhận trạng thái cuối `no_update` lúc 01:29:21.709 UTC, sau 475,532 giây kể từ lúc bắt đầu. `chat_ref` và `latest_result` đều trống. Đã tạm dừng T01 trước khi trạng thái kết thúc. Hiện có bằng chứng rằng sự kiện tới và một lần chạy được ghi nhận. Giai đoạn thực thi prompt và chuyển kết quả còn thiếu telemetry.
