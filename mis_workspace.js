@@ -33,6 +33,16 @@ function syncAsset(doc) {
   select.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
+function markDisclosure(summary, caption) {
+  summary.parentElement.classList.add('mis-disclosure');
+  summary.setAttribute('aria-label', 'Xem giải thích/chi tiết: ' + caption);
+  const mark = summary.ownerDocument.createElement('span');
+  mark.setAttribute('aria-hidden', 'true');
+  mark.className = 'disclosure-mark';
+  mark.textContent = '*';
+  summary.append(mark);
+}
+
 function renderLibrary() {
   const get = suffix => document.querySelector('#workspace-' + suffix);
   const config = get('config');
@@ -90,7 +100,7 @@ function renderLibrary() {
       }
       const extra = document.createElement('details');
       const summary = document.createElement('summary');
-      summary.textContent = 'Chi tiết';
+      summary.textContent = 'Cách tính và nguồn';
       const details = document.createElement('dl');
       const share = row.enabled ? 100 * row.weight / total : 0;
       const fields = [
@@ -119,6 +129,7 @@ function renderLibrary() {
       json.textContent = JSON.stringify(row, null, 2);
       raw.append(rawTitle, json);
       extra.append(summary, details, raw);
+      markDisclosure(summary, name);
       item.cells[2].append(extra);
     }
   } catch (error) {
@@ -136,6 +147,7 @@ function renderLibrary() {
     const evidence = document.createElement('p');
     evidence.textContent = 'Bằng chứng Research của ứng viên: chưa liên kết.';
     detail.append(summary, description, evidence);
+    markDisclosure(summary, id);
     item.append(detail);
     return item;
   }));
@@ -157,6 +169,7 @@ function collapse(doc, title, nodes, anchor = nodes[0]) {
   const heading = doc.createElement('summary');
   heading.textContent = title;
   details.append(heading);
+  markDisclosure(heading, title);
   anchor.before(details);
   details.append(...targets);
 }
@@ -167,9 +180,8 @@ function refineTool(doc, file) {
     const result = get('results').closest('section');
     const setup = get('run').closest('section');
     setup.before(result);
-    collapse(doc, 'Chi tiết kết quả, kiểm toán và xuất báo cáo',
-      [get('researchAudit'), get('results'), doc.querySelector('[data-export]')?.parentElement, get('exportSize')]);
-    const thresholdFields = ['capital','fee','slip','mdd','mae','goal','library','import','split']
+    collapse(doc, 'Phương pháp và kiểm toán', [result.querySelector('small'), get('researchAudit')], get('results'));
+    const thresholdFields = ['capital','mdd','mae','goal','library','import','split']
       .map(id => get(id)?.closest('label'));
     const indicators = doc.querySelector('[data-type]')?.closest('.grid');
     collapse(doc, 'Cài đặt nâng cao', [...thresholdFields, indicators, get('importStatus')], get('run'));
@@ -186,12 +198,13 @@ function refineTool(doc, file) {
     collapse(doc, 'Cài đặt điều kiện và bộ chỉ báo', [rules, factors]);
     setup.append(run, status);
   }
+  if (file === 'ces_history.html') {
+    collapse(doc, 'Phương pháp kiểm chứng', [get('run').closest('section').querySelector('h3 + p')]);
+  }
   if (file === 'mis_datahub.html') {
     const inventory = get('inventory');
     const sources = inventory.closest('section');
-    const audit = get('audit').closest('section');
-    collapse(doc, 'Quản lý nguồn, nhập dữ liệu', [sources]);
-    collapse(doc, 'Kiểm toán, đối chiếu và xuất dữ liệu', [audit]);
+    collapse(doc, 'Phương pháp dữ liệu và định dạng nhập', [...sources.querySelectorAll(':scope > p')]);
     let currentQuery = 0;
     async function syncSummary() {
       const query = ++currentQuery;
@@ -237,7 +250,11 @@ function frameFor(route, container = frames) {
       'section, article {border-radius:12px !important;max-width:100%}' +
       'details>summary {cursor:pointer;font-weight:650;padding:8px}' +
       'pre {white-space:pre-wrap;overflow-wrap:anywhere}' +
-      'label,input,select,button {max-width:100%}';
+      'label,input,select,button {max-width:100%}' +
+      '.mis-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;list-style:none}' +
+      '.mis-disclosure>summary::-webkit-details-marker{display:none}.disclosure-mark{font-weight:750;font-size:1.2rem}' +
+      '.mis-disclosure>summary:focus-visible{outline:3px solid #176450;outline-offset:2px}';
+    doc.head.append(embedStyle);
     const coinControl = doc.getElementById('coin');
     const coinLabel = coinControl?.closest('label') ?? coinControl?.closest('.coin-picker') ?? coinControl;
     if (coinLabel) coinLabel.hidden = true;
@@ -251,11 +268,15 @@ function frameFor(route, container = frames) {
     refineTool(doc, route.file);
     const resize = () => {
       if (!doc.body || frame.hidden || !frame.getClientRects().length) return;
-      const height = Math.ceil(doc.body.getBoundingClientRect().bottom + (parseFloat(doc.defaultView.getComputedStyle(doc.body).marginBottom) || 0));
+      const body = doc.body;
+      const bounds = body.getBoundingClientRect();
+      const margin = parseFloat(doc.defaultView.getComputedStyle(body).marginBottom) || 0;
+      const height = Math.ceil(Math.max(bounds.bottom, bounds.top + body.scrollHeight) + margin);
       if (height && frame.height !== String(height)) frame.height = height;
     };
     const observer = new ResizeObserver(resize);
     observer.observe(doc.body);
+    doc.addEventListener('toggle', resize, true);
     frame.addEventListener('load', () => {
       observer.disconnect();
       frame.removeEventListener('workspace-visible', resize);
@@ -330,6 +351,9 @@ asset.addEventListener('change', () => {
 historyPanel.addEventListener('toggle', () => { if (activeScreen === 'research') render('research'); });
 window.addEventListener('hashchange', () => render(location.hash.slice(1)));
 window.addEventListener('popstate', () => render(location.hash.slice(1)));
+for (const summary of document.querySelectorAll('details[data-explanation] > summary')) {
+  markDisclosure(summary, summary.textContent);
+}
 const linkedAsset = new URLSearchParams(location.search).get('asset')?.trim().toUpperCase();
 if (Array.from(asset.options).some(option => option.value === linkedAsset)) asset.value = linkedAsset;
 render(location.hash.slice(1));

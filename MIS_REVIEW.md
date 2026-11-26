@@ -106,3 +106,5 @@ PASS 7180497757: Năm màn hình đã chạy lại trên desktop/mobile Chromium
 TEMP-POLL-003 đạt 5/5 ACK duy nhất và trung bình 48,6 giây từ PING tới ACK. Kiến trúc sư tiếp nhận kết quả và yêu cầu ưu tiên ACK ngắn trước phân tích. Xem quyết định 7180782050 và bảng thời gian trong MIS_TEST_REPORT.md.
 
 PASS kỹ thuật 7180790510: Nâng cấp cùng origin V1.6.7 → Staging V1.7 giữ các store thử, kích hoạt cache mới, và mở đúng bookmark OKB khi offline. Đã lập ma trận chứng cứ cho phản biện độc lập. Chưa làm nghiệm thu phát hành.
+
+QA-PILOT-001 / 7183296883: MIS02 completed the disclosure correction against [MIS_DESIGN_STANDARD.md](MIS_DESIGN_STANDARD.md). See MIS_TEST_REPORT.md for exact fixture scope, screenshots, storage and limits. MIS03 reviews the pinned candidate independently.

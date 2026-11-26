@@ -53,13 +53,28 @@
       <ul id="workspace-candidates"></ul>
     </section>
     <section id="workspace-overview" aria-label="Theo dõi thị trường">
+      <section class="overview-card overview-action" aria-labelledby="decision-title">
+        <div class="overview-card-head">
+          <h2 id="decision-title">Kết luận và hành động</h2>
+          <button id="overview-refresh" type="button">Cập nhật dữ liệu</button>
+        </div>
+        <p id="overview-decision" role="status">WAIT · Chờ dữ liệu đã xác nhận.</p>
+        <p id="overview-status">Đang chờ dữ liệu</p>
+        <dl class="overview-decision">
+          <dt>Điều kiện mua</dt><dd id="overview-eligibility">Chờ dữ liệu</dd>
+          <dt>Giải ngân</dt><dd>Chưa kích hoạt</dd>
+        </dl>
+      </section>
       <div class="overview-meta">
-        <p id="overview-source">Nguồn: OKX · Bitstamp BTC/USD cho lịch sử bổ sung · Alternative.me</p>
+        <p id="overview-source">Nguồn: OKX · Bitstamp BTC/USD cho lịch sử bổ sung · Fear &amp; Greed BTC từ Alternative.me (tham chiếu chung cho Altcoin)</p>
         <p id="overview-asof">As-of: — · Nến xác nhận: —</p>
         <p><button id="overview-pin" type="button" disabled>Ghim snapshot cho Auto Backtest</button> <span id="overview-pin-status" role="status"></span></p>
-        <p id="overview-identity">Cấu hình và snapshot: chờ dữ liệu</p>
         <p id="overview-approval">Chiến lược: Chưa có hồ sơ kích hoạt được phê duyệt</p>
       </div>
+      <details data-explanation>
+        <summary>Nhận diện cấu hình và snapshot</summary>
+        <p id="overview-identity">Cấu hình và snapshot: chờ dữ liệu</p>
+      </details>
       <div class="overview-metrics" aria-label="Chỉ số thị trường">
         <article><span>Giá hiện tại</span><strong id="overview-price">Chưa có dữ liệu</strong><small id="overview-price-time">—</small></article>
         <article><span>Giai đoạn chu kỳ</span><strong>Chờ nghiên cứu</strong></article>
@@ -84,7 +99,10 @@
               <li>Z2 <small>45–50%</small></li><li>Z3 <small>50–55%</small></li>
               <li>Z4 <small>55–60%</small></li><li>Z5 <small>60–70%</small></li><li>Z6 <small>≥70%</small></li>
             </ol>
-            <p>Dải tô trên biểu đồ (khi nằm trong khung giá) là vùng giả thuyết Z3 50–55%. Các vùng vẫn chờ kiểm định.</p>
+            <details data-explanation>
+              <summary>Cách đọc dải vùng mua</summary>
+              <p>Dải tô trên biểu đồ (khi nằm trong khung giá) là vùng giả thuyết Z3 50–55%. Các vùng vẫn chờ kiểm định.</p>
+            </details>
           </section>
           <section class="overview-frames" aria-label="Nghiên cứu đa khung">
             <article><strong>1M · Chu kỳ</strong><p>Chờ nghiên cứu</p></article>
@@ -94,19 +112,13 @@
         </div>
         <div class="overview-column">
           <section class="overview-card" aria-labelledby="signal-title">
-            <div class="overview-card-head"><h2 id="signal-title">Trạng thái thị trường</h2><button id="overview-refresh" type="button">Cập nhật</button></div>
-            <p id="overview-status" role="status">Đang chờ dữ liệu</p>
+            <h2 id="signal-title">Điểm và điều kiện CES</h2>
             <div class="overview-score"><span>Điểm CES</span><strong id="overview-score">— / 100</strong><p id="overview-gap">Còn thiếu điểm: —</p></div>
             <ol id="overview-gates" class="overview-gates">
               <li>Drawdown BTC <strong id="overview-gate-dd">Chờ dữ liệu</strong></li>
               <li>Giá đóng tuần dưới EMA200W <strong id="overview-gate-ema">Chờ dữ liệu</strong></li>
               <li>Ngưỡng CES <strong id="overview-gate-score">Chờ dữ liệu</strong></li>
             </ol>
-          </section>
-          <section class="overview-card" aria-labelledby="decision-title">
-            <h2 id="decision-title">Kết luận và hành động</h2>
-            <p id="overview-decision">WAIT · Chờ dữ liệu đã xác nhận.</p>
-            <dl class="overview-decision"><dt>Điều kiện mua</dt><dd id="overview-eligibility">Chờ dữ liệu</dd><dt>Giải ngân</dt><dd>Chưa kích hoạt</dd></dl>
           </section>
         </div>
       </div>
@@ -124,7 +136,11 @@
         <div><dt>Ngoài mẫu (OOS)</dt><dd>Chờ kiểm định vùng mua</dd></div>
         <div><dt>1M · 1W · 1D</dt><dd>Chờ nghiên cứu</dd></div>
       </dl>
-      <details id="workspace-history"><summary>Chi tiết Historical Research</summary></details>
+      <details data-explanation>
+        <summary>Phạm vi bằng chứng vùng mua</summary>
+        <p>Các chỉ số vùng mua chờ nghiên cứu. Historical Research kiểm tra ứng viên cố định và có phạm vi kết quả riêng.</p>
+      </details>
+      <details id="workspace-history"><summary>Mở Historical Research</summary></details>
     </section>
     <section id="workspace-data" class="overview-card" hidden>
       <h2>Độ phủ và chất lượng dữ liệu</h2>

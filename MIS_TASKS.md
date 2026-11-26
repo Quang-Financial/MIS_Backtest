@@ -97,3 +97,4 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - PASS 7180497757: Ma trận QA tích hợp năm màn hình, 10 ảnh và log. Bản đóng gói Staging tái lập kết quả market-caller và kiểm tra bookmark. SUI và provenance công bố Fear vẫn còn giới hạn.
 - PASS vận chuyển TEMP-POLL-003: 5/5 ACK, 3/5 dưới 60 giây. Áp dụng ACK ngắn trước MIS_REVIEW theo quyết định 7180782050. CDS hai chiều theo sự kiện tiếp tục BLOCKED.
 - PASS 7180790510: Ma trận nghiệm thu kỹ thuật và ca cập nhật Service Worker V1.6.7 → gói Staging V1.7 trên origin cô lập. Còn chờ phản biện độc lập; các giới hạn SUI, Fear và iPhone được ghi rõ.
+- QA-PILOT-001: Disclosure UI, keyboard/touch, stale/missing recovery and storage regressions run by MIS02; independent retest assigned by pinned SHA on PR #4.

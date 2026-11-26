@@ -1,11 +1,34 @@
 const { chromium, webkit } = require('playwright');
 const assert = require('node:assert/strict');
 const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.html','ces_history.html','ces_monitor.html','mis_datahub.html','ces_compare.html'];
+async function disclosure(page, control, screen, device) {
+ const container=control.locator('..');
+ assert.match(await control.getAttribute('aria-label'),/^Xem giải thích\/chi tiết:/);
+ assert.equal(await control.locator('.disclosure-mark').textContent(),'*');
+ assert.ok((await control.boundingBox()).height>=44);
+ assert.equal(await container.evaluate(node=>node.open),false);
+ const capture=async state=>{if(process.env.MIS_SCREENSHOTS)
+  await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-'+screen+'-'+device+'-'+state+'.png',fullPage:true});};
+ await capture('collapsed');
+ await control.focus();
+ await page.keyboard.press('Enter');
+ assert.equal(await container.evaluate(node=>node.open),true);
+ await capture('expanded');
+ await page.keyboard.press('Enter');
+ assert.equal(await container.evaluate(node=>node.open),false);
+ if(device!=='desktop'){
+  await control.tap();
+  assert.equal(await container.evaluate(node=>node.open),true);
+  await control.tap();
+  assert.equal(await container.evaluate(node=>node.open),false);
+ }
+ console.log(device,screen,'disclosure passes label, touch size, default collapse and interaction');
+}
 (async()=>{
  for(const [name,engine,viewport] of [['desktop',chromium,{width:1440,height:900}],['mobile-webkit',webkit,{width:414,height:896}]]){
   const browser=await engine.launch();
   try{
-   const context=await browser.newContext({viewport});
+   const context=await browser.newContext({viewport,hasTouch:name!=='desktop'});
    const page=await context.newPage();
    const errors=[];
    page.on('pageerror',e=>errors.push(e.message));
@@ -22,6 +45,9 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      assert.equal(await page.locator('#workspace-tools button').count(),0);
      assert.equal(await page.locator('select:visible').count(),1);
      await page.locator('#overview-chart').waitFor();
+     assert.ok(await page.locator('#decision-title').evaluate(node=>
+      Boolean(node.compareDocumentPosition(document.querySelector('#chart-title')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+     await disclosure(page,page.locator('#workspace-overview > details[data-explanation] > summary').first(),'overview',name);
      for(const id of ['source','asof','approval','price','dd','ema','zone','score','gap','decision']){
       assert.ok(await page.locator('#overview-'+id).isVisible(),id);
      }
@@ -147,6 +173,21 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
       await parityPage.click('#run');
       await parityPage.getByText('Hoàn tất · đã lưu trên thiết bị',{exact:true}).waitFor();
       console.log(name,'pinned input rejects wrong date and tampered hash; no cross-asset reuse');
+      const savedId=await parityPage.evaluate(()=>report.provenance.runId);
+      parityPage.once('dialog',dialog=>dialog.accept());
+      const downloadPromise=parityPage.waitForEvent('download');
+      await parityPage.locator('[data-export="full"]').click();
+      const file=await downloadPromise;
+      const stream=await file.createReadStream();
+      const chunks=[];
+      for await(const chunk of stream) chunks.push(chunk);
+      const backup=JSON.parse(Buffer.concat(chunks).toString('utf8'));
+      assert.equal(backup.provenance.runId,savedId);
+      await parityPage.reload();
+      await parityPage.getByRole('button',{name:'Khôi phục báo cáo gần nhất'}).click();
+      await parityPage.getByText(/Đã khôi phục /).waitFor();
+      assert.equal(await parityPage.evaluate(()=>report.provenance.runId),savedId);
+      console.log(name,'Auto backup downloads valid JSON and reload restores same IndexedDB report');
      }finally{await parityPage.close();}
      await page.unroute(market);
      await page.unroute(sentiment);
@@ -174,13 +215,14 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      await page.reload();
      await page.waitForFunction(()=>document.querySelectorAll('#workspace-indicator-table tbody tr').length===8);
      const rows=await page.locator('#workspace-indicator-table tbody tr').all();
+     await disclosure(page,rows[0].locator('.mis-disclosure > summary'),'indicators',name);
      for(const [index,row] of rows.entries()){
       const cells=await row.locator('td').allTextContents();
       assert.ok(cells[0].startsWith(fixtureTypes[index]),cells[0]);
       assert.equal(cells[1],fixtureTypes[index]==='Fear'?'1D':index%2?'1W':'1M');
       assert.equal(cells[3],index?'10':'0');
       assert.equal(cells[4],index===7?'Tắt':index===0?'Bật · bắt buộc':'Bật');
-      const toggle=row.getByText('Chi tiết',{exact:true});
+      const toggle=row.locator('details.mis-disclosure > summary');
       await toggle.click();
       assert.match(await row.locator('details dl').textContent(),/Tỷ phần chuẩn hóa/);
       assert.match(await row.locator('details dl').textContent(),index===7?/Không tham gia/:/nhận tỷ phần/);
@@ -196,7 +238,7 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
       assert.match(await item.textContent(),/chưa liên kết/);
       await item.locator('summary').click();
      }
-     await rows[5].getByText('Chi tiết',{exact:true}).click();
+     await rows[5].locator('details.mis-disclosure > summary').click();
      assert.equal(await page.evaluate(()=>new Set([...document.querySelectorAll('[id]')].map(node=>node.id)).size===document.querySelectorAll('[id]').length),true);
      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
      if(process.env.MIS_SCREENSHOTS)await page.locator('#workspace-indicator-table').screenshot({path:process.env.MIS_SCREENSHOTS+'-details-'+name+'.png'});
@@ -207,7 +249,8 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      assert.equal(await page.locator('#workspace-history').evaluate(node=>node.open),false);
      assert.match(await page.locator('#workspace-research').textContent(),/Chờ kiểm định vùng mua/);
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-research-'+name+'.png'});
-     await page.getByText('Chi tiết Historical Research',{exact:true}).click();
+     await disclosure(page,page.locator('#workspace-research > details[data-explanation] > summary'),'research',name);
+     await page.getByText('Mở Historical Research',{exact:true}).click();
      await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Kết quả kiểm định'}).click();
@@ -215,6 +258,7 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-backtest-'+name+'.png'});
      await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
      await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
+     await disclosure(page,page.frameLocator('iframe[title="Auto Backtest"]').locator('.mis-disclosure > summary').first(),'backtest',name);
      await page.waitForFunction(()=>{
       const frame=document.querySelector('iframe[title="Auto Backtest"]');
       const doc=frame.contentDocument;
@@ -225,10 +269,10 @@ const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.htm
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Nguồn và chất lượng dữ liệu'}).click();
      const dataFrame=page.frameLocator('iframe[title="Data Hub"]');
-     await dataFrame.getByText('Quản lý nguồn, nhập dữ liệu',{exact:true}).waitFor();
+     await dataFrame.locator('#import').waitFor();
+     await disclosure(page,dataFrame.locator('.mis-disclosure > summary').first(),'data',name);
      assert.equal(await page.locator('#data-asset').textContent(),'ETH');
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-data-'+name+'.png'});
-     await dataFrame.getByText('Quản lý nguồn, nhập dữ liệu',{exact:true}).click();
      await page.frameLocator('iframe[title="Data Hub"]').locator('#import').waitFor();
      await page.goBack();
      await page.locator('#overview-chart').waitFor();
