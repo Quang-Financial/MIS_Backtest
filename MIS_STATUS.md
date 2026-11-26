@@ -37,3 +37,5 @@ CDS-002: PASS kích hoạt lượt Work từ PR GitHub, khoảng 10,5 giây tron
 26/11: P0 parity của hai caller đạt trong fixture cùng snapshot; BTC Historical thực 20/20. Bộ chỉ báo kiểm tra đủ tám loại. CDS-002 xác nhận STOP và bổ sung bằng chứng chống nhận trùng cục bộ.
 
 CDS-002 được ưu tiên theo lệnh 7178436261. Lịch điều phối hiện có đang kích hoạt mỗi giờ; vòng QUESTION → ACK qua Issue #5 đã xác minh trong 101 giây nhờ câu hỏi gần mốc chạy. Lịch giữ nguyên. Trạng thái hai chiều theo sự kiện tiếp tục BLOCKED. Không cập nhật ứng dụng hoặc Staging trong vòng này.
+
+CDS-003 xác minh wake Work 7,31 giây và claim GitHub 1/2, chặn trùng tạo tệp. 0/3 vòng tự động, webhook thử đã tạm dừng. Tiếp tục dùng lịch reviewer hiện có; tạm hoãn UX.

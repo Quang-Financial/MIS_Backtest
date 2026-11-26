@@ -67,3 +67,9 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - [ ] CDS-002: định tuyến đúng phiên đích còn BLOCKED. Duy trì STOP và ghi kết quả CAS cục bộ.
 
 **Ưu tiên hiện tại CDS-002:** liên lạc hai chiều trước các cải tiến UX. Đã xác minh [ACK của reviewer theo giờ](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178509694), tiếp tục giữ STOP và chỉ nghiệm thu chiều ngược khi có ACK GitHub xác minh được.
+
+### CDS-003
+
+- [x] Kiểm tra kích hoạt webhook PR mới với mã riêng và chống trùng trên GitHub.
+- [ ] Ba vòng tự động có ACK và mốc thời gian; xác nhận độc lập định tuyến đúng vai trò.
+- [x] Giữ lịch dự phòng theo giờ; UX tiếp tục hoãn.

@@ -199,3 +199,9 @@ Cả tám hàng qua kiểm tra số hàng, khung, trọng số, trạng thái v�
 Tác vụ thử vẫn tạm dừng, lần chạy cuối ghi no_update. Không tái kích hoạt. Webhook PR từng đánh thức Work trong khoảng 10,5 giây; không có bằng chứng về PONG hoặc định tuyến vào phiên Kiến trúc sư hiện có. Theo phản biện, cơ chế đọc mỗi giờ hiện hữu chỉ hỗ trợ phát hiện nội dung, chờ danh nghĩa tối đa khoảng 60 phút cộng xử lý; chưa xác minh độ trễ thực. Không cần hành động chủ dự án trong phạm vi hiện hành.
 
 Proof cục bộ dùng compare-and-set cho một Git ref theo repository/PR/comment ID. Một trong tám worker chiếm quyền, lần phát lại bị từ chối. Thiết kế thực tế còn cần phân biệt danh tính theo vai trò và xử lý crash giữa lúc claim và post bằng đối soát nội dung, vì claim không tự bảo đảm đăng comment đúng một lần. Chưa tạo ref thật, trigger mới hay đổi quyền.
+
+### CDS-003 · native relay
+
+Phép thử tách biệt theo [lệnh 7178916202](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178916202). Webhook lọc PR #4 và tác giả; mỗi lượt đọc lại comment, chỉ nhận marker nguyên văn, kiểm tra chuỗi duy nhất và STOP, claim riêng bằng tạo tệp GitHub, chỉ ghi một bước và không retry nếu trạng thái ghi không chắc chắn. Mốc ARCH-3 là điểm dừng. Các marker mô phỏng hai vai trò nên không dùng để xác nhận quyền hoặc phiên Kiến trúc sư độc lập.
+
+Kiểm tra hai yêu cầu tạo cùng tệp trên nhánh thử: một commit thành công `2998d549`, một HTTP 422 vì tệp đã tồn tại. Đây là kiểm tra quyền claim; tác vụ mất kết nối sau khi claim cần đối soát thủ công thay vì gửi lại mù. Lịch giám sát mỗi giờ giữ nguyên.

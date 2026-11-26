@@ -67,3 +67,10 @@ UX-INDICATOR-LIBRARY: PASS trên fixture trình duyệt, chờ review thiết k�
 Giao thức thử tiếp theo chỉ cho phép phản hồi vô hại, đọc comment đã xác thực, ghim ID input/repository/PR/role và so marker toàn phần. Định danh vai trò cần metadata tài khoản/app đáng tin cậy hoặc một kênh điều phối xác thực; nhãn vai trò trong body không đủ. Claim nguyên tử dùng khóa repository/PR/comment/role. Sau timeout khi post, chỉ đọc để đối soát ACK đã tồn tại; khi kết quả ghi còn bất định thì BLOCKED. Không gửi lại mù. STOP và phê duyệt được kiểm tra lại trước thao tác ghi; phê duyệt không được suy ra từ ACK. Không thử với quyền hoặc chi phí mới.
 
 Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex), [Codex review](https://developers.openai.com/blog/custom-code-review-rules-for-codex). Codex review là lựa chọn review riêng, chưa chứng minh thay thế vai trò điều phối hay làm hai phiên tiếp tục nhau.
+
+### CDS-003 · kết quả phép thử giới hạn
+
+- PASS: GitHub START 00:42:12 UTC → Work bắt đầu 00:42:19.310 UTC, 7,31 giây. [START](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179028737).
+- PASS: một trong hai yêu cầu đồng thời tạo khóa GitHub thành công. Phép thử connector trực tiếp, không chứng minh quyền ghi bên trong lượt webhook.
+- BLOCKED: sau cửa sổ quan sát hơn 150 giây, không có claim WORK-1, không có WORK-1 và scheduler vẫn in_progress không có kết quả. Hoàn thành 0/3 vòng. Chưa xác định tác vụ chờ chạy, chờ công cụ hoặc nguyên nhân khác. Không có bằng chứng cần cấp quyền thêm.
+- Đã tạm dừng webhook mới và đăng [STOP](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7179073222). STOP cũ giữ hiệu lực. Reviewer theo giờ tiếp tục, một vòng trước đã đo 101 giây nhờ gần thời điểm chạy. Chưa có trigger ngược xác minh được hoặc định danh riêng từng vai trò.
