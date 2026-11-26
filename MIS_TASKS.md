@@ -66,4 +66,4 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - [ ] P0 nghiệm thu tổng thể: hồ sơ phê duyệt, snapshot lưu dùng lại, kiểm thử Altcoin thực và phản biện độc lập.
 - [ ] CDS-002: định tuyến đúng phiên đích còn BLOCKED. Duy trì STOP và ghi kết quả CAS cục bộ.
 
-**Ưu tiên hiện tại CDS-002:** liên lạc hai chiều trước các cải tiến UX. Theo dõi [ACK của reviewer theo giờ](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178479257), tiếp tục giữ STOP và chỉ nghiệm thu chiều ngược khi có ACK GitHub xác minh được.
+**Ưu tiên hiện tại CDS-002:** liên lạc hai chiều trước các cải tiến UX. Đã xác minh [ACK của reviewer theo giờ](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178509694), tiếp tục giữ STOP và chỉ nghiệm thu chiều ngược khi có ACK GitHub xác minh được.
