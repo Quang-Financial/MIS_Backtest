@@ -1060,15 +1060,28 @@
       "effectiveStrategyId": "fb07d2efbccce5fb67367c60432d4d76c03f128535a79a9521e3ae919ed3c271"
     }
   ],
-  "legacyComparison": {
-    "coin": "OKB",
-    "date": "2026-11-23",
-    "close": 82.87,
-    "ema200": 72.07898178393938,
-    "score": 100,
-    "legacyValid": true,
-    "overviewValid": false,
-    "legacyReason": "Đủ điều kiện",
-    "overviewReason": "Giá chưa dưới EMA200"
-  }
+  "legacyBookmarks": [
+    {
+      "layout": "desktop",
+      "coin": "OKB",
+      "date": "2026-11-23",
+      "score": 100,
+      "emaGate": "Chưa đạt",
+      "eligible": false,
+      "bookmarkAndReload": "PASS",
+      "unsupportedAsset": "BTC",
+      "storedConfigPreserved": true
+    },
+    {
+      "layout": "mobile",
+      "coin": "OKB",
+      "date": "2026-11-23",
+      "score": 100,
+      "emaGate": "Chưa đạt",
+      "eligible": false,
+      "bookmarkAndReload": "PASS",
+      "unsupportedAsset": "BTC",
+      "storedConfigPreserved": true
+    }
+  ]
 }

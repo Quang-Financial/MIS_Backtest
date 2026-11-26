@@ -92,3 +92,5 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - PASS: Đối chiếu thực thi Tổng quan → snapshot → Auto Backtest trên nến thị trường ở Chromium. 1.344 dòng tín hiệu tuần và 15 phép cắt dữ liệu khớp. Còn kiểm thử hai đường nạp độc lập ngoài snapshot.
 - PASS: Hai đường nạp Auto (pinned và nạp độc lập) khớp Tổng quan với dữ liệu thị trường cố định trên Chromium desktop/mobile.
 - FAIL: URL Live Monitor cũ có thể khác Tổng quan vì áp bộ lọc theo cấu hình lưu. Đã ghi số liệu OKB cụ thể và chuyển Kiến trúc sư phản biện đường tương thích.
+- PASS TEMP-POLL-001: Nhận lệnh thật và gửi một ACK trong cửa sổ kiểm tra Cloud. CDS V1.1 T02/T03/T05/T06 vẫn chờ dữ kiện từ runner hoặc đích Kiến trúc sư độc lập.
+- PASS P0-7180120359: Bookmark Live Monitor cũ mở Tổng quan, giữ mã hợp lệ và áp cùng gate sau reload trên desktop/mobile. Kiểm tra thời điểm xuất bản lịch sử của Fear & Greed còn mở.

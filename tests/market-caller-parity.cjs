@@ -149,42 +149,48 @@ async function parity(browser, coin, layout, viewport) {
   }
 }
 
-async function legacyComparison(browser) {
-  const context = await browser.newContext({ viewport: viewports.desktop });
+async function legacyBookmark(browser, layout, viewport) {
+  const context = await browser.newContext({ viewport });
   try {
     await marketRoutes(context);
-    const overview = await context.newPage();
-    await overview.goto(origin + '/index.html');
-    await overview.waitForFunction(() => !document.querySelector('#overview-refresh').disabled);
-    await overview.evaluate(() => {
+    const setup = await context.newPage();
+    await setup.goto(origin + '/index.html#indicators');
+    const stored = await setup.evaluate(() => {
       const config = CESShared.load();
       CESShared.saveCommon({ ...config, btcDrawdown: 0, belowEMA200: false, threshold: 0 });
       localStorage.setItem('mis-ces-dynamic-v150', JSON.stringify([
         { id: 'test-fear', type: 'Fear', tf: '1D', enabled: true, hard: false,
           p: 14, q: 20, s: 5, window: 1, op: 'le', limit: 100, weight: 100 }
       ]));
+      return CESShared.load();
     });
-    await hookSignals(overview);
-    await overview.selectOption('#workspace-asset', 'OKB');
-    await overview.getByText('Đã cập nhật dữ liệu xác nhận.', { exact: true }).waitFor();
-    const legacy = await context.newPage();
-    await legacy.goto(origin + '/ces_monitor.html');
-    await hookSignals(legacy);
-    await legacy.selectOption('#coin', 'OKB');
-    await legacy.click('#update');
-    await legacy.getByText('Đã cập nhật dữ liệu xác nhận.', { exact: true }).waitFor();
-    const legacyRow = await legacy.evaluate(() => globalThis.baselineSignals.at(-1)[1]);
-    const overviewRow = await overview.evaluate(() => globalThis.baselineSignals.at(-1)[1]);
-    assert.equal(legacyRow.close, overviewRow.close);
-    assert.equal(legacyRow.ema200, overviewRow.ema200);
-    assert.equal(legacyRow.score, overviewRow.score);
-    assert.equal(legacyRow.valid, true);
-    assert.equal(overviewRow.valid, false);
-    return {
-      coin: 'OKB', date: overviewRow.date, close: overviewRow.close, ema200: overviewRow.ema200,
-      score: overviewRow.score, legacyValid: legacyRow.valid, overviewValid: overviewRow.valid,
-      legacyReason: legacyRow.reason, overviewReason: overviewRow.reason
-    };
+
+    const page = await context.newPage();
+    const oldURL = origin + '/ces_monitor.html?v=1661&coin=okb&belowEMA200=false&btcDrawdown=0';
+    await page.goto(oldURL);
+    await page.waitForURL(origin + '/index.html?asset=okb#overview');
+    async function checkOverview() {
+      await page.getByText('Đã cập nhật dữ liệu xác nhận.', { exact: true }).waitFor();
+      assert.equal(await page.locator('#workspace-asset').inputValue(), 'OKB');
+      assert.match(await page.locator('#overview-asof').textContent(), /2026-11-23/);
+      assert.equal(await page.locator('#overview-score').textContent(), '100 / 100');
+      assert.equal(await page.locator('#overview-gate-ema').textContent(), 'Chưa đạt');
+      assert.equal(await page.locator('#overview-gate-dd').textContent(), 'Đạt · ≥ 40%');
+      assert.equal(await page.locator('#overview-eligibility').textContent(), 'Điều kiện nghiên cứu chưa đạt');
+      assert.doesNotMatch(await page.locator('#overview-decision').textContent(), /BUY READY/);
+      assert.deepEqual(await page.evaluate(() => CESShared.load()), stored);
+    }
+    await checkOverview();
+    const actualSnapshot = await page.locator('#overview-identity').getAttribute('title');
+    await page.reload();
+    await checkOverview();
+    assert.equal(await page.locator('#overview-identity').getAttribute('title'), actualSnapshot);
+
+    await page.goto(origin + '/ces_monitor.html?asset=not-supported');
+    await page.waitForURL(origin + '/index.html?asset=not-supported#overview');
+    assert.equal(await page.locator('#workspace-asset').inputValue(), 'BTC');
+    return { layout, coin: 'OKB', date: '2026-11-23', score: 100, emaGate: 'Chưa đạt',
+      eligible: false, bookmarkAndReload: 'PASS', unsupportedAsset: 'BTC', storedConfigPreserved: true };
   } finally {
     await context.close();
   }
@@ -194,10 +200,12 @@ async function legacyComparison(browser) {
   const browser = await chromium.launch();
   try {
     const results = [];
+    const legacyBookmarks = [];
     for (const [layout, viewport] of Object.entries(viewports)) {
       for (const coin of coins) results.push(await parity(browser, coin, layout, viewport));
+      legacyBookmarks.push(await legacyBookmark(browser, layout, viewport));
     }
-    console.log(JSON.stringify({ hashes, results, legacyComparison: await legacyComparison(browser) }, null, 2));
+    console.log(JSON.stringify({ hashes, results, legacyBookmarks }, null, 2));
   } finally {
     await browser.close();
   }

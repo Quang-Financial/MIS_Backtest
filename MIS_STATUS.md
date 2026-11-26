@@ -53,3 +53,7 @@ PR #4 bổ sung bằng chứng hồi quy dữ liệu thị trường và ca snap
 Bổ sung phép chạy thực hai màn hình trên dữ liệu nến đã đóng và Fear & Greed công khai, ghi 1.344/1.344 dòng tuần cùng dữ liệu và cấu hình, 15/15 phép cắt dữ liệu thời điểm đánh giá. SUI vẫn thiếu warmup. Bằng chứng và bản chạy tái lập nằm trong MIS_TEST_REPORT.md.
 
 Parity đường chuẩn đạt trên desktop/mobile Chromium cả khi Auto dùng snapshot và tự tải cùng phản hồi dữ liệu. URL Live Monitor cũ tái hiện sai khác do khóa nghiên cứu EMA200W. Xem số liệu OKB trong MIS_TEST_REPORT.md.
+
+TEMP-POLL-001 xác minh kiểm tra Issue #5 và PR #4 trong phiên Cloud đang hoạt động. Kết quả chi tiết ở MIS_TEST_REPORT.md. Khi cửa sổ kiểm tra kết thúc, tác vụ dự phòng theo giờ tiếp tục. Hai workflow ở 70acba07 đều PASS ([smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45737427675), [browser](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45737427683)).
+
+P0 Live Monitor cũ đã xử lý: bookmark mở Tổng quan cùng mã hợp lệ, và ca OKB CES 100 vẫn chặn ở EMA200W sau reload. Kiểm thử trên Chromium desktop/mobile. Giám sát tạm thời đã kết thúc với 16 lần đọc mỗi luồng và 2 ACK cho hai ID riêng.

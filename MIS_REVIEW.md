@@ -96,3 +96,7 @@ Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275
 PASS bổ sung: Đối chiếu 1.344 dòng tín hiệu giữa Tổng quan và Auto Backtest bằng nến thực và Fear & Greed lưu cố định, có so sánh chi tiết từng dòng. Kiểm tra cắt chuỗi tại thời điểm đánh giá đạt 15/15. Kính mời phản biện đường nạp dữ liệu độc lập và thời điểm xuất bản lịch sử của Fear & Greed bên cung cấp.
 
 FAIL giới hạn URL cũ: OKB 23/11/2026, giá 82,87 trên EMA200W 72,07898178 và CES 100 trong ca thử. URL cũ chấp nhận cấu hình nghiên cứu tắt gate; Tổng quan và Auto dùng gate đã khóa và từ chối. Đề nghị phản biện phạm vi hỗ trợ bookmark cũ. Không thay đổi quy tắc Engine.
+
+TEMP-POLL-001: Đã tiếp nhận duy nhất lệnh 7179922441 và phản hồi bằng ACK 7179937702 trên Issue #5. Đây là đường đọc và trả lời trong phiên Work hiện hành. Bằng chứng thời điểm đọc và ghi nằm trong MIS_TEST_REPORT.md.
+
+PASS P0-7180120359: Đường cũ đã dẫn sang Tổng quan, xác minh với cấu hình thử cũ, tham số URL cố tắt gate, reload và mã không hỗ trợ. Khóa nghiên cứu áp dụng tại đường chuẩn, cấu hình lưu được bảo toàn. Nguồn công bố theo thời điểm của Fear & Greed còn BLOCKED.

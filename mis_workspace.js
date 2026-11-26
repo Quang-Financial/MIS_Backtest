@@ -330,5 +330,7 @@ asset.addEventListener('change', () => {
 historyPanel.addEventListener('toggle', () => { if (activeScreen === 'research') render('research'); });
 window.addEventListener('hashchange', () => render(location.hash.slice(1)));
 window.addEventListener('popstate', () => render(location.hash.slice(1)));
+const linkedAsset = new URLSearchParams(location.search).get('asset')?.trim().toUpperCase();
+if (Array.from(asset.options).some(option => option.value === linkedAsset)) asset.value = linkedAsset;
 render(location.hash.slice(1));
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.error);
