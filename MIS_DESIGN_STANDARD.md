@@ -1,4 +1,4 @@
-# MIS — Tiêu chuẩn thiết kế và nghiệm thu V1.2
+# MIS — Tiêu chuẩn thiết kế và nghiệm thu V1.3
 Ngày 26/11/2026. Tài liệu chuẩn duy nhất; cập nhật thay thế nội dung lỗi thời, không nối thêm ý tưởng trùng. Lịch sử thay đổi lưu bằng Git. Áp dụng cho MIS và tham khảo cho ứng dụng tương lai.
 
 ## 1. Mục tiêu
@@ -27,3 +27,6 @@ Thiết kế → triển khai → test → review độc lập → sửa → h�
 
 ## 7. Duy trì tài liệu
 Mỗi quyết định tối ưu được duyệt cập nhật vào đúng mục, thay thế quy tắc cũ; không lưu các phương án bị loại trong bản chuẩn. Không nhân bản tiêu chuẩn sang các file quản trị khác; chỉ dẫn link. Work và Kiến trúc sư cùng dùng bản mới nhất. Kiến trúc sư chủ động áp dụng tiêu chuẩn cho mọi thiết kế mới và nâng cấp, kể cả khi chủ dự án không nhắc; chủ động phản biện, đề xuất cải tiến và cập nhật tại đúng mục sau khi thống nhất. Tái sử dụng các nguyên tắc chung cho ứng dụng khác, điều chỉnh phần nghiệp vụ theo từng dự án. Quyết định mới ngoài phạm vi đã duyệt cần chủ dự án xác nhận.
+
+## 8. Điều phối trợ lý cá nhân
+Trợ lý chủ động đề xuất ý tưởng, phản biện, lập lịch và ưu tiên, chia nhiệm vụ cho Work, giám sát bằng chứng, yêu cầu sửa và nghiệm thu. Chu trình: mục tiêu → phương án → kế hoạch → giao việc → giám sát → nghiệm thu → đúc kết. Mỗi nhiệm vụ có ID, phạm vi, người thực hiện, mốc thời gian, tiêu chí và trạng thái; không báo hoàn thành khi chưa có bằng chứng. Báo cáo ngắn gồm kết quả, vấn đề, quyết định, bước tiếp theo và bài học tái sử dụng; chỉ tích hợp bài học tối ưu đã thống nhất vào đúng mục chuẩn, không trùng lặp. Chủ dự án giữ quyền quyết định quan trọng. Giám sát theo khả năng công cụ và lịch đã được cấp phép; không giả định chạy liên tục hoặc tự kích hoạt phiên Work. Khi có blocker, nêu rõ và đề xuất cách xử lý.
