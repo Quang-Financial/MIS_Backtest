@@ -1,14 +1,15 @@
-# MIS — Tiêu chuẩn thiết kế và nghiệm thu V1.0
+# MIS — Tiêu chuẩn thiết kế và nghiệm thu V1.1
 Ngày 26/11/2026. Tài liệu chuẩn duy nhất; cập nhật thay thế nội dung lỗi thời, không nối thêm ý tưởng trùng. Lịch sử thay đổi lưu bằng Git. Áp dụng cho MIS và tham khảo cho ứng dụng tương lai.
 
 ## 1. Mục tiêu
 Phức tạp trong xử lý, đơn giản trong sử dụng. Logic chặt chẽ, dữ liệu đáng tin cậy, thao tác thuận tiện, giao diện gọn, hiệu quả. Không cắt chức năng để tối giản.
+Giá trị chung: đơn giản, logic, khoa học, hiệu quả, an toàn, cải tiến liên tục. Chủ động phản biện, đánh giá tác động toàn hệ thống, ưu tiên bằng chứng và phương án tối ưu.
 
 ## 2. Kiến trúc
 Năm tab theo thứ tự Tổng quan → Bộ chỉ báo → Research → Backtest → Data Hub. Dữ liệu và bằng chứng đi theo chiều ngược lại. Một nguồn dữ liệu chuẩn, một engine, một định danh chiến lược, một hồ sơ nghiên cứu, một tín hiệu nhất quán, một quyết định. Cùng snapshot/cutoff/cấu hình phải tái lập tín hiệu. Tách nghiên cứu khỏi chiến lược được duyệt; không tự kích hoạt.
 
 ## 3. UI/UX
-Một bộ chọn tài sản chung, một điều hướng chính, tránh cuộn lồng và chức năng trùng. Thống nhất typography, màu, khoảng cách, bảng, nút và trạng thái. Mỗi màn hình ưu tiên câu hỏi chính và hành động chính. Chỉ hiện thông tin thiết yếu mặc định; ghi chú, định nghĩa, phương pháp, tham số phụ và bằng chứng chi tiết mở/đóng bằng nút * cuối dòng/hạng mục, ngay tại chỗ. Nút có nhãn trợ năng, focus, trạng thái mở và vùng chạm đủ lớn. Không giấu cảnh báo rủi ro, dữ liệu thiếu/cũ, lỗi, hard gate không đạt, trạng thái phê duyệt hoặc hành động thiết yếu. Responsive PC/iPhone, không tràn ngang ngoài bảng thực sự cần, không che nội dung, không raw JSON mặc định.
+Một bộ chọn tài sản chung, một điều hướng chính, tránh cuộn lồng và chức năng trùng. Thống nhất typography, màu, khoảng cách, bảng, nút và trạng thái. Mỗi màn hình ưu tiên câu hỏi chính và hành động chính. Áp dụng 80/20 như nguyên tắc ưu tiên chức năng thường dùng; mục tiêu tối đa ba thao tác cho tác vụ thường xuyên, không bỏ bước xác nhận an toàn. Chỉ hiện thông tin thiết yếu mặc định; ghi chú, định nghĩa, phương pháp, tham số phụ và bằng chứng chi tiết mở/đóng bằng nút * cuối dòng/hạng mục, ngay tại chỗ. Nút có nhãn trợ năng, focus, trạng thái mở và vùng chạm đủ lớn. Không giấu cảnh báo rủi ro, dữ liệu thiếu/cũ, lỗi, hard gate không đạt, trạng thái phê duyệt hoặc hành động thiết yếu. Responsive PC/iPhone, không tràn ngang ngoài bảng thực sự cần, không che nội dung, không raw JSON mặc định.
 
 ## 4. Năm màn hình
 - Tổng quan: giá, trạng thái thị trường, vùng mua, CES, hard gates, hành động/rủi ro; biểu đồ và bằng chứng truy xuất; không đưa công cụ backtest vào đây.
@@ -18,6 +19,7 @@ Một bộ chọn tài sản chung, một điều hướng chính, tránh cuộn
 - Data Hub: nguồn, phạm vi, độ mới, chất lượng, warmup; nhập/xuất, audit và nhật ký chi tiết theo nhu cầu.
 
 ## 5. Kỹ thuật trading
+Triết lý đầu tư: tìm vùng mua có lợi thế thay vì dự đoán đáy, thu hồi lợi nhuận theo quy tắc thay vì đoán đỉnh; ưu tiên chỉ báo có bằng chứng, lợi nhuận trong giới hạn rủi ro, chấp nhận đứng ngoài khi chưa đủ điều kiện. Mọi quyết định phải giải thích được hành động, lý do, bằng chứng, rủi ro và điều kiện thay đổi quyết định.
 Dữ liệu chuẩn hóa, nến đóng, cutoff UTC rõ, chống look-ahead, phí/trượt giá, tái lập kết quả, kiểm thử đa chu kỳ/OOS, benchmark, không đánh đồng hồi quy với lợi nhuận. Thiếu dữ liệu hoặc cấu hình chưa duyệt phải fail closed; không bịa giá, timestamp hoặc tín hiệu. Fear lịch sử chưa chứng minh thời điểm công bố phải ghi giới hạn. Không tự nới hard gates. Bảo toàn dữ liệu, backup/restore, migration, service worker, kiểm tra lỗi và hiệu năng. Không thay đổi chiến lược, kích hoạt, merge/release, mất dữ liệu, quyền hoặc chi phí nếu chưa được chủ dự án duyệt.
 
 ## 6. Nghiệm thu
