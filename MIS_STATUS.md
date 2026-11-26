@@ -59,3 +59,7 @@ TEMP-POLL-001 xác minh kiểm tra Issue #5 và PR #4 trong phiên Cloud đang h
 P0 Live Monitor cũ đã xử lý: bookmark mở Tổng quan cùng mã hợp lệ, và ca OKB CES 100 vẫn chặn ở EMA200W sau reload. Kiểm thử trên Chromium desktop/mobile. Giám sát tạm thời đã kết thúc với 16 lần đọc mỗi luồng và 2 ACK cho hai ID riêng.
 
 QA tích hợp V1.7 trả kết quả cho 7180497757. Năm màn hình PASS trên Chromium desktop/mobile. Báo cáo có 10 ảnh, log và ranh giới dữ liệu thị trường. Staging vẫn chạy mã ứng dụng từ a75b7bc; commit 677b2bed bổ sung kiểm thử bookmark, không sửa mã ứng dụng.
+
+TEMP-POLL-003 được chấp nhận cho vận chuyển dự phòng trong phiên. Đã đọc và trả ACK cho 5/5 probe, 3/5 dưới 60 giây, trung bình 48,6 giây. TEMP-POLL-002 bắt đầu 08:59:03 ICT ngày 26/11/2026 và đang chờ mốc 09:59:03 ICT.
+
+Ma trận nghiệm thu kỹ thuật V1.7 đã ghi SHA ứng dụng, SHA bằng chứng, CI và giới hạn. Nâng cấp cache Service Worker giữ cấu hình, báo cáo Auto/Historical và nguồn nhập Data Hub, đã xác minh bằng fixture cũ trên gói Staging. Bookmark OKB hoạt động offline sau nâng cấp.

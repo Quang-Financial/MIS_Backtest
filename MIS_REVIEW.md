@@ -102,3 +102,7 @@ TEMP-POLL-001: Đã tiếp nhận duy nhất lệnh 7179922441 và phản hồi 
 PASS P0-7180120359: Đường cũ đã dẫn sang Tổng quan, xác minh với cấu hình thử cũ, tham số URL cố tắt gate, reload và mã không hỗ trợ. Khóa nghiên cứu áp dụng tại đường chuẩn, cấu hình lưu được bảo toàn. Nguồn công bố theo thời điểm của Fear & Greed còn BLOCKED.
 
 PASS 7180497757: Năm màn hình đã chạy lại trên desktop/mobile Chromium, ảnh và log cập nhật. Bản đóng gói Staging tái lập JSON đối chiếu thị trường độc lập. Xem ma trận điều hướng, storage, snapshot và gate tại MIS_TEST_REPORT.md. SUI vẫn chưa đủ warmup; mốc xuất bản lịch sử của Fear & Greed chưa được xác minh.
+
+TEMP-POLL-003 đạt 5/5 ACK duy nhất và trung bình 48,6 giây từ PING tới ACK. Kiến trúc sư tiếp nhận kết quả và yêu cầu ưu tiên ACK ngắn trước phân tích. Xem quyết định 7180782050 và bảng thời gian trong MIS_TEST_REPORT.md.
+
+PASS kỹ thuật 7180790510: Nâng cấp cùng origin V1.6.7 → Staging V1.7 giữ các store thử, kích hoạt cache mới, và mở đúng bookmark OKB khi offline. Đã lập ma trận chứng cứ cho phản biện độc lập. Chưa làm nghiệm thu phát hành.

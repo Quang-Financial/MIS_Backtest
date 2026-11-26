@@ -301,3 +301,38 @@ Kiểm tra lại build V1.7 từ 677b2bed. Ảnh và log UI lấy từ Chromium 
 | Data Hub | Dùng ngữ cảnh tài sản chung, nhập fixture, tải lại rồi đọc IndexedDB và kiểm tra chất lượng | PASS | [Desktop](tests/integration-v17/integration-data-desktop.png) · [Mobile](tests/integration-v17/integration-data-mobile-chromium.png) |
 
 Bản đóng gói Staging tái lập JSON đối chiếu thị trường khi chạy lại độc lập. Mỗi viewport đạt 1.344 dòng tuần trên năm Altcoin cho từng đường nạp và 15/15 ca cắt dữ liệu. Bookmark OKB giữ snapshot và trạng thái thiếu gate EMA200W với CES 100 sau reload. Cấu hình lưu được giữ, và ảnh cho thấy đường điều hướng chuẩn. SUI tiếp tục ngoài phạm vi kiểm thử này (185/200 tuần). Nguồn Fear & Greed có timestamp bản ghi; tính sẵn có đúng thời điểm của từng số lịch sử và mốc cập nhật hiệu chỉnh chưa được chứng minh. [JSON thị trường](tests/market-caller-parity-results.json) · [Tài liệu dữ liệu](https://alternative.me/crypto/fear-and-greed-index/#api).
+
+### TEMP-POLL-003 · Năm probe tương tác qua phiên TEMP-POLL-002
+
+Tất cả thời điểm dưới đây ở UTC ngày 26/11/2026. Thời điểm đăng và trả ACK đã đọc từ GitHub REST. Thời điểm phát hiện lấy từ kết quả kết nối Work.
+
+| Probe | Đăng | Phát hiện | Đăng ACK | Đăng → ACK (giây) |
+|---|---|---|---|---:|
+| 01 | 02:09:59 | 02:10:04.637 | 02:10:10 | 11 |
+| 02 | 02:11:51 | 02:12:05.118 | 02:13:05 | 74 |
+| 03 | 02:13:02 | 02:13:04.886 | 02:14:11 | 69 |
+| 04 | 02:20:27 | 02:21:04.913 | 02:21:10 | 43 |
+| 05 | 02:22:23 | 02:23:04.786 | 02:23:09 | 46 |
+
+PASS vận chuyển dự phòng, 5/5 với đúng một ACK mỗi ID, trung bình 48,6 giây. Ba mẫu dưới 60 giây; mẫu 02 và 03 chậm tại đoạn từ phát hiện đến ghi ACK. Đây là kết quả từ các probe tương tác của Kiến trúc sư. [ID và số đo](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7180764023) · [Quyết định](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7180782050).
+
+### Ma trận nghiệm thu kỹ thuật V1.7 · PR #4, yêu cầu 7180790510
+
+| Hạng mục | Kết quả | Bằng chứng |
+|---|---|---|
+| Mã ứng dụng trên Staging: a75b7bcd41b76b563a648e04b59c80376106d74e | PASS | Gói Staging commit 5d1effe808fe88fa5f7b156280e1cdb9e15ca126 có ba thay đổi chức năng tương ứng. [Staging](https://mis-workspace-v17.pointydahlia32.chatgpt.site). |
+| CI nền chứng cứ 063ac14d6b7d1727922d924e6dfd729693643017 | PASS | [Smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45740843464) · [Browser smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45740843506). |
+| Năm màn hình desktop/mobile | PASS với fixture | [Ma trận ảnh 5 màn hình ở trên](#26112026--kiểm-thử-tích-hợp-năm-màn-hình). |
+| Cập nhật từ V1.6.7 c4d2768 đến gói Staging V1.7 | PASS với fixture | Dùng một origin cô lập, từ cache Service Worker cũ đến mới. Giữ cấu hình localStorage, báo cáo Auto/Historical và dữ liệu nhập Data Hub qua API lưu của hai phiên bản. Bookmark OKB mở Tổng quan đúng mã khi offline sau cập nhật. [Kết quả](tests/integration-v17/storage-upgrade-stage.json) · [Script](tests/storage-upgrade-v17.cjs). |
+| Caller chuẩn, cả ghim và nạp riêng | PASS trên chuỗi thị trường đã đóng | 1.344 bản ghi tuần cho năm Altcoin mỗi viewport, so chi tiết chỉ báo, gate, điểm, trạng thái tín hiệu và hash; 15/15 ca cắt chuỗi. [Kết quả](tests/market-caller-parity-results.json). |
+| SUI | BLOCKED ở mốc kiểm toán | Fixture có 185 tuần hợp lệ, EMA200 cần 200. |
+| Thời điểm công bố lịch sử Fear & Greed | BLOCKED | Nguồn ghi timestamp bản ghi. Chưa có thời điểm công bố hoặc lịch sử hiệu chỉnh của từng giá trị để xác nhận dữ liệu đã khả dụng đúng lúc. |
+| iPhone thật | Chưa kiểm thử | Có kết quả Chromium mobile cho V1.7. iPhone không thuộc vòng QA này. |
+| Hoạt hóa và phát hành | Chờ chủ dự án | Các cấu hình vẫn thuộc phạm vi nghiên cứu. Bằng chứng hồi quy tín hiệu không xác nhận lợi nhuận. |
+
+Chạy lại test nâng cấp với Playwright và Chromium bằng `node tests/storage-upgrade-v17.cjs <checkout-c4d2768> <gói-dist-Staging>`. Hai viewport đều đã chạy, tài khoản/dữ liệu đầu tư cá nhân không được dùng.
+
+### Thử quy trình ACK trước xử lý
+
+- 7180789889 đăng 02:25:23 UTC, phát hiện 02:26:05.023, ACK [7180801605](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7180801605) lúc 02:26:10. Từ phát hiện tới ACK khoảng 5,0 giây; toàn tuyến 47 giây.
+- 7180790510 đăng 02:25:26 UTC, phát hiện 02:26:05.023, ACK [7180801845](https://github.com/Quang-Financial/MIS_Backtest/pull/4#issuecomment-7180801845) lúc 02:26:11. Từ phát hiện tới ACK khoảng 6,0 giây; toàn tuyến 45 giây.

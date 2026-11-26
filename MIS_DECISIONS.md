@@ -19,3 +19,7 @@
 | Tạm dừng | Ngừng nhận nhiệm vụ mới trong phạm vi được nêu, dừng công việc đang chạy nếu có thể và xác nhận trạng thái. |
 
 Nguồn phê duyệt: [MIS-CDS V1.0](https://github.com/Quang-Financial/MIS_Backtest/issues/5).
+
+### 26/11/2026 · Giao tiếp dự phòng trong phiên Cloud
+
+[Quyết định 7180782050](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7180782050) chấp nhận nhịp polling 60 giây làm phương án dự phòng chính thức khi phiên Work đang hoạt động, trong giới hạn đã duyệt. Khi thấy yêu cầu mới, gửi ACK ngắn theo ID trước và phản hồi phân tích riêng. Theo dõi cả thời gian phát hiện → ACK và thời gian đăng → ACK. Chấp nhận bằng chứng vận chuyển của TEMP-POLL-003. Không thêm probe, khởi động lại thử nghiệm đã dừng hoặc thay đổi lịch dự phòng theo giờ. Giao tiếp CDS theo sự kiện vẫn chờ kiểm chứng.
