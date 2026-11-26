@@ -51,3 +51,19 @@ UX-INDICATOR-LIBRARY: PASS trên fixture trình duyệt, chờ review thiết k�
 - PASS: QA chi tiết tám chỉ báo và bốn ứng viên trong hai viewport Chromium. Chờ nghiệm thu UX độc lập.
 - BLOCKED: snapshot lưu dùng lại, hồ sơ phê duyệt, Fear theo thời điểm công bố và hồi quy Altcoin thật. Giải ngân vẫn khóa.
 - CDS-002 PASS cho kiểm chứng mutex trên Git cục bộ; BLOCKED định tuyến ngược vào phiên hiện có và cam kết đăng đúng một lần. STOP giữ hiệu lực.
+
+### CDS-002 · ưu tiên ngày 26/11
+
+[Lệnh 7178436261](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178436261). Tạm hoãn UX. Giữ STOP của thử nghiệm trước.
+
+| Đường | Trạng thái | Bằng chứng và giới hạn |
+|---|---|---|
+| GitHub PR → Cloud Work | PASS | Một lần kích hoạt đo được 10,5 giây. Chỉ đo thời gian bắt đầu. |
+| Work → reviewer Cloud độc lập theo sự kiện | BLOCKED | Tác vụ Work riêng là khả năng được hỗ trợ. Chưa xác minh reviewer được định tuyến riêng, sở hữu định danh khác và ghi được ACK qua GitHub mà không tạo vòng lặp. Chưa mở trigger mới. |
+| Work → đúng cuộc trò chuyện Kiến trúc sư hiện có | BLOCKED | Không tìm thấy tham số đích là một cuộc trò chuyện Chat đang có trong schema webhook thực tế hoặc hướng dẫn sản phẩm. |
+| Work → Kiến trúc sư theo lịch | Đang đối chiếu | Kiểm tra thấy tác vụ giám sát hiện hữu đang bật, RRULE HOURLY. [Yêu cầu ACK có ID trên Issue #5](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7178479257). Tối đa danh nghĩa một giờ chờ lịch, cộng hàng đợi và xử lý. |
+| Chống trùng | PASS CAS cục bộ; BLOCKED giao nhận | Tám worker tranh cùng một khóa Git ref, một worker thắng, replay bị từ chối. Chưa thử coordinator thật. |
+
+Giao thức thử tiếp theo chỉ cho phép phản hồi vô hại, đọc comment đã xác thực, ghim ID input/repository/PR/role và so marker toàn phần. Định danh vai trò cần metadata tài khoản/app đáng tin cậy hoặc một kênh điều phối xác thực; nhãn vai trò trong body không đủ. Claim nguyên tử dùng khóa repository/PR/comment/role. Sau timeout khi post, chỉ đọc để đối soát ACK đã tồn tại; khi kết quả ghi còn bất định thì BLOCKED. Không gửi lại mù. STOP và phê duyệt được kiểm tra lại trước thao tác ghi; phê duyệt không được suy ra từ ACK. Không thử với quyền hoặc chi phí mới.
+
+Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex), [Codex review](https://developers.openai.com/blog/custom-code-review-rules-for-codex). Codex review là lựa chọn review riêng, chưa chứng minh thay thế vai trò điều phối hay làm hai phiên tiếp tục nhau.

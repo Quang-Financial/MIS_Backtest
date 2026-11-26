@@ -35,3 +35,5 @@ UX-5-SCREENS: trình bày năm màn hình đã chạy qua smoke Chromium desktop
 CDS-002: PASS kích hoạt lượt Work từ PR GitHub, khoảng 10,5 giây trong một lần đo. BLOCKED vòng hai chiều vào đúng hai phiên. Ca thử đã tạm dừng. UX-INDICATOR-LIBRARY đã cập nhật trên Staging và kiểm thử Chromium PC/mobile. V170-P0-CONFIG còn mở.
 
 26/11: P0 parity của hai caller đạt trong fixture cùng snapshot; BTC Historical thực 20/20. Bộ chỉ báo kiểm tra đủ tám loại. CDS-002 xác nhận STOP và bổ sung bằng chứng chống nhận trùng cục bộ.
+
+CDS-002 được ưu tiên theo lệnh 7178436261. Lịch điều phối hiện có đang kích hoạt mỗi giờ; yêu cầu kiểm chứng qua Issue #5, chưa đổi lịch. Trạng thái hai chiều theo sự kiện tiếp tục BLOCKED. Không cập nhật ứng dụng hoặc Staging trong vòng này.
