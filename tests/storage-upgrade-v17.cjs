@@ -9,7 +9,7 @@ assert.ok(previousDirectory && nextDirectory, 'Pass the V1.6.7 and V1.7 checkout
 const previous = resolve(previousDirectory);
 const next = resolve(nextDirectory);
 const oldCache = 'mis-shell-ces13-optimizer-v1670';
-const newCache = 'mis-shell-workspace-ces-sprint-r5';
+const newCache = 'mis-shell-workspace-ces-sprint-r5-dates';
 const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
   '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
 

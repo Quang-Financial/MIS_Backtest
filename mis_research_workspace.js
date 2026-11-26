@@ -17,6 +17,7 @@
   }
 
   function zoneEvidence(bars) {
+    root.MISCES.validateDailyDates(bars, 'Vùng mua');
     const split = Math.floor(bars.length * 7 / 10);
     const rows = [];
     for (const [label, start, end] of [['IS', 0, split], ['OOS', split, bars.length]]) {
@@ -69,6 +70,8 @@
 
   function robustness(snapshot, flex, options, rulesFor, includeAblation = true) {
     const { a, b, fear } = snapshot;
+    root.MISCES.validateDailyDates(a, 'Tài sản');
+    root.MISCES.validateDailyDates(b, 'BTC');
     const split = Math.floor(a.length * 7 / 10);
     const windows = [['IS', 0, split], ['OOS', split, a.length]];
     const yearStart = new Map(a.map((bar, index) => [bar.t, index]));
@@ -100,7 +103,7 @@
         }
         const stats = root.MISCES.simulateCustom(bars, signals,
           { ...options, rules: rulesFor(mode) }, mode);
-        const cagr = 100 * ((stats.final / options.capital) ** (365.25 / (bars.length - 1)) - 1);
+        const cagr = 100 * ((stats.final / options.capital) ** (365.25 * day / (bars.at(-1).t - bars[0].t)) - 1);
         rows.push({ label, mode, from: bars[0].t, through: bars.at(-1).t, status: stats.buyCount ? 'Có giao dịch' : 'Không giao dịch',
           usable: usable.length, weeks: samples.length, buys: stats.buyCount, roi: stats.roi,
           mdd: stats.mdd, mae: stats.mae, cagr, calmar: stats.mdd < 0 ? cagr / Math.abs(stats.mdd) : null,

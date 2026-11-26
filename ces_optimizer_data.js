@@ -7,12 +7,7 @@ const bars=[...map.values()].sort((a,b)=>a.t-b.t);try{localStorage.setItem(key,J
 async function fullDaily(coin){const okx=await okxDaily(coin);if(coin!=='BTC')return okx;const legacy=await bitstampBTC();const earliest=okx[0]?.t??Infinity;return [...legacy.filter(x=>x.t<earliest),...okx];}
 async function fearDaily(){status('Đang tải Fear & Greed lịch sử...');const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),20000);try{const r=await fetch('https://api.alternative.me/fng/?limit=0&format=json',{signal:ctrl.signal});if(!r.ok)throw Error('Fear Index HTTP '+r.status);const j=await r.json();if(!Array.isArray(j.data))throw Error('Fear Index: phản hồi không hợp lệ');return new Map(j.data.map(x=>[MISCES.iso(Number(x.timestamp)*1000),Number(x.value)]).filter(x=>Number.isFinite(x[1])))}catch(e){throw Error('Không tải được Fear & Greed: '+(e.name==='AbortError'?'quá 20 giây':e.message))}finally{clearTimeout(timer)}}
 function validate(bars, name) {
-  const dailyMs = 86400000;
-  for (let i = 1; i < bars.length; i++) {
-    if (bars[i].t - bars[i - 1].t !== dailyMs) {
-      throw Error(name + ' thiếu ngày giữa ' + MISCES.iso(bars[i - 1].t) + ' và ' + MISCES.iso(bars[i].t));
-    }
-  }
+  if (bars.length) MISCES.validateDailyDates(bars, name);
   const fullWeeks = MISCES.aggregate(bars, 'week').filter(bar => bar.n === 7).length;
   if (fullWeeks < 200) {
     throw Error(name + ' chỉ có ' + fullWeeks + ' tuần đầy đủ; cần 200 tuần để khởi tạo EMA200 tuần.');

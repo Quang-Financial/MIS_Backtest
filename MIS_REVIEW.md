@@ -112,3 +112,5 @@ QA-PILOT-001 / 7183296883: MIS02 completed the disclosure correction against [MI
 CDS-V14 REV4: MIS02 bàn giao luồng test tích hợp cho MIS03. Ưu tiên retest chia mốc IS/OOS, Fear fail-closed, snapshot cùng SHA, giấy sổ mô phỏng sau reload và điều kiện định giá. Điểm trung gian chờ QA độc lập.
 
 CDS-V14 REV5: MIS02 đề nghị MIS03 kiểm tra snapshot BTC xuyên màn hình, gate Fear/unapproved/stale và phạm vi A/B theo năm. Quy tắc nghiệm thu và khoảng trống ghi ở MIS_TEST_REPORT.md.
+
+P1 dữ liệu 7185440342: từ chối ngày thiếu/trùng/sai thứ tự/lệch giờ tại hợp đồng chung, đổi CAGR sang thời gian thực. Node có ca âm; BTC và browser smoke chạy lại trên ứng viên cập nhật.

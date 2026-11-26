@@ -76,3 +76,12 @@ test('a common paper account refuses USD and unidentified quotes', () => {
   assert.throws(() => paperPrice({ a: [{ c: 100, source: 'Bitstamp BTC/USD' }] }, 'BTC'), /cùng đơn vị/);
   assert.throws(() => paperPrice({ a: [{ c: 100 }] }, 'BTC'), /cùng đơn vị/);
 });
+
+test('UTC date contract rejects gaps, duplicates, reverse order and off-midnight records', () => {
+  const bar = index => ({ t: t + index * day, o: 100, h: 100, l: 100, c: 100 });
+  for (const broken of [[bar(0), bar(11)], [bar(0), bar(0)], [bar(1), bar(0)]]) {
+    assert.throws(() => zoneEvidence(broken), /thiếu ngày, trùng hoặc sai thứ tự/);
+  }
+  assert.throws(() => zoneEvidence([{ ...bar(0), t: t + 60000 }]), /00:00 UTC/);
+  assert.doesNotThrow(() => zoneEvidence([bar(0), bar(1)]));
+});

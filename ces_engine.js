@@ -50,5 +50,17 @@ const value=cash+qty*d.c;highEquity=Math.max(highEquity,value);mdd=Math.min(mdd,
 const next=daily[i+1];if(next&&monday(next.t)!==startWeek){const sig=signalMap.get(next.t);if(sig?.valid&&!pending&&tp===0){let step=0;if(qty===0&&!closedThisWeek)step=1;else if(qty>0&&stage<rules.buy.length&&d.c<=firstPrice*(1-rules.buy[stage].drop/100))step=stage+1;if(step)pending={step,signal:sig,when:next.t}}}
 }
 const final=equity.at(-1);return {mode,avgOpen:qty>0?avg:0,avgLast,buyCount,roi:100*(final.value/cfg.capital-1),mdd,mae,final:final.value,cash,qty,trades,equity,cycles:cycle,open:qty>0}}
-root.MISCES={aggregate,ema,rsi,sma,recentCross,scoreParts,signals,simulate,simulateCustom,validateRules,iso,monday,CES13_DEFAULT,validateFlex,scoreFlex};if(typeof module!=='undefined'&&module.exports)module.exports=root.MISCES;
+function validateDailyDates(bars, name) {
+  if (!bars.length) throw Error(name + ' chưa có nến ngày.');
+  for (let i = 0; i < bars.length; i++) {
+    const timestamp = bars[i].t;
+    if (!Number.isSafeInteger(timestamp) || timestamp % 86400000 !== 0) {
+      throw Error(name + ' có nến không bắt đầu lúc 00:00 UTC.');
+    }
+    if (i > 0 && timestamp - bars[i - 1].t !== 86400000) {
+      throw Error(name + ' thiếu ngày, trùng hoặc sai thứ tự nến giữa ' + iso(bars[i - 1].t) + ' và ' + iso(timestamp));
+    }
+  }
+}
+root.MISCES={validateDailyDates,aggregate,ema,rsi,sma,recentCross,scoreParts,signals,simulate,simulateCustom,validateRules,iso,monday,CES13_DEFAULT,validateFlex,scoreFlex};if(typeof module!=='undefined'&&module.exports)module.exports=root.MISCES;
 })(typeof module!=='undefined'&&module.exports?module.exports:window);
