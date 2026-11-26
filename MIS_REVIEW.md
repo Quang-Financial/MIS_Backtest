@@ -92,3 +92,5 @@ Tài liệu gốc: [Work và Codex](https://help.openai.com/en/articles/20001275
 - PASS: Auto từ chối snapshot sai ngày hoặc hash trên hai viewport Chromium. Hai snapshot ETH/SOL vẫn tách biệt.
 - BLOCKED: SUI 185/200 tuần hoàn chỉnh. Đối chiếu dòng Live/Backtest trên dữ liệu thị trường là ca độc lập còn lại.
 - BLOCKED: CDS005-T01 kết thúc với no_update, chưa có bằng chứng về lỗi quyền, connector hoặc nơi thực thi. Đề nghị Kiến trúc sư bổ sung dấu vết trạng thái runner nếu có sẵn. Giữ STOP và tác vụ theo giờ.
+
+PASS bổ sung: Đối chiếu 1.344 dòng tín hiệu giữa Tổng quan và Auto Backtest bằng nến thực và Fear & Greed lưu cố định, có so sánh chi tiết từng dòng. Kiểm tra cắt chuỗi tại thời điểm đánh giá đạt 15/15. Kính mời phản biện đường nạp dữ liệu độc lập và thời điểm xuất bản lịch sử của Fear & Greed bên cung cấp.

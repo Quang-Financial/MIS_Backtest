@@ -88,3 +88,5 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - PASS: Auto Backtest từ chối ngày lệch, hash sửa và không dùng snapshot khác tài sản trên Chromium desktop/mobile.
 - BLOCKED: SUI chỉ có 185 tuần hoàn chỉnh, EMA200 cần 200. Đối chiếu Live và Backtest trên dữ liệu thị trường qua hai màn hình vẫn cần mở rộng ngoài fixture trình duyệt.
 - BLOCKED: CDS005-T01 kết thúc `no_update` sau 475,532 giây, không trả HELLO. T02/T03/T05/T06 chờ bằng chứng mới. Tiếp tục lịch dự phòng theo giờ.
+
+- PASS: Đối chiếu thực thi Tổng quan → snapshot → Auto Backtest trên nến thị trường ở Chromium. 1.344 dòng tín hiệu tuần và 15 phép cắt dữ liệu khớp. Còn kiểm thử hai đường nạp độc lập ngoài snapshot.

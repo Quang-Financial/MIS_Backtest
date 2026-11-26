@@ -248,3 +248,19 @@ Mốc nến cuối 24/11/2026 UTC. Các mã đủ warmup đều có 12 dòng Ins
 Tái lập bằng cách giải nén các tệp OKX trong `tests/fixtures` và lưu mỗi tệp theo tên mã viết hoa, ví dụ `SOL.json`. Chạy `node tests/altcoin-market-regression.cjs <thư-mục-OKX> <btc-bitstamp.json> <checkout-544b21f>`. Dùng SHA-256 của BTC và từng mã trong JSON kết quả để xác nhận đầu vào.
 
 CDS005-T01 · PASS wake / BLOCKED HELLO. Run ghi nhận trạng thái cuối `no_update` lúc 01:29:21.709 UTC, sau 475,532 giây kể từ lúc bắt đầu. `chat_ref` và `latest_result` đều trống. Đã tạm dừng T01 trước khi trạng thái kết thúc. Hiện có bằng chứng rằng sự kiện tới và một lần chạy được ghi nhận. Giai đoạn thực thi prompt và chuyển kết quả còn thiếu telemetry.
+
+### Đối chiếu Tổng quan và Auto Backtest trên nến thị trường lưu cố định
+
+**PASS Chromium desktop.** Kiểm thử đi qua nút Ghim snapshot ở Tổng quan và nút chạy Auto Backtest trên hai trang riêng, cùng IndexedDB cô lập. Cấm mạng ngoài ở trang Auto. So sánh toàn bộ bản ghi tín hiệu tuần từ hai lần gọi Engine, gồm BTC Drawdown, EMA200W, RSI, EMA, SMA RSI, Fear & Greed, chi tiết từng chỉ báo/Hard Filter, điểm CES và trạng thái đủ điều kiện. So sánh thêm hash dữ liệu và cấu hình, ba gate hiển thị, trạng thái đủ điều kiện và điểm CES hiển thị.
+
+| Tài sản | Số dòng tuần khớp | CES tại mốc tuần 23/11/2026 UTC |
+|---|---:|---:|
+| SOL | 285 | 47,79 |
+| AVAX | 285 | 39,12 |
+| LINK | 285 | 25,94 |
+| OKB | 285 | 41,38 |
+| BNB | 204 | 47,79 |
+
+Bộ kiểm thử cắt dữ liệu tại ba ngày đánh giá trên mỗi tài sản và chạy lại từng bản ghi tuần. 15/15 bản ghi khớp với chuỗi đầy đủ, gồm chỉ báo và Hard Filter. Nến tài sản lấy từ OKX, BTC từ Bitstamp, Fear & Greed từ Alternative.me. Snapshot cắt nến và Fear & Greed đến 24/11/2026 UTC. Giá ticker thời gian thực không tham gia bài kiểm thử. Tất cả tín hiệu ở mốc cuối đều chưa đủ điều kiện.
+
+Các đầu vào nén trong `tests/fixtures` và hash trong [JSON kiểm thử](tests/market-caller-parity-results.json). Sau khi giải nén như hướng dẫn hồi quy và mở local server trên cổng 8765, chạy `node tests/market-caller-parity.cjs <thư-mục-OKX> <btcusd-bitstamp.json> <fear-alternative-me.json>` với Playwright và Chromium. Đường kiểm thử gồm Live Monitor tích hợp vào Tổng quan và Auto Backtest qua snapshot đã ghim. Các đường nạp dữ liệu độc lập còn cần một phép so sánh riêng.

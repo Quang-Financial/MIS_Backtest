@@ -49,3 +49,5 @@ CDS005 T01 đã đánh thức Work và được tạm dừng sau khoảng 227 gi
 ### 26/11/2026 · Kiểm thử bổ sung
 
 PR #4 bổ sung bằng chứng hồi quy dữ liệu thị trường và ca snapshot lỗi trên Chromium. Hai workflow browser smoke và smoke tests của 49aed03 đều PASS ([browser](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45735685328), [smoke](https://github.com/Quang-Financial/MIS_Backtest/actions/runs/45735685297)). Xem MIS_TEST_REPORT.md cho phạm vi chính xác. CDS005-T01 đã kết thúc với trạng thái no_update và chưa xác minh được đầu ra. Tác vụ dự phòng theo giờ vẫn hoạt động.
+
+Bổ sung phép chạy thực hai màn hình trên dữ liệu nến đã đóng và Fear & Greed công khai, ghi 1.344/1.344 dòng tuần cùng dữ liệu và cấu hình, 15/15 phép cắt dữ liệu thời điểm đánh giá. SUI vẫn thiếu warmup. Bằng chứng và bản chạy tái lập nằm trong MIS_TEST_REPORT.md.
