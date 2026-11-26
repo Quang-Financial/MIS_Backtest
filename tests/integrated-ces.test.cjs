@@ -66,3 +66,10 @@ test('paper debits costs, rejects overselling and duplicate dates, preserves acc
   assert.equal(sold.positions.BTC.cost, 0);
   assert.ok(sold.realized > 0);
 });
+
+test('a common paper account refuses USD and unidentified quotes', () => {
+  const { paperPrice } = require('../mis_research_workspace.js');
+  assert.equal(paperPrice({ a: [{ c: 100, source: 'OKX BTC/USDT' }] }, 'BTC'), 100);
+  assert.throws(() => paperPrice({ a: [{ c: 100, source: 'Bitstamp BTC/USD' }] }, 'BTC'), /cùng đơn vị/);
+  assert.throws(() => paperPrice({ a: [{ c: 100 }] }, 'BTC'), /cùng đơn vị/);
+});

@@ -153,7 +153,7 @@
     get('paper-download').disabled = !account;
     get('paper-balance').textContent = account ?
       'Vốn đầu ' + format(account.initial) + ' · Tiền mặt ' + format(account.cash) +
-        ' · Lãi/lỗ đã chốt ' + format(account.realized) + ' đơn vị mô phỏng.' : 'Chưa tạo sổ mô phỏng.';
+        ' · Lãi/lỗ đã chốt ' + format(account.realized) + ' USDT mô phỏng.' : 'Chưa tạo sổ mô phỏng.';
     const positions = Object.entries(account?.positions ?? {}).filter(([, position]) => position.units > 0);
     table('paper-positions', positions.map(([coin, position]) =>
       [coin, format(position.units), format(position.cost), format(position.cost / position.units)]));
@@ -164,7 +164,7 @@
     const marks = await Promise.all(positions.map(async ([coin, position]) => {
       try {
         const snapshot = await pinned(coin);
-        return { time: snapshot.end, value: snapshot.a.at(-1).c * position.units };
+        return { time: snapshot.end, value: app.paperPrice(snapshot, coin) * position.units };
       } catch { return null; }
     }));
     if (paperRevision !== revision) return;
@@ -216,7 +216,7 @@
     await accountStore(account => {
       if (!account) throw Error('Chưa tạo sổ mô phỏng.');
       return app.paperFill(account, { coin, side, amount, ...quote, date: snapshot.end,
-        snapshotId: snapshot.snapshotId, price: snapshot.a.at(-1).c });
+        snapshotId: snapshot.snapshotId, price: app.paperPrice(snapshot, coin) });
     });
     get('paper-status').textContent = 'Đã ghi lượt ' + side + ' ' + coin + ' tại giá đóng ' + date(snapshot.end) + ' UTC.';
   });

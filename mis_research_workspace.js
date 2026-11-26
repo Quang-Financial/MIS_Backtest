@@ -115,6 +115,14 @@
     return { rows, basePass, ablation, stability };
   }
 
+  function paperPrice(snapshot, coin) {
+    const row = snapshot.a.at(-1);
+    if (row?.source !== 'OKX ' + coin + '/USDT' || !Number.isFinite(row.c) || row.c <= 0) {
+      throw Error('Sổ mô phỏng cần giá OKX/USDT. Snapshot này chưa có giá cùng đơn vị.');
+    }
+    return row.c;
+  }
+
   function paperFill(account, order) {
     const { coin, date, snapshotId, side, amount, price, fee, slippage } = order;
     if (!/^[A-Z0-9]{2,10}$/.test(coin) || !/^[a-f0-9]{64}$/.test(snapshotId) ||
@@ -146,7 +154,7 @@
       fills: [...account.fills, { ...order, fill, units, paidFee, net }] };
   }
 
-  const api = { zone, zoneEvidence, frames, robustness, paperFill };
+  const api = { zone, zoneEvidence, frames, robustness, paperPrice, paperFill };
   root.MISResearchWorkspace = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(globalThis);
