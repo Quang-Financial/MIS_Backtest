@@ -74,6 +74,42 @@
         <p><button id="overview-pin" type="button" disabled>Ghim snapshot cho Auto Backtest</button> <span id="overview-pin-status" role="status"></span></p>
         <p id="overview-approval">Chiến lược: Chưa có hồ sơ kích hoạt được phê duyệt</p>
       </div>
+      <details id="workspace-beginner-guide" class="overview-card" data-explanation>
+        <summary>Hướng dẫn MIS cho người mới</summary>
+        <h2>Từ dữ liệu đến quyết định</h2>
+        <ol>
+          <li><strong>Data Hub:</strong> Chọn tài sản ở đầu trang. Kiểm tra nguồn, phạm vi, nến đóng cuối theo UTC, chất lượng và số nến tuần cần để tính EMA200W. Nếu dữ liệu thiếu, cũ hoặc lỗi, dừng ở bước kiểm tra.</li>
+          <li><strong>Tổng quan và Bộ chỉ báo:</strong> Đọc theo thứ tự 1M (bối cảnh chu kỳ), 1W (vùng mua và điều kiện tuần), 1D (tìm xác nhận theo nến ngày). Ba mục nghiên cứu này đang chờ. Bộ lọc hiện tại yêu cầu drawdown BTC tại mốc tuần đạt ngưỡng và giá đóng tuần của tài sản đang chọn dưới EMA200W của tài sản đó. Dải vùng mua giả thuyết trên biểu đồ dựa vào giá đóng ngày của tài sản. Xem điểm CES ở Tổng quan, cấu hình và trọng số ở Bộ chỉ báo.</li>
+          <li><strong>Research:</strong> Chọn <strong>Ghim snapshot cho Auto Backtest</strong> ở Tổng quan để lưu bản chụp dữ liệu, rồi chạy nghiên cứu. Đọc số mẫu, mức giảm bất lợi trong kỳ (MAE), thời gian hồi phục và giới hạn dữ liệu.</li>
+          <li><strong>Backtest:</strong> Mở <strong>Auto Backtest</strong> và dùng cùng snapshot khi so sánh cấu hình. Xem phí, trượt giá, số giao dịch, mức sụt giảm lớn nhất (MDD) và kết quả ngoài mẫu (OOS). Kiểm tra trạng thái khi không có giao dịch.</li>
+          <li><strong>Quyết định:</strong> Kiểm tra dữ liệu mới, mọi bộ lọc bắt buộc và hồ sơ phê duyệt của đúng cấu hình trước khi cân nhắc mua. Khi còn thiếu điều kiện, tiếp tục theo dõi.</li>
+          <li><strong>Rà soát:</strong> Ghi snapshot, mã cấu hình, lý do, rủi ro và điều kiện khiến bạn xem lại quyết định.</li>
+        </ol>
+        <h2>Cách đọc trạng thái Tổng quan</h2>
+        <ul>
+          <li><strong>WAIT:</strong> Đang chờ dữ liệu xác nhận hoặc điều kiện CES chưa đạt.</li>
+          <li><strong>WATCH:</strong> Điều kiện nghiên cứu đã đạt và đang chờ phê duyệt, hoặc tài sản đã vào vùng giả thuyết, các bộ lọc bắt buộc đã đạt nhưng điểm CES còn thiếu. Đọc lý do kèm theo.</li>
+          <li><strong>RISK ALERT:</strong> Dữ liệu nến cũ, thiếu xác nhận hoặc chưa thể xác nhận dữ liệu hay cấu hình hợp lệ. Xem trạng thái cập nhật trước khi đánh giá lại.</li>
+        </ul>
+        <h2>Việc cần làm theo lịch</h2>
+        <ul>
+          <li><strong>Hằng ngày:</strong> Chọn <strong>Cập nhật dữ liệu</strong> ở Tổng quan, kiểm tra độ mới và trạng thái, rồi ghi lại thay đổi đáng chú ý.</li>
+          <li><strong>Hằng tuần:</strong> Sau khi nến tuần đóng, rà lại điều kiện và vùng mua, rồi lưu snapshot nếu cần kiểm định.</li>
+          <li><strong>Hằng tháng:</strong> Rà bối cảnh chu kỳ, bằng chứng ngoài mẫu và nhật ký quyết định.</li>
+        </ul>
+        <h2>Kiểm tra trước khi cân nhắc mua</h2>
+        <ul>
+          <li>Đúng tài sản, đúng snapshot, dữ liệu đủ và mới?</li>
+          <li>Các bộ lọc bắt buộc và ngưỡng CES đều đạt?</li>
+          <li>Có bằng chứng ngoài mẫu và hồ sơ phê duyệt cho đúng cấu hình?</li>
+          <li>Đã xác định mức vốn, mức lỗ chấp nhận được và điều kiện thoát?</li>
+        </ul>
+        <h2>Những gì bản hiện tại hỗ trợ</h2>
+        <p><strong>Theo dõi thị trường (Live):</strong> Tổng quan có nút cập nhật giá và dữ liệu nến đã xác nhận. Giải ngân chưa kích hoạt, hồ sơ kích hoạt còn chờ phê duyệt.</p>
+        <p><strong>Research và Backtest:</strong> Kiểm tra giả thuyết và mô phỏng theo dữ liệu lịch sử. Kết quả nghiên cứu không bảo đảm lợi nhuận. Phê duyệt và kích hoạt là bước riêng.</p>
+        <p><strong>Paper Trading:</strong> Ghi mua/bán mô phỏng thủ công tại giá đóng của snapshot đã ghim trong Research. Nhật ký quan sát Live và đối chiếu Backtest đang chờ.</p>
+        <p>Theo dõi và mô phỏng không thực hiện giao dịch thật hay tự động kích hoạt chiến lược.</p>
+      </details>
       <details data-explanation>
         <summary>Nhận diện cấu hình và snapshot</summary>
         <p id="overview-identity">Cấu hình và snapshot: chờ dữ liệu</p>

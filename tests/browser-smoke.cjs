@@ -24,6 +24,62 @@ async function disclosure(page, control, screen, device) {
  }
  console.log(device,screen,'disclosure passes label, touch size, default collapse and interaction');
 }
+async function beginnerGuide(page, device) {
+ const guide=page.locator('#workspace-overview details#workspace-beginner-guide');
+ const summary=guide.locator(':scope > summary');
+ const decision=page.locator('#overview-decision');
+ const approval=page.locator('#overview-approval');
+ const status=await decision.textContent();
+ const approvalStatus=await approval.textContent();
+ const navigation=await page.locator('nav:visible').count();
+ const currentUrl=page.url();
+
+ assert.equal(await guide.count(),1);
+ assert.ok(await summary.isVisible());
+ assert.ok((await summary.boundingBox()).height>=44);
+ assert.match(await summary.getAttribute('aria-label'),/người mới/i);
+ assert.equal(await guide.evaluate(node=>node.open),false);
+ assert.ok(await guide.locator(':scope > :not(summary)').first().isHidden());
+ assert.ok(await decision.isVisible());
+ assert.ok(await approval.isVisible());
+
+ await summary.focus();
+ assert.ok(await summary.evaluate(node=>node===document.activeElement));
+ await page.keyboard.press('Enter');
+ assert.equal(await guide.evaluate(node=>node.open),true);
+ assert.ok(await guide.locator(':scope > :not(summary)').first().isVisible());
+ const steps=await guide.locator(':scope > ol > li').allInnerTexts();
+ const workflow=[/Data Hub.*chất lượng/i,/Tổng quan.*Bộ chỉ báo.*1M.*1W.*1D/i,
+  /Research.*snapshot/i,/Backtest.*ngoài mẫu/i,/Quyết định.*phê duyệt/i,/Rà soát/i];
+ assert.equal(steps.length,workflow.length);
+ for(const [index,step] of steps.entries())assert.match(step,workflow[index]);
+ const guideText=await guide.innerText();
+ for(const copy of [/WAIT.*chờ/i,/WATCH.*phê duyệt/i,/RISK ALERT.*dữ liệu/i,
+  /hằng ngày|hàng ngày/i,/hằng tuần|hàng tuần/i,
+  /hằng tháng|hàng tháng/i,/trước khi (?:cân nhắc )?mua/i,/đã có|hiện có|bản hiện tại hỗ trợ/i,/kế hoạch|dự kiến|đang chờ/i,
+  /paper.*mô phỏng/i,/không.*giao dịch thật/i,/không (?:bảo đảm|đảm bảo|cam kết) lợi nhuận/i,
+  /không.*tự (?:động )?kích hoạt/i]){
+  assert.match(guideText,copy);
+ }
+ assert.equal(await guide.locator('button, input, select, textarea, form, nav, [role="button"], [role="navigation"]').count(),0);
+ assert.equal(await page.locator('nav:visible').count(),navigation);
+ assert.ok(await decision.isVisible());
+ assert.ok(await approval.isVisible());
+ assert.equal(await decision.textContent(),status);
+ assert.equal(await approval.textContent(),approvalStatus);
+ assert.equal(page.url(),currentUrl);
+ assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.keyboard.press('Enter');
+ assert.equal(await guide.evaluate(node=>node.open),false);
+
+ if(device!=='desktop'){
+  await summary.tap();
+  assert.equal(await guide.evaluate(node=>node.open),true);
+  await summary.tap();
+  assert.equal(await guide.evaluate(node=>node.open),false);
+ }
+ console.log(device,'beginner guide is collapsed by default, opens by keyboard/touch and preserves Overview status');
+}
 (async()=>{
  for(const [name,engine,viewport] of [['desktop',chromium,{width:1440,height:900}],['mobile-webkit',webkit,{width:414,height:896}]]){
   const browser=await engine.launch();
@@ -47,7 +103,7 @@ async function disclosure(page, control, screen, device) {
      await page.locator('#overview-chart').waitFor();
      assert.ok(await page.locator('#decision-title').evaluate(node=>
       Boolean(node.compareDocumentPosition(document.querySelector('#chart-title')) & Node.DOCUMENT_POSITION_FOLLOWING)));
-     await disclosure(page,page.locator('#workspace-overview > details[data-explanation] > summary').first(),'overview',name);
+     await disclosure(page,page.locator('#overview-identity').locator('..').locator(':scope > summary'),'overview',name);
      for(const id of ['source','asof','approval','price','dd','ema','zone','score','gap','decision']){
       assert.ok(await page.locator('#overview-'+id).isVisible(),id);
      }
@@ -60,6 +116,7 @@ async function disclosure(page, control, screen, device) {
      assert.ok(viewport.width>720?columns[1].x>columns[0].x:columns[1].y>columns[0].y);
      await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('RISK ALERT'));
      assert.match(await page.locator('#overview-price').textContent(),/Chưa có dữ liệu/);
+     await beginnerGuide(page,name);
 
      const dailyMs=86400000;
      const fixtureStart=Date.UTC(2018,0,11);
@@ -86,7 +143,7 @@ async function disclosure(page, control, screen, device) {
      assert.match(await page.locator('#overview-score').textContent(),/\d.*\/ 100/);
      assert.match(await page.locator('#overview-approval').textContent(),/Chưa có hồ sơ kích hoạt/);
      assert.match(await page.locator('.overview-decision').textContent(),/Chưa kích hoạt/);
-     assert.doesNotMatch(await page.locator('#workspace-overview').textContent(),/BUY READY/);
+     assert.doesNotMatch(await page.locator('.overview-action').textContent(),/BUY READY/);
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-'+name+'.png'});
      await page.evaluate(()=>{
       const flex=CESShared.load();
@@ -98,7 +155,7 @@ async function disclosure(page, control, screen, device) {
      await page.locator('#overview-refresh').click();
      await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('WATCH'));
      assert.match(await page.locator('.overview-decision').textContent(),/Chưa kích hoạt/);
-     assert.doesNotMatch(await page.locator('#workspace-overview').textContent(),/BUY READY/);
+     assert.doesNotMatch(await page.locator('.overview-action').textContent(),/BUY READY/);
      await page.evaluate(()=>{
       const now=Date.now();
       Date.now=()=>now+10*86400000;
@@ -200,6 +257,7 @@ async function disclosure(page, control, screen, device) {
      assert.match(await page.locator('#overview-zone').textContent(),/Chưa có drawdown/);
 
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Cấu hình chiến lược'}).click();
+     assert.ok(await page.locator('#workspace-beginner-guide').isHidden());
      assert.equal(await page.locator('#workspace-candidates li').count(),4);
      assert.equal(await page.locator('#workspace-indicator-table tbody tr').count(),
        await page.evaluate(()=>CESAuto.lock(CESShared.load()).dynamic.length));
@@ -246,6 +304,7 @@ async function disclosure(page, control, screen, device) {
 
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Bằng chứng vùng mua'}).click();
+     assert.ok(await page.locator('#workspace-beginner-guide').isHidden());
      assert.equal(await page.locator('#workspace-history').evaluate(node=>node.open),false);
      assert.match(await page.locator('#workspace-research').textContent(),/Chạy nghiên cứu/);
      await page.locator('#research-config').selectOption('RA01');
@@ -282,6 +341,7 @@ async function disclosure(page, control, screen, device) {
      await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Kết quả kiểm định'}).click();
+     assert.ok(await page.locator('#workspace-beginner-guide').isHidden());
      await page.frameLocator('iframe[title="Optimizer"]').locator('#run').waitFor();
      if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-backtest-'+name+'.png'});
      await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
@@ -296,6 +356,7 @@ async function disclosure(page, control, screen, device) {
      });
      await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
      await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Nguồn và chất lượng dữ liệu'}).click();
+     assert.ok(await page.locator('#workspace-beginner-guide').isHidden());
      const dataFrame=page.frameLocator('iframe[title="Data Hub"]');
      await dataFrame.locator('#import').waitFor();
      await disclosure(page,dataFrame.locator('.mis-disclosure > summary').first(),'data',name);

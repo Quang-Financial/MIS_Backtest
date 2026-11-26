@@ -393,3 +393,15 @@ SUI 185/200 tuần tại mốc dữ liệu ghim. iPhone thật, lợi nhuận v�
 Mức 8/10 ở đây đếm luồng mục tiêu đã chạy qua kiểm thử phát triển. Điểm nghiệm thu 80/100 và kết luận độc lập chờ MIS03. Phân đoạn theo năm không tuyên bố là chu kỳ thị trường độc lập. Walk-forward, Historical/Optimizer theo snapshot chung, mốc công bố Fear, SUI warmup và iPhone thật còn chờ. So sánh kỹ thuật không chứng minh hiệu quả đầu tư.
 
 **Sửa phản biện QA 7185440342.** Mô-đun snapshot, vùng mua và A/B dùng cùng kiểm tra nến bắt đầu 00:00 UTC, duy nhất và liên tục theo ngày. Thiếu/trùng/sai thứ tự/lệch giờ đều bị từ chối trước nghiên cứu. CAGR dùng thời gian thực giữa hai nến; cửa sổ 30–730 ngày chỉ dùng chuỗi liên tục. Có ca âm cho cả bốn loại dữ liệu lỗi. Sổ paper ghi rõ giá đóng đã biết.
+
+### Pilot04 · Hướng dẫn MIS cho người mới
+
+Mốc gốc cố định `121d85fad8ff0801a96711419e982d07313558af`. Phạm vi duyệt [7189731919](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7189731919) và [REV4](https://github.com/Quang-Financial/MIS_Backtest/issues/5#issuecomment-7191291719). Ứng viên chỉ có giao diện hướng dẫn, CSS và kiểm thử. Review và Staging của Sprint vẫn ghim bản gốc.
+
+- PASS Chromium 1440 px desktop và 414 px mobile: browser smoke đầy đủ, hướng dẫn mặc định đóng, bàn phím/chạm, trạng thái quyết định/phê duyệt và điều hướng giữ nguyên, năm màn hình, hồi quy ghi sổ mô phỏng, lưu trữ, snapshot và báo cáo. [Log](tests/pilot04/browser-chromium.log).
+- PASS QA riêng trên Chromium 1440 px, 414 px và 320 px: luồng/ngữ cảnh thao tác đúng, disclosure 44 px, bàn phím/chạm, không tràn ngang, không xuất hiện trên tab khác. Reviewer nội dung xác nhận lại index và CSS ghim sau một lượt sửa dùng đúng tên nút, làm rõ các gate và ranh giới mô phỏng.
+- PASS Node 5/5 ca tích hợp hiện hữu. Xác nhận độc lập của MIS03 trên SHA ứng viên còn chờ.
+
+Tái lập từ thư mục repo bằng cách chạy `python3 -m http.server 8765 --bind 127.0.0.1`, sau đó `node tests/browser-smoke.cjs` với Playwright 1.56.1 và Chromium/WebKit đã được cài đặt. Lượt local dùng Chromium cho cả desktop/mobile với binary Node hiện có, không khẳng định WebKit hoặc iPhone thật. Chạy bộ logic bằng `node --test tests/integrated-ces.test.cjs`.
+
+SHA-256: index.html `1ee6b5be5fe773636b5b05c1c0f986ff1d85d1d3a8fbe4c795e8a0a13bb127c4`, mis_workspace.css `c936d6fdb5db051fc915901656e7c9cc167ece24fcf8a6393017fcd5e19f2a82`, tests/browser-smoke.cjs `5bde878c6ee5708ba6b0e61e82c27a9c2e170621ea182ab858e1fe615d949f7b`.

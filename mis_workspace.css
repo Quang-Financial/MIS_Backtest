@@ -89,6 +89,12 @@ iframe{min-height:0;vertical-align:top}
 .mis-disclosure>summary .disclosure-mark{font-size:1.2rem;font-weight:750}
 .mis-disclosure>summary:focus-visible{outline:3px solid #176450;outline-offset:2px}
 #workspace-overview>details[data-explanation]{margin-bottom:8px}
+#workspace-beginner-guide{padding-block:0}
+#workspace-beginner-guide>summary{font-weight:700}
+#workspace-beginner-guide[open]{padding-bottom:12px}
+#workspace-beginner-guide h2{margin:12px 0 4px}
+#workspace-beginner-guide :is(ol,ul){padding-inline-start:1.4rem;margin:0}
+#workspace-beginner-guide li{margin-block:4px;font-size:.9rem;line-height:1.45}
 
 .research-fields{display:flex;flex-wrap:wrap;align-items:end;gap:8px;margin:10px 0}
 .research-fields label{display:grid;gap:4px;font-size:.875rem}
