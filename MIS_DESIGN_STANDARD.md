@@ -1,4 +1,4 @@
-# MIS — Tiêu chuẩn thiết kế và nghiệm thu V1.1
+# MIS — Tiêu chuẩn thiết kế và nghiệm thu V1.2
 Ngày 26/11/2026. Tài liệu chuẩn duy nhất; cập nhật thay thế nội dung lỗi thời, không nối thêm ý tưởng trùng. Lịch sử thay đổi lưu bằng Git. Áp dụng cho MIS và tham khảo cho ứng dụng tương lai.
 
 ## 1. Mục tiêu
@@ -26,4 +26,4 @@ Dữ liệu chuẩn hóa, nến đóng, cutoff UTC rõ, chống look-ahead, phí
 Thiết kế → triển khai → test → review độc lập → sửa → hồi quy → duyệt kỹ thuật → người dùng nghiệm thu. Mỗi mục PASS/FAIL/BLOCKED có SHA, kỳ vọng/thực tế, cách tái lập và bằng chứng. Kiểm tra cả năm màn hình PC/mobile, trạng thái mở/đóng *, lỗi/thiếu/cũ/loading, reload, thao tác, accessibility, dữ liệu và engine. Phân biệt fixture, dữ liệu thị trường cố định, live và iPhone thật. Không coi smoke test là nghiệm thu UX. Thang điểm đề xuất: trading logic 25, kiến trúc/code 20, UI 15, UX 15, dữ liệu 15, hiệu năng/ổn định 10. Ngưỡng đề xuất 90/100 và không P0/P1 trong phạm vi phát hành; không bù lỗi nghiêm trọng bằng điểm UI. Chỉ chấm khi có bằng chứng.
 
 ## 7. Duy trì tài liệu
-Mỗi quyết định tối ưu được duyệt cập nhật vào đúng mục, thay thế quy tắc cũ; không lưu các phương án bị loại trong bản chuẩn. Không nhân bản tiêu chuẩn sang các file quản trị khác; chỉ dẫn link. Work và Kiến trúc sư cùng dùng bản mới nhất. Quyết định mới ngoài phạm vi đã duyệt cần chủ dự án xác nhận.
+Mỗi quyết định tối ưu được duyệt cập nhật vào đúng mục, thay thế quy tắc cũ; không lưu các phương án bị loại trong bản chuẩn. Không nhân bản tiêu chuẩn sang các file quản trị khác; chỉ dẫn link. Work và Kiến trúc sư cùng dùng bản mới nhất. Kiến trúc sư chủ động áp dụng tiêu chuẩn cho mọi thiết kế mới và nâng cấp, kể cả khi chủ dự án không nhắc; chủ động phản biện, đề xuất cải tiến và cập nhật tại đúng mục sau khi thống nhất. Tái sử dụng các nguyên tắc chung cho ứng dụng khác, điều chỉnh phần nghiệp vụ theo từng dự án. Quyết định mới ngoài phạm vi đã duyệt cần chủ dự án xác nhận.
