@@ -18,3 +18,4 @@ jobs:
 
           node tests/datahub.test.cjs
           node tests/engine-parity.test.cjs
+          node --test tests/integrated-ces.test.cjs

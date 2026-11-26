@@ -354,3 +354,21 @@ The smoke test verifies accessible disclosure name, at least 44 px height, close
 Auto Full JSON download and local report restore represent two tested paths. Restoring an arbitrary external JSON as the latest report has no verified path here. Historical Research and Optimizer parity are outside the Overview/Auto market comparison. Fear historical publication and revision times are BLOCKED, SUI remains 185/200 complete weeks in the pinned fixture, and a physical iPhone was not part of this run. Profitability and strategy activation are separate gates.
 
 The recorded-market Overview/Auto comparison was rerun on this source candidate with both pinned and independent loading. Output matched the committed [market JSON](tests/market-caller-parity-results.json) byte for byte, including 1,344 weekly rows per viewport, 15 prefix checks per viewport and legacy OKB reload. Reproduction commands remain in the market audit section above.
+
+### CDS-V14 REV4 · CES Spot V1.7.1–V1.9.0, khung tích hợp để kiểm thử
+
+Chuẩn [V1.7](MIS_DESIGN_STANDARD.md). Thiết kế ưu tiên luồng có thể chạy và cô lập phần thiếu. Phiên bản giao diện hiển thị bản test tích hợp. Điểm 80/100 chờ đánh giá độc lập trên cùng SHA.
+
+| Mốc | Phần có thể kiểm thử | Phần còn chờ |
+|---|---|---|
+| V1.7.1 | Ghim nến đóng ở Tổng quan, chạy Research. Kiểm tra Z1–Z6, trung vị biến động giá, MAE, phục hồi, số mẫu đủ 90/180/365/730 ngày; tách IS/OOS theo thời gian. Kỳ giữ phải nằm trọn trong phân đoạn. | Kiểm định phân cụm chu kỳ độc lập, độ tin cậy thống kê. Số đỉnh tham chiếu không phải số chu kỳ độc lập. |
+| V1.7.2 | Cấu hình lưu hoặc RA01/RA02/RA03/SMA01 chỉ đọc. Ablation chỉ báo tùy chọn và độ nhạy ngưỡng/trọng số trên bản sao; giữ hard gates. | Tìm kiếm chu kỳ/tham số toàn diện và mốc công bố Fear lịch sử. |
+| V1.7.3 | Độ phủ ngày/tuần/tháng đầy đủ, CES-A/B dùng engine hiện hữu, IS/OOS riêng, benchmark mua-giữ và phí/trượt giá ×2. No-trade và thiếu dữ liệu có nhãn riêng. | Walk-forward, kiểm định nhiều chu kỳ độc lập và đối chứng Historical/Optimizer. Nếu cấu hình dùng Fear chưa có provenance, phần A/B, stress và ablation bị chặn. |
+| V1.7.4 | Snapshot xác minh hash qua luồng đã ghim, khóa cấu hình nghiên cứu, hiển thị cutoff UTC, tải hồ sơ JSON gồm cấu hình, rule, chi phí, mã tài sản, kết quả và hash. Tổng quan và Research dùng chung phân vùng Drawdown. | Danh bạ bằng chứng xuyên năm màn hình và nhập hồ sơ ngoài. |
+| V1.8.0 | Tổng quan hiển thị tương quan Close tuần và EMA200W, trạng thái WAIT/WATCH và lỗi nến thiếu/cũ như trước. Giải ngân và sẵn sàng mua chờ phê duyệt. | Phân loại chu kỳ đã kiểm định, xác nhận quan sát Live. |
+| V1.8.1 | Sổ chỉ mô phỏng, nhập BUY/SELL thủ công theo giá đóng snapshot, phí/trượt giá; chặn trùng, lỗi thứ tự, vượt tiền hoặc vị thế. Dữ liệu IndexedDB tách khỏi báo cáo cũ. | Nhật ký tín hiệu Live có quan sát thật, so sánh Live/Backtest, nhập sổ từ ngoài. |
+| V1.9.0 | Vốn, tiền mặt, vị thế, giá vốn bình quân, lãi/lỗ đã chốt, tổng tài sản/ROI theo snapshot cùng ngày, tải JSON. Thiếu snapshot nhất quán thì ẩn định giá. | Phân bổ vốn, chỉ số rủi ro danh mục và đồng bộ thiết bị. |
+
+**Tái lập:** trên Staging chọn mã, vào Tổng quan cập nhật/ghim snapshot, mở Research, chọn RA01 và chạy. Đổi về cấu hình dùng Fear để kiểm tra trạng thái bị chặn. Tạo vốn mô phỏng, nhập số tiền và ghi một lần; ghi lại cùng ngày/mã phải bị chặn; tải lại trang rồi kiểm tra vị thế và tải JSON. Test Node dùng nến SOL/BTC đã lưu để chạy A/B và dùng dữ liệu tổng hợp kiểm tra mốc 70/30, phí, vượt tiền/vị thế. Chromium desktop/mobile kiểm luồng chính bằng fixture. Replay Overview/Auto với dữ liệu thị trường cũ khớp từng byte với JSON đã commit; kiểm tra nâng cấp cache và lưu trữ cũ trên hai viewport PASS. [Node](tests/integrated-ces.test.cjs) · [Browser](tests/ces-r4/browser.log) · [Nâng cấp](tests/ces-r4/storage-upgrade.json).
+
+SUI 185/200 tuần tại mốc dữ liệu ghim. iPhone thật, lợi nhuận và Strategy ID đã duyệt chưa xác minh. Kết quả paper là diễn tập thủ công theo giá đóng đã biết.

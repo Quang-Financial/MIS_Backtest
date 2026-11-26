@@ -15,13 +15,15 @@
   <script defer src="./ces_auto_core.js"></script>
   <script defer src="./ces_library.js"></script>
   <script defer src="./ces_optimizer_data.js"></script>
+  <script defer src="./mis_research_workspace.js"></script>
   <script defer src="./mis_overview.js"></script>
   <script defer src="./mis_workspace.js"></script>
+  <script defer src="./mis_research_ui.js"></script>
 </head>
 <body>
   <header class="header">
     <div class="masthead">
-      <div><div class="brand">MIS <span> / </span> My Investment System</div><div class="version">V1.7.0 · Bản phát triển</div></div>
+      <div><div class="brand">MIS <span> / </span> My Investment System</div><div class="version">CES Spot · Bản test tích hợp</div></div>
       <label class="asset">Tài sản <select id="workspace-asset" aria-label="Tài sản">
         <option>BTC</option><option>ETH</option><option>BNB</option><option>SOL</option>
         <option>LINK</option><option>AVAX</option><option>SUI</option><option>OKB</option>
@@ -63,6 +65,7 @@
         <dl class="overview-decision">
           <dt>Điều kiện mua</dt><dd id="overview-eligibility">Chờ dữ liệu</dd>
           <dt>Giải ngân</dt><dd>Chưa kích hoạt</dd>
+          <dt>Sẵn sàng mua</dt><dd>Chờ cấu hình được phê duyệt</dd>
         </dl>
       </section>
       <div class="overview-meta">
@@ -77,7 +80,7 @@
       </details>
       <div class="overview-metrics" aria-label="Chỉ số thị trường">
         <article><span>Giá hiện tại</span><strong id="overview-price">Chưa có dữ liệu</strong><small id="overview-price-time">—</small></article>
-        <article><span>Giai đoạn chu kỳ</span><strong>Chờ nghiên cứu</strong></article>
+        <article><span>Trạng thái tuần / EMA200W</span><strong id="overview-cycle">Chờ dữ liệu</strong></article>
         <article><span>Drawdown BTC</span><strong id="overview-dd">—</strong></article>
         <article><span id="overview-ema-label">Khoảng cách BTC / EMA200W</span><strong id="overview-ema">—</strong></article>
       </div>
@@ -129,18 +132,63 @@
     </section>
     <section id="workspace-research" class="overview-card" hidden>
       <h2>Bằng chứng vùng mua</h2>
-      <dl class="workspace-summary">
-        <div><dt>Số mẫu / chu kỳ độc lập</dt><dd>Chờ nghiên cứu</dd></div>
-        <div><dt>Lợi nhuận trung vị 3 / 6 / 12 / 24 tháng</dt><dd>Chờ nghiên cứu</dd></div>
-        <div><dt>MAE / thời gian phục hồi</dt><dd>Chờ nghiên cứu</dd></div>
-        <div><dt>Ngoài mẫu (OOS)</dt><dd>Chờ kiểm định vùng mua</dd></div>
-        <div><dt>1M · 1W · 1D</dt><dd>Chờ nghiên cứu</dd></div>
-      </dl>
+      <p>Nghiên cứu vùng giả thuyết từ snapshot đã ghim tại Tổng quan.</p>
+      <div class="research-fields">
+        <label>Cấu hình thử <select id="research-config"><option value="">Cấu hình hiện tại</option><option>RA01</option><option>RA02</option><option>RA03</option><option>SMA01</option></select></label>
+        <label>Phí nghiên cứu (%) <input id="research-fee" type="number" min="0" max="10" step="0.01" value="0.1" required></label>
+        <label>Trượt giá nghiên cứu (%) <input id="research-slip" type="number" min="0" max="10" step="0.01" value="0.05" required></label>
+      </div>
+      <button id="research-run" type="button">Chạy nghiên cứu</button>
+      <button id="research-download" type="button" disabled>Tải hồ sơ nghiên cứu</button>
+      <p id="research-status" role="status">Chờ kiểm định vùng mua.</p>
+      <p id="research-risk" role="status"></p>
+      <p id="research-context"></p>
       <details data-explanation>
-        <summary>Phạm vi bằng chứng vùng mua</summary>
-        <p>Các chỉ số vùng mua chờ nghiên cứu. Historical Research kiểm tra ứng viên cố định và có phạm vi kết quả riêng.</p>
+        <summary>Phương pháp và phạm vi</summary>
+        <p>Mẫu là một lần chuyển vùng tại giá đóng ngày. Chỉ tính kỳ nắm giữ đủ dữ liệu trong phân đoạn.
+          Số đỉnh tham chiếu chỉ là chỉ dấu độ đa dạng, các mẫu có thể chồng lấp. Lợi nhuận vùng là biến động giá, chưa tính chi phí và không phải kết quả giao dịch.
+          Hồi phục tính từ đáy trong kỳ đến ngày đóng ở giá mẫu trở lên. IS/OOS tách 70/30 theo thời gian, không tối ưu trên OOS.
+          A/B dùng cùng tín hiệu và mặc định của Auto; kết quả gồm benchmark mua-giữ chưa tính chi phí.
+          Walk-forward và kiểm định nhiều chu kỳ độc lập đang chờ.</p>
       </details>
+      <div class="research-scroll" tabindex="0" aria-label="Thống kê vùng mua">
+        <table id="research-zones"><thead><tr><th>Mẫu</th><th>Vùng</th><th>Ngày giữ</th><th>Mẫu đủ/tổng</th><th>Đỉnh tham chiếu</th><th>ROI trung vị %</th><th>MAE trung vị %</th><th>Ngày hồi phục</th><th>Số hồi phục</th></tr></thead><tbody></tbody></table>
+      </div>
+      <h3>Đóng góp chỉ báo</h3>
+      <p id="research-indicators"></p>
+      <h3>So sánh CES-A / CES-B</h3>
+      <div class="research-scroll" tabindex="0" aria-label="Kết quả A/B">
+        <table id="research-robustness"><thead><tr><th>Kịch bản</th><th>Mẫu</th><th>CES</th><th>Trạng thái</th><th>Tuần đủ/tổng</th><th>ROI %</th><th>CAGR %</th><th>MDD %</th><th>MAE %</th><th>Calmar</th><th>Benchmark %</th></tr></thead><tbody></tbody></table>
+      </div>
       <details id="workspace-history"><summary>Mở Historical Research</summary></details>
+      <section aria-labelledby="paper-heading">
+        <h2 id="paper-heading">Paper Trading và danh mục mô phỏng</h2>
+        <p>Nhập lượt mô phỏng thủ công cho mã đang chọn, tại giá đóng của snapshot đã ghim. Đây là lượt thủ công trên dữ liệu đã chốt, không dùng để đánh giá khớp Live. Nhật ký quan sát Live và đối chiếu Backtest đang chờ.</p>
+        <div class="research-fields">
+          <label>Vốn đầu <input id="paper-capital" type="number" min="1" max="1000000000" step="any" value="10000" required></label>
+          <button id="paper-start" type="button" disabled>Tạo sổ mô phỏng</button>
+        </div>
+        <p id="paper-balance"></p>
+        <div class="research-fields">
+          <label>Chiều mô phỏng <select id="paper-side"><option value="BUY">Mua</option><option value="SELL">Bán</option></select></label>
+          <label><span id="paper-amount-label">Tiền mô phỏng chi (gồm phí)</span> <input id="paper-amount" type="number" min="0.00000001" max="1000000000" step="any" required></label>
+          <label>Phí (%) <input id="paper-fee" type="number" min="0" max="10" step="0.01" value="0.1" required></label>
+          <label>Trượt giá (%) <input id="paper-slip" type="number" min="0" max="10" step="0.01" value="0.05" required></label>
+          <button id="paper-record" type="button" disabled>Ghi lượt mô phỏng</button>
+        </div>
+        <p id="paper-status" role="status"></p>
+        <p id="paper-equity"></p>
+        <button id="paper-download" type="button" disabled>Tải sổ mô phỏng</button>
+        <div class="research-scroll" tabindex="0" aria-label="Vị thế mô phỏng">
+          <table id="paper-positions"><thead><tr><th>Mã</th><th>Số lượng</th><th>Giá vốn</th><th>Giá vốn bình quân</th></tr></thead><tbody></tbody></table>
+        </div>
+        <details data-explanation>
+          <summary>20 lượt mô phỏng gần nhất</summary>
+          <div class="research-scroll" tabindex="0" aria-label="Nhật ký mô phỏng">
+            <table id="paper-fills"><thead><tr><th>Ngày UTC</th><th>Mã</th><th>Chiều</th><th>Số lượng</th><th>Giá mô phỏng</th><th>Phí</th><th>Snapshot</th></tr></thead><tbody></tbody></table>
+          </div>
+        </details>
+      </section>
     </section>
     <section id="workspace-data" class="overview-card" hidden>
       <h2>Độ phủ và chất lượng dữ liệu</h2>

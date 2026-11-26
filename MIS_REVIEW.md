@@ -108,3 +108,5 @@ TEMP-POLL-003 đạt 5/5 ACK duy nhất và trung bình 48,6 giây từ PING t�
 PASS kỹ thuật 7180790510: Nâng cấp cùng origin V1.6.7 → Staging V1.7 giữ các store thử, kích hoạt cache mới, và mở đúng bookmark OKB khi offline. Đã lập ma trận chứng cứ cho phản biện độc lập. Chưa làm nghiệm thu phát hành.
 
 QA-PILOT-001 / 7183296883: MIS02 completed the disclosure correction against [MIS_DESIGN_STANDARD.md](MIS_DESIGN_STANDARD.md). See MIS_TEST_REPORT.md for exact fixture scope, screenshots, storage and limits. MIS03 reviews the pinned candidate independently.
+
+CDS-V14 REV4: MIS02 bàn giao luồng test tích hợp cho MIS03. Ưu tiên retest chia mốc IS/OOS, Fear fail-closed, snapshot cùng SHA, giấy sổ mô phỏng sau reload và điều kiện định giá. Điểm trung gian chờ QA độc lập.

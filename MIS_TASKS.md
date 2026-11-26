@@ -98,3 +98,5 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - PASS vận chuyển TEMP-POLL-003: 5/5 ACK, 3/5 dưới 60 giây. Áp dụng ACK ngắn trước MIS_REVIEW theo quyết định 7180782050. CDS hai chiều theo sự kiện tiếp tục BLOCKED.
 - PASS 7180790510: Ma trận nghiệm thu kỹ thuật và ca cập nhật Service Worker V1.6.7 → gói Staging V1.7 trên origin cô lập. Còn chờ phản biện độc lập; các giới hạn SUI, Fear và iPhone được ghi rõ.
 - QA-PILOT-001: Disclosure UI, keyboard/touch, stale/missing recovery and storage regressions run by MIS02; independent retest assigned by pinned SHA on PR #4.
+
+- CDS-V14 REV4: Luồng nghiên cứu vùng, chỉ báo và A/B, trạng thái Live nghiên cứu, sổ paper và danh mục mô phỏng đã chạy được ở vòng dev. MIS03 retest trên SHA ghim. Walk-forward, provenance Fear, đối chứng nhiều chu kỳ và quan sát thật nằm trong backlog tối ưu [ma trận](MIS_TEST_REPORT.md).

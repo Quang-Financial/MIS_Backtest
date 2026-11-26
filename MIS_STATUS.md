@@ -65,3 +65,5 @@ TEMP-POLL-003 được chấp nhận cho vận chuyển dự phòng trong phiên
 Ma trận nghiệm thu kỹ thuật V1.7 đã ghi SHA ứng dụng, SHA bằng chứng, CI và giới hạn. Nâng cấp cache Service Worker giữ cấu hình, báo cáo Auto/Historical và nguồn nhập Data Hub, đã xác minh bằng fixture cũ trên gói Staging. Bookmark OKB hoạt động offline sau nâng cấp.
 
 QA-PILOT-001 developer retest covers five screens, disclosure, stale/missing gates, Auto JSON export/restore and Service Worker storage upgrade. [Design standard](MIS_DESIGN_STANDARD.md). Independent acceptance and release remain separate.
+
+CDS-V14 REV4 có ứng viên CES Spot tích hợp để kiểm thử. Bằng chứng phân biệt fixture UI, dữ liệu thị trường ghi cố định, và quan sát Live còn chờ. Xem ma trận trong [MIS_TEST_REPORT.md](MIS_TEST_REPORT.md).

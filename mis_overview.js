@@ -8,7 +8,6 @@ function status(message) {
 const MISOverview = (() => {
   const at = id => document.getElementById('overview-' + id);
   const dayMs = 86400000;
-  const boundaries = [40, 45, 50, 55, 60, 70];
   const format = value => Number.isFinite(value)
     ? value.toLocaleString('vi-VN', { maximumFractionDigits: 2 }) : '—';
   const date = value => Number.isFinite(value) ? new Date(value).toISOString().slice(0, 10) : '—';
@@ -88,8 +87,7 @@ const MISOverview = (() => {
   function zoneFor(bars) {
     const peak = bars.reduce((max, row) => Math.max(max, row.h), 0);
     if (!peak || !bars.length) return;
-    const dd = 100 * (1 - bars.at(-1).c / peak);
-    const index = boundaries.filter(boundary => dd >= boundary).length;
+    const { drawdown: dd, index } = MISResearchWorkspace.zone(peak, bars.at(-1).c);
     zoneIndex = index;
     zoneBand = { low: peak * .45, high: peak * .50 };
     draw();
@@ -111,6 +109,8 @@ const MISOverview = (() => {
       (adjusted ? ' · Cấu hình lưu khác khóa nghiên cứu Auto.' : '');
     emaLine = ema ? signal.ema200 : null;
     draw();
+    at('cycle').textContent = stale || !ema ? 'Chờ dữ liệu mới' :
+      signal.close < signal.ema200 ? 'Dưới EMA200W' : 'Từ EMA200W trở lên';
     at('dd').textContent = dd ? format(signal.btcDD) + '%' : '—';
     at('ema').textContent = ema ? format(100 * (signal.close / signal.ema200 - 1)) + '%' : '—';
     at('score').textContent = format(signal.score) + ' / 100';
@@ -208,6 +208,7 @@ const MISOverview = (() => {
     at('ema-label').textContent = 'Khoảng cách ' + asset + ' / EMA200W';
     for (const field of ['dd', 'ema']) at(field).textContent = '—';
     for (const field of ['gate-dd', 'gate-ema', 'gate-score']) at(field).textContent = 'Chờ dữ liệu';
+    at('cycle').textContent = 'Chờ dữ liệu';
     at('price').textContent = 'Chưa có dữ liệu';
     at('price-time').textContent = '—';
     at('score').textContent = '— / 100';
@@ -235,6 +236,7 @@ const MISOverview = (() => {
     at('pin').disabled = true;
     try {
       await pinnedResearchSnapshot(coin, snapshot);
+      window.dispatchEvent(new Event('mis-snapshot-pinned'));
       if (snapshot === currentSnapshot) at('pin-status').textContent = 'Đã ghim ' + coin + ' đến ' + date(snapshot.end);
     } catch {
       if (snapshot === currentSnapshot) at('pin-status').textContent = 'Không lưu được snapshot.';

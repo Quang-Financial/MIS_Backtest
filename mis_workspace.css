@@ -89,3 +89,12 @@ iframe{min-height:0;vertical-align:top}
 .mis-disclosure>summary .disclosure-mark{font-size:1.2rem;font-weight:750}
 .mis-disclosure>summary:focus-visible{outline:3px solid #176450;outline-offset:2px}
 #workspace-overview>details[data-explanation]{margin-bottom:8px}
+
+.research-fields{display:flex;flex-wrap:wrap;align-items:end;gap:8px;margin:10px 0}
+.research-fields label{display:grid;gap:4px;font-size:.875rem}
+.research-fields input,.research-fields select{font:inherit;color:inherit;max-width:100%;min-height:40px;padding:6px;border:1px solid #91aab1;border-radius:8px}
+.research-scroll{max-width:100%;overflow-x:auto;margin:8px 0}
+.research-scroll table{border-collapse:collapse;width:100%;white-space:nowrap;text-align:right;font-size:.85rem}
+.research-scroll th,.research-scroll td{padding:6px;border-bottom:1px solid #d5e1e5}
+.research-scroll th:first-child,.research-scroll td:first-child{text-align:left}
+#research-risk:not(:empty){font-weight:700;color:#8a321c}
