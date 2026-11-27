@@ -9,9 +9,9 @@ assert.ok(previousDirectory && nextDirectory, 'Pass the V1.6.7 and V1.7 checkout
 const previous = resolve(previousDirectory);
 const next = resolve(nextDirectory);
 const oldCache = 'mis-shell-ces13-optimizer-v1670';
-const newCache = 'mis-shell-workspace-ces-sprint-r5-dates';
+const newCache = process.env.MIS_UPGRADE_CACHE || 'mis-shell-workspace-ces-sprint-r5-dates';
 const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
-  '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
+  '.png': 'image/png', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
 
 async function audit(browser, viewport) {
   let root = previous;
@@ -100,7 +100,10 @@ async function audit(browser, viewport) {
 }
 
 (async () => {
-  const browser = await chromium.launch();
+  const binary = process.env.MIS_PACKAGED_CHROMIUM ? require('@sparticuz/chromium') : null;
+  const browser = await chromium.launch(binary ? {
+    executablePath: await binary.executablePath(), args: binary.args.filter(arg => arg !== '--single-process'),
+  } : {});
   try {
     const results = [];
     for (const viewport of [{ width: 1440, height: 900 }, { width: 414, height: 896 }]) {

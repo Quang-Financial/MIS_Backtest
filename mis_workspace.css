@@ -98,3 +98,6 @@ iframe{min-height:0;vertical-align:top}
 .research-scroll th,.research-scroll td{padding:6px;border-bottom:1px solid #d5e1e5}
 .research-scroll th:first-child,.research-scroll td:first-child{text-align:left}
 #research-risk:not(:empty){font-weight:700;color:#8a321c}
+
+#research-glossary dt { font-weight: 700; }
+#research-glossary dd { margin: 0 0 0.8rem; }

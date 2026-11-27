@@ -102,3 +102,6 @@ Navigation của 9c684ad: PASS. Thiết kế Tổng quan theo phản biện: FAI
 - CDS-V14 REV4: Luồng nghiên cứu vùng, chỉ báo và A/B, trạng thái Live nghiên cứu, sổ paper và danh mục mô phỏng đã chạy được ở vòng dev. MIS03 retest trên SHA ghim. Walk-forward, provenance Fear, đối chứng nhiều chu kỳ và quan sát thật nằm trong backlog tối ưu [ma trận](MIS_TEST_REPORT.md).
 
 - CDS-V14 REV5: Đã kiểm thử tám luồng đích trên BTC cố định; paper và danh mục cũng có fixture khung. MIS03 cần kiểm thử độc lập mã ghim, đối chiếu đúng mức phạm vi ở ma trận Sprint.
+
+## MIS-RESEARCH-CLOSE REV2 · 27/11/2026
+PASS archive and ordered readback for 1,680 configurations in 14 shards. FAIL numerical parity against the archived shortlist after replay through official execution with the research entry adapter. BLOCKED reproduction of rounds 1–8 and independent unseen OOS without original provenance and fresh held-out evidence. See [evidence and QA procedure](research/MIS_RESEARCH_CLOSE_REV2.md).

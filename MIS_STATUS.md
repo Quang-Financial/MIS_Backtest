@@ -69,3 +69,6 @@ QA-PILOT-001 developer retest covers five screens, disclosure, stale/missing gat
 CDS-V14 REV4 có ứng viên CES Spot tích hợp để kiểm thử. Bằng chứng phân biệt fixture UI, dữ liệu thị trường ghi cố định, và quan sát Live còn chờ. Xem ma trận trong [MIS_TEST_REPORT.md](MIS_TEST_REPORT.md).
 
 24H Sprint có ứng viên tích hợp đạt 8/10 luồng trọng tâm ở vòng kiểm thử MIS02. Paper và danh mục đạt luồng fixture khung. Ma trận và SHA gửi MIS03 để retest độc lập.
+
+## MIS-RESEARCH-CLOSE REV2 · 27/11/2026
+PASS archive and ordered readback for 1,680 configurations in 14 shards. FAIL numerical parity against the archived shortlist after replay through official execution with the research entry adapter. BLOCKED reproduction of rounds 1–8 and independent unseen OOS without original provenance and fresh held-out evidence. See [evidence and QA procedure](research/MIS_RESEARCH_CLOSE_REV2.md).

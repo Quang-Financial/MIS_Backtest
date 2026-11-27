@@ -19,6 +19,7 @@
   <script defer src="./mis_overview.js"></script>
   <script defer src="./mis_workspace.js"></script>
   <script defer src="./mis_research_ui.js"></script>
+  <script defer src="./mis_glossary.js"></script>
 </head>
 <body>
   <header class="header">
@@ -133,6 +134,31 @@
     <section id="workspace-research" class="overview-card" hidden>
       <h2>Bằng chứng vùng mua</h2>
       <p>Nghiên cứu vùng giả thuyết từ snapshot đã ghim tại Tổng quan.</p>
+      <details id="research-glossary" data-explanation>
+        <summary>Sổ tay thuật ngữ</summary>
+        <label>Tìm thuật ngữ <input id="glossary-search" type="search"></label>
+        <p id="glossary-count" role="status"></p>
+        <dl>
+          <dt>ROI</dt><dd>100 × (giá trị cuối / vốn đầu − 1). 100 → 120 cho ROI 20%; kết quả mô phỏng gồm tiền mặt và vị thế định giá theo giá đóng.</dd>
+          <dt>CAGR</dt><dd>100 × ((giá trị cuối / vốn đầu)^(365,25 / số ngày) − 1). 100 → 121 trong hai năm cho khoảng 10%/năm. Khoảng thời gian quá ngắn có thể làm tỷ lệ năm hóa khó diễn giải.</dd>
+          <dt>MDD</dt><dd>Mức giảm lớn nhất của vốn chủ sở hữu so với đỉnh vốn đến ngày đo. Đỉnh 125 rồi giảm còn 100 cho MDD −20% nếu đó là mức giảm lớn nhất.</dd>
+          <dt>MAE</dt><dd>Trong mô phỏng lệnh, mức thấp nhất của 100 × (giá thấp nhất trong ngày / giá vốn trung bình − 1) khi có vị thế. Giá vốn 100, đáy 80 tương ứng −20%.</dd>
+          <dt>Calmar</dt><dd>CAGR chia cho trị tuyệt đối MDD. CAGR 15%, MDD −10% cho 1,5. Khi MDD bằng 0, kết quả không xác định.</dd>
+          <dt>Sharpe</dt><dd>Lợi suất vượt mức trung bình chia cho độ lệch chuẩn lợi suất vượt mức, có thể năm hóa. So sánh cần cùng tần suất và lãi suất tham chiếu. Engine CES chính không xuất chỉ số này.</dd>
+          <dt>PF · Profit Factor</dt><dd>Tổng lãi chia tổng trị tuyệt đối của lỗ theo nhóm giao dịch đã đóng. Lãi 60 và lỗ 20 cho PF 3. Mẫu số bằng 0 thì PF không xác định.</dd>
+          <dt>Win Rate</dt><dd>Số chu kỳ đã đóng có lãi chia số chu kỳ đã đóng. 3 thắng trong 5 chu kỳ cho 60%; cần nêu đơn vị đếm và cách xử lý hòa vốn.</dd>
+          <dt>Drawdown · ATH</dt><dd>ATH là đỉnh giá lịch sử theo chuỗi và cửa sổ được chọn. Giá 60 dưới đỉnh 100 tương ứng mức giảm 40%; khác với MDD của vốn mô phỏng.</dd>
+          <dt>EMA200W · EMA gap</dt><dd>EMA 200 tuần dùng trung bình 200 giá đóng tuần làm giá trị khởi tạo, sau đó cập nhật với hệ số 2/201. Giá 90 và EMA 100 thấp hơn EMA 10%.</dd>
+          <dt>RSI</dt><dd>RSI = 100 − 100 / (1 + RS), với RS là tỷ lệ tăng/giảm trung bình làm mượt Wilder. Engine trả 50 khi cả hai bằng 0. Cùng chu kỳ 14 nhưng RSI ngày và tuần sử dụng nến khác nhau.</dd>
+          <dt>SMA</dt><dd>Trung bình cộng của các giá trị trong cửa sổ. SMA14 của RSI dùng 14 giá trị RSI hợp lệ.</dd>
+          <dt>IS · OOS</dt><dd>IS là mẫu xây dựng hoặc chọn cấu hình; OOS là mẫu giữ lại để đánh giá. Dữ liệu đã xem trong quá trình chọn cấu hình không phải bằng chứng OOS độc lập.</dd>
+          <dt>Walk-forward</dt><dd>Chốt cấu hình dựa trên cửa sổ quá khứ rồi đánh giá cửa sổ tiếp theo. Sau đó dịch mốc về phía trước. Báo cáo cần nêu thời điểm chốt và tránh đưa dữ liệu tương lai vào quyết định.</dd>
+          <dt>Stress Test · Overfitting</dt><dd>Stress Test thay đổi giả định, chẳng hạn tăng phí. Overfitting xảy ra khi cấu hình bám quá sát mẫu đã quan sát và mất hiệu quả trên dữ liệu khác.</dd>
+          <dt>TP · Trailing</dt><dd>TP chốt lời ở mốc cấu hình; trailing theo dõi đỉnh sau khi kích hoạt và thoát khi chạm ngưỡng giảm. Giá thực thi phụ thuộc quy tắc nến, gap và chi phí.</dd>
+          <dt>Slippage · Phí</dt><dd>Trượt giá điều chỉnh giá khớp bất lợi khi mua và bán; phí tính trên giá trị khớp theo từng chiều.</dd>
+          <dt>Allocation · CES A/B</dt><dd>Allocation là phần vốn dành cho vị thế. CES A xem xét một lần vào vốn; CES B chia lệnh theo quy tắc DCA. So sánh A/B cần dùng cùng dữ liệu và chi phí.</dd>
+        </dl>
+      </details>
       <div class="research-fields">
         <label>Cấu hình thử <select id="research-config"><option value="">Cấu hình hiện tại</option><option>RA01</option><option>RA02</option><option>RA03</option><option>SMA01</option><option>A04</option></select></label>
         <label>Phí nghiên cứu (%) <input id="research-fee" type="number" min="0" max="10" step="0.01" value="0.1" required></label>

@@ -3680,3 +3680,6 @@ Final ranking provisional, not approved. Prior rounds 1–8 backfill and indepen
 
 ## Round 18 — archival audit
 Recovered full 1680-row raw blob 5c6ba2e0cfdbe4496c7cdf8ab5ab4ae154995d25. [Shortlist audit](research/mis-shortlist-audit.json), commit d3bf2eaa411e05c7b66d9fc58a989003a5e89947. 471 base eligible, six robustness eligible. All six use trailing 10%; neighboring 15% yields Calmar 1.527–1.818; four of six retain skip CAGR >=12%. No new backtests; no independent OOS, PF unavailable, official engine parity pending. Candidate only.
+
+## Research Close REV2
+See [archival and Engine comparison](research/MIS_RESEARCH_CLOSE_REV2.md) and [verified shard manifest](research/exit-grid/manifest.json).

@@ -114,3 +114,6 @@ CDS-V14 REV4: MIS02 bàn giao luồng test tích hợp cho MIS03. Ưu tiên rete
 CDS-V14 REV5: MIS02 đề nghị MIS03 kiểm tra snapshot BTC xuyên màn hình, gate Fear/unapproved/stale và phạm vi A/B theo năm. Quy tắc nghiệm thu và khoảng trống ghi ở MIS_TEST_REPORT.md.
 
 P1 dữ liệu 7185440342: từ chối ngày thiếu/trùng/sai thứ tự/lệch giờ tại hợp đồng chung, đổi CAGR sang thời gian thực. Node có ca âm; BTC và browser smoke chạy lại trên ứng viên cập nhật.
+
+## MIS-RESEARCH-CLOSE REV2 · 27/11/2026
+PASS archive and ordered readback for 1,680 configurations in 14 shards. FAIL numerical parity against the archived shortlist after replay through official execution with the research entry adapter. BLOCKED reproduction of rounds 1–8 and independent unseen OOS without original provenance and fresh held-out evidence. See [evidence and QA procedure](research/MIS_RESEARCH_CLOSE_REV2.md).

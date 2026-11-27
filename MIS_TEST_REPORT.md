@@ -393,3 +393,8 @@ SUI 185/200 tuần tại mốc dữ liệu ghim. iPhone thật, lợi nhuận v�
 Mức 8/10 ở đây đếm luồng mục tiêu đã chạy qua kiểm thử phát triển. Điểm nghiệm thu 80/100 và kết luận độc lập chờ MIS03. Phân đoạn theo năm không tuyên bố là chu kỳ thị trường độc lập. Walk-forward, Historical/Optimizer theo snapshot chung, mốc công bố Fear, SUI warmup và iPhone thật còn chờ. So sánh kỹ thuật không chứng minh hiệu quả đầu tư.
 
 **Sửa phản biện QA 7185440342.** Mô-đun snapshot, vùng mua và A/B dùng cùng kiểm tra nến bắt đầu 00:00 UTC, duy nhất và liên tục theo ngày. Thiếu/trùng/sai thứ tự/lệch giờ đều bị từ chối trước nghiên cứu. CAGR dùng thời gian thực giữa hai nến; cửa sổ 30–730 ngày chỉ dùng chuỗi liên tục. Có ca âm cho cả bốn loại dữ liệu lỗi. Sổ paper ghi rõ giá đóng đã biết.
+
+## MIS-RESEARCH-CLOSE REV2 · 27/11/2026
+PASS archive and ordered readback for 1,680 configurations in 14 shards. FAIL numerical parity against the archived shortlist after replay through official execution with the research entry adapter. BLOCKED reproduction of rounds 1–8 and independent unseen OOS without original provenance and fresh held-out evidence. See [evidence and QA procedure](research/MIS_RESEARCH_CLOSE_REV2.md).
+
+Chromium loopback PASS for glossary search and keyboard, manifest, installability checks and offline load. V1.6.7 `c4d2768` → REV2 cache upgrade PASS on 1440×900 and 414×896. The test retained configuration, Auto/Historical reports and Data Hub imports. The pinned engine suite still reports KNOWN_DEVIATION for differing Auto versus Live entry-policy configuration. See [execution log](tests/mis-research-close-rev2.log). Independent MIS03 review and a Windows install from deployed HTTPS Staging remain pending.
