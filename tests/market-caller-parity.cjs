@@ -241,9 +241,16 @@ async function btcSprint(browser, viewport) {
     assert.ok(rows.some(text => text.includes('Phí/trượt ×2')));
     assert.ok(rows.some(text => text.includes('Không giao dịch')));
     await nav.getByText('Tổng quan', { exact: true }).click();
-    await page.evaluate(value => { Date.now = () => value; }, now + 14 * day);
-    await page.locator('#overview-refresh').click();
-    await page.waitForFunction(() => document.querySelector('#overview-decision').textContent.includes('Dữ liệu nến đã cũ'));
+    const refresh = page.locator('#overview-refresh');
+    await page.waitForFunction(() => !document.querySelector('#overview-refresh').disabled);
+    await refresh.evaluate((button, staleTime) => {
+      Date.now = () => staleTime;
+      button.click();
+    }, now + 14 * day);
+    await page.waitForFunction(() => !document.querySelector('#overview-refresh').disabled);
+    const decision = await page.locator('#overview-decision').textContent();
+    const status = await page.locator('#overview-status').textContent();
+    assert.match(decision, /Dữ liệu nến đã cũ/, `BTC refresh status: ${status}; decision: ${decision}`);
     return { viewport, identity, variant, zones: 60, robustnessRows: rows.length,
       ablationAndStabilityRows: variants.length, liveStale: 'PASS', fearBlocked: 'PASS' };
   } finally {
