@@ -190,10 +190,16 @@ async function disclosure(page, control, screen, device) {
       console.log(name,'Auto backup downloads valid JSON and reload restores same IndexedDB report');
      }finally{await parityPage.close();}
      await page.unroute(market);
+     await page.route(market,route=>route.fulfill({
+      status:503,
+      headers:{'access-control-allow-origin':'*'},
+      json:{error:'Simulated market data outage'}
+     }));
+     await page.locator('#overview-refresh').click();
+     await page.getByText('Không thể xác nhận: OKX HTTP 503',{exact:true}).waitFor();
+     await page.unroute(market);
      await page.unroute(sentiment);
      await page.unroute(ticker);
-     await page.locator('#overview-refresh').click();
-     await page.waitForFunction(()=>document.querySelector('#overview-status').textContent.startsWith('Không thể xác nhận'));
      assert.equal(await page.locator('#overview-score').textContent(),'— / 100');
      assert.equal(await page.locator('#overview-gate-dd').textContent(),'Chờ dữ liệu');
      assert.match(await page.locator('#overview-asof').textContent(),/As-of: —/);
