@@ -197,7 +197,8 @@ async function legacyBookmark(browser, layout, viewport) {
 }
 
 async function btcSprint(browser, viewport) {
-  const context = await browser.newContext({ viewport });
+  // Keep the service worker from serving bundled data instead of the routed fixtures.
+  const context = await browser.newContext({ viewport, serviceWorkers: 'block' });
   try {
     await marketRoutes(context);
     const page = await context.newPage();
