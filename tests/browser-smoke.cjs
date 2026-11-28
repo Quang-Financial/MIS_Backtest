@@ -189,14 +189,23 @@ async function disclosure(page, control, screen, device) {
       assert.equal(await parityPage.evaluate(()=>report.provenance.runId),savedId);
       console.log(name,'Auto backup downloads valid JSON and reload restores same IndexedDB report');
      }finally{await parityPage.close();}
-     await page.unroute(market);
-     await page.route(market,route=>route.fulfill({
-      status:503,
-      headers:{'access-control-allow-origin':'*'},
-      json:{error:'Simulated market data outage'}
-     }));
-     await page.locator('#overview-refresh').click();
+     await page.evaluate(()=>{
+      const originalFetch=window.fetch;
+      window.fetch=(input,options)=>{
+       const url=new URL(input instanceof Request?input.url:input,location.href);
+       if(url.origin==='https://www.okx.com' && url.pathname==='/api/v5/market/history-candles'){
+        return Promise.resolve(new Response(null,{status:503}));
+       }
+       return originalFetch.call(window,input,options);
+      };
+      try{
+       document.querySelector('#overview-refresh').click();
+      }finally{
+       window.fetch=originalFetch;
+      }
+     });
      await page.getByText('Không thể xác nhận: OKX HTTP 503',{exact:true}).waitFor();
+     await page.unroute(market);
      await page.unroute(market);
      await page.unroute(sentiment);
      await page.unroute(ticker);
