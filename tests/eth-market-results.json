@@ -1,0 +1,15 @@
+{
+  "ethSha256": "f8b4c3efcbc3db29b2f45da2d20232bc1f5d8352aef3036cf27c1b4c0ea4cc81",
+  "btcSha256": "89168eb95d1094f6224d131e64cc30c1548c94c946f214c5f4755a3932625b74",
+  "snapshotId": "05614ea4b102292559bb5bcd41e04151f301d1414e940ba948b2e0a259b8ee70",
+  "from": "2021-06-04",
+  "to": "2026-11-24",
+  "rows": 20,
+  "replayEqual": true,
+  "rowsWithMetrics": 8,
+  "noTrade": 8,
+  "statusCounts": {
+    "Insufficient Data": 12,
+    "No Trade": 8
+  }
+}

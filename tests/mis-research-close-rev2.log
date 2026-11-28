@@ -1,0 +1,54 @@
+PASS: original Git blob, 1680 unique rows, 14 shards, exact ordered readback, ranking and null metrics
+PASS: exact replay evidence readback
+Report smoke tests passed
+Report deduplication and repository safety tests passed
+Data Hub validation tests passed
+{"test":"RA01","result":"PASS","comparedWeeks":211,"missingWeeks":13,"latestScore":71.7948717948718,"latestSignal":false,"autoEvaluated":true}
+{"test":"RA02","result":"PASS","comparedWeeks":211,"missingWeeks":13,"latestScore":71.7948717948718,"latestSignal":false,"autoEvaluated":true}
+{"test":"RA03","result":"PASS","comparedWeeks":211,"missingWeeks":13,"latestScore":71.7948717948718,"latestSignal":false,"autoEvaluated":true}
+{"test":"SMA01","result":"PASS","comparedWeeks":211,"missingWeeks":28,"latestScore":100,"latestSignal":true,"autoEvaluated":true}
+{"test":"RSI/EMA/SMA/Fear and incomplete month","result":"PASS","comparedWeeks":211,"missingWeeks":56,"latestScore":80,"latestSignal":false,"autoEvaluated":true}
+{"test":"Missing Fear & Greed","result":"PASS","comparedWeeks":211,"missingWeeks":57,"latestScore":null,"latestSignal":false,"autoEvaluated":true}
+{"test":"EMA200 partial first week","result":"PASS","firstReadyDate":"2024-11-11","completeWeeks":200,"ema200":179.0290090177692}
+{"test":"Common closed-date alignment","result":"PASS","days":1463}
+{"test":"Auto versus Live configuration policy","result":"KNOWN_DEVIATION","date":"2025-01-20","score":100,"marketBtcDrawdown":-0.990099009900991,"live":{"btcDrawdown":0,"belowEMA200":false,"valid":true},"auto":{"btcDrawdown":40,"belowEMA200":true,"valid":false}}
+✔ zone boundaries and forward horizons use no hold crossing IS/OOS (3.401277ms)
+✔ real frozen data produces A/B partitions; historical Fear blocks causal evaluation (73.097488ms)
+✔ paper debits costs, rejects overselling and duplicate dates, preserves account on error (0.839243ms)
+✔ a common paper account refuses USD and unidentified quotes (0.210164ms)
+✔ UTC date contract rejects gaps, duplicates, reverse order and off-midnight records (0.450242ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 163.186147
+PASS Chromium: glossary keyboard, accent-insensitive search, empty state, manifest, installability checks, SW and offline glossary
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "cacheTransition": "PASS",
+    "storedConfig": "PASS",
+    "autoReport": "PASS",
+    "historicalReport": "PASS",
+    "dataHubImport": "PASS",
+    "offlineLegacyBookmark": "PASS"
+  },
+  {
+    "viewport": {
+      "width": 414,
+      "height": 896
+    },
+    "cacheTransition": "PASS",
+    "storedConfig": "PASS",
+    "autoReport": "PASS",
+    "historicalReport": "PASS",
+    "dataHubImport": "PASS",
+    "offlineLegacyBookmark": "PASS"
+  }
+]

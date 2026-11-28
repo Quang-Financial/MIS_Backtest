@@ -1,0 +1,26 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "cacheTransition": "PASS",
+    "storedConfig": "PASS",
+    "autoReport": "PASS",
+    "historicalReport": "PASS",
+    "dataHubImport": "PASS",
+    "offlineLegacyBookmark": "PASS"
+  },
+  {
+    "viewport": {
+      "width": 414,
+      "height": 896
+    },
+    "cacheTransition": "PASS",
+    "storedConfig": "PASS",
+    "autoReport": "PASS",
+    "historicalReport": "PASS",
+    "dataHubImport": "PASS",
+    "offlineLegacyBookmark": "PASS"
+  }
+]

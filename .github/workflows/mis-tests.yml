@@ -1,5 +1,7 @@
 name: MIS smoke tests
 on:
+  push:
+    branches: [develop/v1.7.0, develop/v1.7.0-warmup-audit, develop/v1.7.0-engine-integration, develop/v1.7.0-workspace]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -15,3 +17,5 @@ jobs:
           node tests/report-sync.test.cjs
 
           node tests/datahub.test.cjs
+          node tests/engine-parity.test.cjs
+          node --test tests/integrated-ces.test.cjs

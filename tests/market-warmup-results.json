@@ -1,0 +1,419 @@
+{
+  "sha256": "89168eb95d1094f6224d131e64cc30c1548c94c946f214c5f4755a3932625b74",
+  "candles": 5578,
+  "first": "2011-08-18",
+  "last": "2026-11-24",
+  "removedDays": 4,
+  "firstCompleteEMA200Close": "2015-06-22",
+  "perStrategy": [
+    {
+      "name": "RA01",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-15",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0.8912990049750817,
+      "latestAbsoluteEMA200DifferenceUsd": 0.0022993588499957696,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": []
+    },
+    {
+      "name": "RA02",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-15",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0.8912990049750817,
+      "latestAbsoluteEMA200DifferenceUsd": 0.0022993588499957696,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": []
+    },
+    {
+      "name": "RA03",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-15",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0.8912990049750817,
+      "latestAbsoluteEMA200DifferenceUsd": 0.0022993588499957696,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": []
+    },
+    {
+      "name": "SMA01",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-15",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0.8912990049750817,
+      "latestAbsoluteEMA200DifferenceUsd": 0.0022993588499957696,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": [
+        "2012-03-05"
+      ]
+    }
+  ],
+  "historicalRows": 20,
+  "changes": [
+    {
+      "name": "RA01",
+      "period": "2022–2024",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 47.944369112969866,
+          "calmar": 2.85293988320524,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 47.944369112969866,
+          "calmar": 2.85293988320524,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "RA01",
+      "period": "Toàn kỳ",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 14.111057245876335,
+          "calmar": 0.8396814632411616,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 14.111057245876335,
+          "calmar": 0.8396814632411616,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "RA02",
+      "period": "2022–2024",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 47.944369112969866,
+          "calmar": 2.85293988320524,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 47.944369112969866,
+          "calmar": 2.85293988320524,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "RA02",
+      "period": "Toàn kỳ",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 14.111057245876335,
+          "calmar": 0.8396814632411616,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 14.111057245876335,
+          "calmar": 0.8396814632411616,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "RA03",
+      "period": "2018–2019",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 176.12569535368633,
+          "mdd": -25.183773354040195,
+          "mae": -20.75679453254343,
+          "cagr": 66.34403229494801,
+          "calmar": 2.634396020098574,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 27612.56953536863,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 176.12569535368633,
+          "mdd": -25.183773354040195,
+          "mae": -20.75679453254343,
+          "cagr": 66.34403229494801,
+          "calmar": 2.634396020098574,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 27612.56953536863,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "RA03",
+      "period": "2022–2024",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 47.944369112969866,
+          "calmar": 2.85293988320524,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 223.55345557721012,
+          "mdd": -16.80525039984544,
+          "mae": -5.1790885935163455,
+          "cagr": 47.944369112969866,
+          "calmar": 2.85293988320524,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 32355.34555772101,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "RA03",
+      "period": "Toàn kỳ",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 399.6791509308964,
+          "mdd": -25.183773354040195,
+          "mae": -20.75679453254343,
+          "cagr": 19.824689733702883,
+          "calmar": 0.7872009271606011,
+          "buyCount": 2,
+          "cycles": 2,
+          "final": 49967.91509308964,
+          "open": false
+        },
+        "trades": 8
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 399.6791509308964,
+          "mdd": -25.183773354040195,
+          "mae": -20.75679453254343,
+          "cagr": 19.824689733702883,
+          "calmar": 0.7872009271606011,
+          "buyCount": 2,
+          "cycles": 2,
+          "final": 49967.91509308964,
+          "open": false
+        },
+        "trades": 8
+      }
+    },
+    {
+      "name": "SMA01",
+      "period": "2022–2024",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 248.89712616374885,
+          "mdd": -23.477246696031408,
+          "mae": -13.952436546168734,
+          "cagr": 51.713083140678286,
+          "calmar": 2.202689429907463,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 34889.71261637488,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 248.89712616374885,
+          "mdd": -23.477246696031408,
+          "mae": -13.952436546168734,
+          "cagr": 51.713083140678286,
+          "calmar": 2.202689429907463,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 34889.71261637488,
+          "open": false
+        },
+        "trades": 4
+      }
+    },
+    {
+      "name": "SMA01",
+      "period": "Toàn kỳ",
+      "differences": [
+        "trades"
+      ],
+      "tradeFields": [
+        "ema200"
+      ],
+      "current": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 248.89712616374885,
+          "mdd": -23.477246696031408,
+          "mae": -13.952436546168734,
+          "cagr": 15.082585364368306,
+          "calmar": 0.6424341644336797,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 34889.71261637488,
+          "open": false
+        },
+        "trades": 4
+      },
+      "counterfactual": {
+        "status": "Completed Pass",
+        "metrics": {
+          "roi": 248.89712616374885,
+          "mdd": -23.477246696031408,
+          "mae": -13.952436546168734,
+          "cagr": 15.082585364368306,
+          "calmar": 0.6424341644336797,
+          "buyCount": 1,
+          "cycles": 1,
+          "final": 34889.71261637488,
+          "open": false
+        },
+        "trades": 4
+      }
+    }
+  ]
+}

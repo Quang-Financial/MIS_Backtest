@@ -1,0 +1,9 @@
+{"test":"RA01","result":"PASS","comparedWeeks":211,"missingWeeks":13,"latestScore":71.7948717948718,"latestSignal":false,"autoEvaluated":true}
+{"test":"RA02","result":"PASS","comparedWeeks":211,"missingWeeks":13,"latestScore":71.7948717948718,"latestSignal":false,"autoEvaluated":true}
+{"test":"RA03","result":"PASS","comparedWeeks":211,"missingWeeks":13,"latestScore":71.7948717948718,"latestSignal":false,"autoEvaluated":true}
+{"test":"SMA01","result":"PASS","comparedWeeks":211,"missingWeeks":28,"latestScore":100,"latestSignal":true,"autoEvaluated":true}
+{"test":"RSI/EMA/SMA/Fear and incomplete month","result":"PASS","comparedWeeks":211,"missingWeeks":56,"latestScore":80,"latestSignal":false,"autoEvaluated":true}
+{"test":"Missing Fear & Greed","result":"PASS","comparedWeeks":211,"missingWeeks":57,"latestScore":null,"latestSignal":false,"autoEvaluated":true}
+{"test":"EMA200 partial first week","result":"PASS","firstReadyDate":"2024-11-11","completeWeeks":200,"ema200":179.0290090177692}
+{"test":"Common closed-date alignment","result":"PASS","days":1463}
+{"test":"Auto versus Live configuration policy","result":"KNOWN_DEVIATION","date":"2025-01-20","score":100,"marketBtcDrawdown":-0.990099009900991,"live":{"btcDrawdown":0,"belowEMA200":false,"valid":true},"auto":{"btcDrawdown":40,"belowEMA200":true,"valid":false}}

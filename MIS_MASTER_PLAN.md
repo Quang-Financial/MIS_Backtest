@@ -11,3 +11,18 @@ Trước khi bắt đầu, đọc MIS_STATUS, MIS_TASKS, MIS_ROADMAP và MIS_TES
 Chủ dự án phê duyệt trước mọi thay đổi chiến lược, merge hoặc phát hành. Dữ liệu cá nhân và Production nằm ngoài môi trường thử.
 
 Khi máy tính chủ dự án tắt, Cloud Work có thể sửa mã, kiểm thử với dữ liệu công khai, lưu bằng chứng và cập nhật GitHub. GitHub Actions chạy theo các sự kiện đã cấu hình. Staging dùng máy chủ độc lập. Chỉ các ca xác minh trên thiết bị thật hoặc dữ liệu cục bộ của chủ dự án cần thiết bị tương ứng.
+
+## Kiến trúc V1.7–V2.0
+
+Thanh điều hướng theo thứ tự **Tổng quan → Bộ chỉ báo → Research → Backtest → Data Hub**. Luồng dữ liệu nghiên cứu đi từ Data Hub qua Backtest và Research đến Bộ chỉ báo và Tổng quan. Dùng chung dữ liệu chuẩn, Engine, Strategy ID và hồ sơ nghiên cứu. Tổng quan chỉ sử dụng cấu hình đã phê duyệt và kích hoạt. Các tín hiệu gắn với thời điểm nến đã đóng, cấu hình, phiên bản Engine và phiên bản dữ liệu.
+
+## Phối hợp trên GitHub
+
+Trước mỗi nhiệm vụ đọc MIS_TASKS, MIS_STATUS, MIS_REVIEW, MIS_DECISIONS và thảo luận PR V1.7 mới nhất. Sau nhiệm vụ ghi trạng thái PASS/FAIL/BLOCKED, commit, môi trường, đầu vào và bằng chứng. Các quyết định được chủ dự án duyệt ghi vào MIS_DECISIONS. Trao đổi V1.7 trong PR riêng.
+
+## MIS-CDS V1.0
+
+- Lấy yêu cầu từ issue/PR và ghi ID, phạm vi, tiêu chí, nhánh, SHA, trạng thái và test trong MIS_TASKS. Liên kết luồng trong MIS_DISCUSSION.
+- Trước khi làm, đọc MIS_TASKS, MIS_STATUS, MIS_REVIEW, MIS_DECISIONS và phản hồi mới trên GitHub. Sau khi làm, cập nhật test, trạng thái, phản hồi trên issue/PR và đọc lại phản biện. Kiến trúc sư review độc lập.
+- Work xử lý lỗi kỹ thuật đã được duyệt. Chủ dự án quyết định về chiến lược/công thức, chi phí, quyền, nguy cơ mất dữ liệu, merge và phát hành.
+- Ưu tiên Cloud Work, GitHub Actions và Staging. Ghi rõ tác vụ nào cần thiết bị cá nhân. GitHub issue chỉ ghi nhận yêu cầu.

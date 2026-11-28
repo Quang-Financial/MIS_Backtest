@@ -1,81 +1,241 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b2142"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="MIS"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><title>MIS V1.6.7-dev</title><style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f2f6fb;color:#152a42}*{box-sizing:border-box}body{margin:0}header{background:#0b2142;color:white;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:10px}header small{display:block;color:#b9cde0}h1{font-size:22px;margin:4px 0 8px}h2{font-size:16px;margin:0 0 12px}.shell{max-width:1120px;margin:auto;padding:16px 14px 100px}section[hidden]{display:none!important}.card{background:white;border:1px solid #dfebf4;border-radius:15px;padding:16px;margin:12px 0;box-shadow:0 2px 9px #132a4510}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid .card{margin:0}.muted{color:#65788e;font-size:13px;line-height:1.5}.metric{font-size:23px;font-weight:750;margin:7px 0;overflow-wrap:anywhere}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}select,button,input{font:inherit;border-radius:9px;padding:10px;border:1px solid #d3e0ec;background:white;color:#15304b}button{cursor:pointer}button.primary{background:#0b3764;color:white;border-color:#0b3764}button:disabled{opacity:.5}.toggles{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.toggles label{background:#f3f7fb;border:1px solid #dce7f0;border-radius:10px;padding:7px 9px;font-size:13px}.toggles input{accent-color:#147b6e;vertical-align:middle}.pill{border-radius:30px;padding:5px 10px;font-size:12px;background:#e9f1f8;color:#33506d}.good{color:#087b58}.bad{color:#bb3d4d}.warn{color:#986200}.chart-wrap{overflow:hidden;border:1px solid #e2eaf2;border-radius:12px;background:#fff}.chart-wrap svg{width:100%;height:auto;display:block}.note{background:#eff6ff;border-left:3px solid #3979b7;padding:10px 12px;border-radius:6px;font-size:13px;line-height:1.55}.coin-row{padding:9px 0;border-bottom:1px solid #edf2f6;display:flex;justify-content:space-between;gap:8px}.coin-row:last-child{border:0}.coin-name{display:flex;align-items:center;gap:10px;min-width:0}.coin-badge{width:36px;height:36px;border-radius:50%;display:inline-block;object-fit:contain;flex-shrink:0;box-shadow:0 1px 4px #152a4220}.coin-select-icon{width:28px;height:28px;border-radius:50%;flex-shrink:0}.coin-picker{display:inline-flex;align-items:center;gap:8px;padding:3px 8px 3px 4px;border:1px solid #d3e0ec;border-radius:10px;background:#fff}.coin-picker select{border:0;padding:7px 4px;background:transparent;max-width:165px}.coin-quote{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px}.coin-change{font-size:12px;font-weight:700}.pms-legend{font-size:12px;color:#a9501e}nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid #dce6ef;padding-bottom:env(safe-area-inset-bottom);z-index:10}nav button{flex:1;border:0;border-radius:0;background:none;font-size:11px;padding:12px 1px;color:#65788e}nav button.active{color:#0c5b91;background:#eaf4fc;font-weight:700}#status{font-size:12px;color:#d5e8fa}#chartMeta{font-size:13px;line-height:1.6}code{font-size:12px;overflow-wrap:anywhere}.table{width:100%;border-collapse:collapse;font-size:13px}.table td{padding:8px;border-bottom:1px solid #e6edf3}.table td:last-child{text-align:right}footer{padding:18px;text-align:center;color:#7d8ea0;font-size:12px}@media(min-width:760px){.shell{padding:24px 28px 100px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}nav{max-width:700px;margin:auto;border:1px solid #dce6ef;border-radius:16px 16px 0 0}}
-
-.info-toggle{border:1px solid #b8cce0;border-radius:50%;background:#eef5ff;color:#12375d;min-width:26px;width:26px;height:26px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0;margin-left:5px;vertical-align:middle;cursor:pointer}
-.info-toggle[aria-expanded="true"]{background:#12375d;color:#fff}
-.info-panel{display:none;background:#eef5ff;border-left:3px solid #3683be;padding:10px 12px;margin:8px 0 12px;border-radius:7px;font-size:14px;line-height:1.55;color:#233e5b}
-.info-panel.open{display:block}
-.info-label{display:inline-flex;align-items:center;gap:2px;flex-wrap:wrap}
-.bt-scroll{overflow-x:auto;max-width:100%}.bt-trade{border-collapse:collapse;width:100%;white-space:nowrap}.bt-trade td,.bt-trade th{font-size:12px;padding:6px;text-align:left;border-bottom:1px solid #ddd}.bt-spec{background:#e8eff6;color:#123c63;padding:6px;border:0;border-radius:8px}.bt-detail{max-width:90vw;border:1px solid #c8d6e4;border-radius:12px;color:#19334b}.bt-detail td{white-space:normal;padding:8px;border-bottom:1px solid #ddd}</style></head><body><nav style="padding:10px;display:flex;gap:12px;flex-wrap:wrap"><strong>MIS V1.6.7-dev</strong><a href="mis_datahub.html?v=1663">Data Hub</a><a href="ces_history.html?v=1663">Historical Research</a><a href="ces_auto.html?v=1663">Auto Backtest</a></nav><header><div><strong>◈ MIS · My Investment System</strong><small>V1.6.7-dev · CES Spot</small></div><span id="status">Chưa đồng bộ</span></header><main class="shell">
-<section id="overview"><h1>Tổng quan thị trường</h1><p class="muted">Giá giao ngay OKX (USDT). Giá mới nhất chỉ cập nhật khi có kết nối mạng.</p><div class="grid"><div class="card"><div class="muted">BTC/USDT</div><div class="metric" id="btcPrice">—</div><div class="muted" id="btcTime">Chờ dữ liệu</div></div><div class="card"><div class="muted">Số Coin theo dõi</div><div class="metric">8</div><div class="muted">BTC · ETH · SOL · AVAX · SUI · LINK · BNB · OKB</div></div></div><div class="card"><div class="row"><h2>Giá thị trường</h2><button id="refreshPrices">↻ Cập nhật giá</button></div><div id="coins"></div><p class="muted" id="pricesMeta">Giá không phải tín hiệu giao dịch.</p></div><div class="card"><h2>CES Spot</h2><div class="controls"><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_optimizer.html">Optimizer</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_auto.html">Auto Backtest</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_history.html">Historical Research</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_monitor.html">Live Monitor</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="mis_datahub.html">Data Hub</a></div></div></section>
-<section id="chart" hidden><h1>Biểu đồ kỹ thuật</h1><div class="card"><div class="controls"><span class="coin-picker"><img id="selectedCoinIcon" class="coin-select-icon" alt=""><select id="coin" aria-label="Coin"></select></span><select id="timeframe" aria-label="Khung thời gian"><option value="1D">Ngày · 1D</option><option value="1W" selected>Tuần · 1W</option><option value="1M">Tháng · 1M</option></select><button id="refreshChart" class="primary">↻ Đồng bộ nến</button><button id="exportCsv">↓ Xuất CSV</button></div><div class="toggles" id="indicators"></div><div class="chart-wrap" id="priceChart"><p class="muted" style="padding:30px">Đang chờ dữ liệu…</p></div><p id="chartMeta" class="muted"></p><div class="note">EMA20/50/200 và RSI14 tính trên <b>nến đã đóng</b>. Nến đang hình thành không dùng xác nhận tín hiệu.</div></div></section>
-<section id="research" hidden><h1>Nghiên cứu CES</h1><div class="card"><h2>CES Spot</h2><div class="controls"><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_optimizer.html">Optimizer</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_auto.html">Auto Backtest</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_history.html">Historical Research</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_monitor.html">Live Monitor</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="mis_datahub.html">Data Hub</a></div></div></section>
-<section id="backtest" hidden><h1>Backtest CES</h1><div class="card"><h2>CES Spot</h2><div class="controls"><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_optimizer.html">Optimizer</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_auto.html">Auto Backtest</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_history.html">Historical Research</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="ces_monitor.html">Live Monitor</a><a style="padding:12px;background:#123c63;color:white;border-radius:9px;text-decoration:none" href="mis_datahub.html">Data Hub</a></div></div></section>
-<section id="settings" hidden><h1>⚙ Cài đặt & dữ liệu</h1><p class="muted">Quản lý đồng bộ OKX, lưu trữ và tùy chọn biểu đồ. Không chạy Backtest tại đây.</p><div class="card"><h2>Đồng bộ OKX</h2><div class="row"><span class="muted">Nguồn</span><strong>OKX Public API</strong></div><div class="row"><span class="muted">Nến</span><strong>1D UTC · 1W UTC · 1M UTC</strong></div><div class="row"><span class="muted">Bộ nhớ</span><strong>IndexedDB trên thiết bị</strong></div><p class="muted">Giá hiện tại cập nhật khoảng mỗi 60 giây khi ứng dụng mở. Nến tải khi chọn Coin/khung thời gian; dùng dữ liệu lưu khi ngoại tuyến.</p><button id="syncAll">↻ Đồng bộ Coin đang chọn</button><button id="reset">Đặt lại lựa chọn chỉ báo</button><p id="cacheInfo" class="muted"></p><div class="note">Nếu OKX không cho truy cập từ trình duyệt hoặc bị giới hạn mạng, MIS sẽ thông báo lỗi rõ ràng và sử dụng dữ liệu đã lưu. Không dùng API key, không có quyền giao dịch.</div></div></section><footer>MIS V1.6.7-dev · Không phải khuyến nghị đầu tư · Dữ liệu cần được kiểm tra trước khi giao dịch</footer></main><nav id="nav"><button data-tab="overview" class="active">⌂ Tổng quan</button><button data-tab="chart">▥ Biểu đồ</button><button data-tab="research">◇ Nghiên cứu</button><button data-tab="backtest">▤ Backtest</button><button data-tab="settings">⚙ Cài đặt</button></nav>
-<script>
-'use strict';
-const COINS=['BTC','ETH','SOL','AVAX','SUI','LINK','BNB','OKB'], $=id=>document.getElementById(id), API='https://www.okx.com/api/v5/market/';
-const DEFAULT={ema20:true,ema50:true,ema200:false,rsi:true};let checks={...DEFAULT};try{checks=Object.fromEntries(Object.keys(DEFAULT).map(k=>[k,JSON.parse(localStorage.getItem('mis-indicators')||'{}')[k]??DEFAULT[k]]))}catch{};
-const INFO_TEXT={
- roi:'ROI (Return on Investment): tỷ suất lợi nhuận trên vốn ban đầu. ROI = (vốn cuối / vốn đầu − 1) × 100%. ROI không phản ánh riêng mức rủi ro hay thời gian đầu tư.',
- mae:'MAE Spot (Maximum Adverse Excursion): mức giảm sâu nhất của giá Low so với giá vốn bình quân gia quyền của vị thế đang nắm giữ. MAE = (Low / giá vốn bình quân − 1) × 100%. Chỉ tính khi có vị thế; nếu không có lệnh mua, hiển thị —. Đây không phải MDD của tài khoản.',
- mdd:'MDD (Maximum Drawdown): mức sụt giảm lớn nhất từ đỉnh vốn xuống đáy tiếp theo trong quá trình Backtest. Ví dụ MDD −30% nghĩa là từng mất 30% so với đỉnh vốn trước đó. MDD càng âm thì mức sụt giảm càng sâu.',
- cagr:'CAGR (Compound Annual Growth Rate): tốc độ tăng trưởng kép bình quân năm. CAGR = (vốn cuối / vốn đầu)^(365,25 / số ngày) − 1. Không phải mức lợi nhuận được bảo đảm hằng năm.',
- ema:'EMA (Exponential Moving Average): đường trung bình động lũy thừa, nhấn mạnh giá gần đây. EMA20/50/200 lần lượt tính trên 20, 50, 200 nến của khung đang chọn.',
- rsi:'RSI14 (Relative Strength Index): chỉ số sức mạnh tương đối tính từ 14 kỳ, dao động 0–100. Vùng trên 70 thường được gọi là quá mua, dưới 30 là quá bán; không tự động là lệnh bán/mua.',
- win:'Tỷ lệ thắng: số giao dịch đã đóng có lãi chia tổng giao dịch đã đóng. Không tính vị thế chưa đóng; tỷ lệ cao không bảo đảm ROI cao.',
- trades:'Số lệnh: tổng các lượt mua và bán được ghi trong nhật ký, không đồng nghĩa số giao dịch khép kín.',
- equity:'Vốn cuối: tổng tiền mặt và giá trị vị thế còn nắm giữ tại nến cuối Backtest, theo giả định của mô hình.'
-};
-function infoKey(label){
- const x=String(label).trim().toUpperCase();
- if(x.startsWith('MAE'))return 'mae';
- if(x.startsWith('EMA'))return 'ema';
- if(x.startsWith('RSI'))return 'rsi';
- return ({ROI:'roi',MDD:'mdd',CAGR:'cagr','BUY SCORE':'buy','SELL SCORE':'sell','TỶ LỆ THẮNG':'win','SỐ LỆNH':'trades','VỐN CUỐI':'equity'})[x]||null;
-}
-function infoLabel(label){const k=infoKey(label);return k?'<span class="info-label">'+label+' <button type="button" class="info-toggle" data-info="'+k+'" aria-expanded="false" aria-label="Giải thích '+label+'">?</button></span>':label}
-document.addEventListener('click',function(e){
- const button=e.target.closest('button.info-toggle');if(!button)return;
- e.preventDefault();e.stopPropagation();
- const key=button.dataset.info,container=button.closest('.card,td,th,.note,.weight-row,.row')||button.parentElement;
- let panel=container.querySelector(':scope > .info-panel[data-owner="'+key+'"]');
- if(!panel){panel=document.createElement('div');panel.className='info-panel';panel.dataset.owner=key;panel.textContent=INFO_TEXT[key]||'Chưa có giải thích.';container.appendChild(panel)}
- const show=!panel.classList.contains('open');
- panel.classList.toggle('open',show);button.setAttribute('aria-expanded',String(show));
-});
-const C={ema20:'#d39a04',ema50:'#237ac5',ema200:'#9556bd',rsi:'#129c7a'}, names={ema20:'EMA20',ema50:'EMA50',ema200:'EMA200',rsi:'RSI14'};
-let candles=[],lastKey='',dbPromise=null,chartRequest=0,priceBusy=false;
-const COIN_ICON_PATH={BTC:'btc',ETH:'eth',SOL:'sol',AVAX:'avax',SUI:'sui',LINK:'link',BNB:'bnb',OKB:'okb'};
-const COIN_ICON_DATA={"sui":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iIzVCQjdGMiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNC41IiBkPSJNMzIgOUMyNiAxOSAxNSAyOCAxNSAzOWExNyAxNyAwIDAgMCAzNCAwQzQ5IDI4IDM4IDE5IDMyIDlaIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzLjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZD0iTTE5IDQyYzgtMTMgMTggMTMgMjYtMSIvPjwvc3ZnPg==","link":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iIzJBNUFEQSIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0ibTMyIDEwIDE5IDExdjIyTDMyIDU0IDEzIDQzVjIxWiIvPjwvc3ZnPg==","sol":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iIzE3MTUxRSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIxIiB4Mj0iMSIgeTI9IjAiPjxzdG9wIHN0b3AtY29sb3I9IiM5OTQ1RkYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxNEYxOTUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBmaWxsPSJ1cmwoI2cpIiBkPSJNMTggMTVoMzNsLTcgOEgxMXpNMTMgMjhoMzNsNyA4SDIwek0xOCA0MWgzM2wtNyA4SDExeiIvPjwvc3ZnPg==","eth":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iI0YxRjNGOCIvPjxwYXRoIGZpbGw9IiM2MjdFRUEiIGQ9Ik0zMiA2IDE2IDMzIDMyIDI1IDQ4IDMzWiIvPjxwYXRoIGZpbGw9IiM4QzlCQ0IiIGQ9Ik0xNiAzNiAzMiA1OCAzMiAyOVoiLz48cGF0aCBmaWxsPSIjNjI3RUVBIiBkPSJNNDggMzYgMzIgNTggMzIgMjlaIi8+PHBhdGggZmlsbD0iIzM0M0Y3MyIgZD0iTTMyIDYgMzIgMjUgNDggMzNaIi8+PC9zdmc+","okb":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iIzEyMTIxMiIvPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNMTQgMTRoMTV2MTVIMTR6bTIxIDBoMTV2MTVIMzV6TTE0IDM1aDE1djE1SDE0em0yMSAwaDE1djE1SDM1eiIvPjwvc3ZnPg==","avax":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iI0U4NDE0MiIvPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNMzIgMTFjMS43IDAgMyAxIDMuOSAyLjZMNTAgNDEuNGMxLjEgMi4xLS4yIDQuNi0yLjYgNC42SDE5LjhjLTIuNSAwLTMuNy0yLjUtMi41LTQuN0wyOC4yIDE0Yy45LTIgMi4xLTMgMy44LTN6Ii8+PHBhdGggZmlsbD0iI0U4NDE0MiIgZD0iTTMxLjcgMjYgMjQgNDJoMTZ6Ii8+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMyAzOCA3IDQ3aDExbDQtOXoiLz48L3N2Zz4=","bnb":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iI0YzQkEyRiIvPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJtMzIgOCA5IDktOSA5LTktOXptLTE1IDE1IDkgOS05IDktOS05em0zMCAwIDkgOS05IDktOS05ek0zMiAyOGw0IDQtNCA0LTQtNHptMCAxMCA5IDktOSA5LTktOXoiLz48L3N2Zz4=","btc":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgcm9sZT0iaW1nIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIzMSIgZmlsbD0iI0Y3OTMxQSIvPjx0ZXh0IHg9IjMyIiB5PSI0NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iNDQiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCI+4oK/PC90ZXh0Pjwvc3ZnPg=="};
-function coinIconSrc(coin){return COIN_ICON_DATA[COIN_ICON_PATH[coin]]||COIN_ICON_DATA.btc}
-function coinBadge(coin){return `<img class="coin-badge" src="${coinIconSrc(coin)}" width="36" height="36" alt="" loading="lazy">`}
-function updateCoinPicker(){const el=$('selectedCoinIcon');if(el)el.src=coinIconSrc($('coin').value)}
-for(let id of ['coin'])$(id).innerHTML=COINS.map(s=>`<option value="${s}">${s}/USDT</option>`).join('');updateCoinPicker();
-function status(s){$('status').textContent=s}function fmt(v){return Number(v).toLocaleString('en-US',{maximumFractionDigits:Number(v)<1?5:2})}function when(ms){return new Date(ms).toLocaleString('vi-VN',{hour12:false})}
-function db(){if(!('indexedDB'in window))return Promise.reject(new Error('Trình duyệt không hỗ trợ IndexedDB'));if(!dbPromise)dbPromise=new Promise((res,rej)=>{const r=indexedDB.open('mis-market-v1',1);r.onupgradeneeded=()=>r.result.createObjectStore('market');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});return dbPromise}
-async function readCache(key){try{const d=await db();return await new Promise((res,rej)=>{const r=d.transaction('market').objectStore('market').get(key);r.onsuccess=()=>res(r.result||null);r.onerror=()=>rej(r.error)})}catch{return null}}
-async function writeCache(key,val){try{const d=await db();await new Promise((res,rej)=>{const tx=d.transaction('market','readwrite');tx.objectStore('market').put(val,key);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}catch(e){console.warn('Cache write',e)}}
-async function request(path){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);try{const r=await fetch(API+path,{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('HTTP '+r.status);const j=await r.json();if(j.code!=='0'||!Array.isArray(j.data))throw Error(j.msg||'Phản hồi OKX không hợp lệ');return j.data}finally{clearTimeout(timer)}}
-function parseBar(r){return {t:+r[0],o:+r[1],h:+r[2],l:+r[3],c:+r[4],v:+r[5],confirmed:String(r[8])==='1'}}
-async function fetchCandles(symbol,tf){const bar={ '1D':'1Dutc','1W':'1Wutc','1M':'1Mutc'}[tf],map=new Map();let after=null;for(let page=0;page<4;page++){const q=new URLSearchParams({'instId':symbol+'-USDT',bar,limit:'100'});if(after!==null)q.set('after',String(after));const raw=await request('history-candles?'+q.toString());if(!raw.length)break;for(const r of raw){const b=parseBar(r);if([b.t,b.o,b.h,b.l,b.c].every(Number.isFinite)&&b.h>=b.l&&b.o>0&&b.c>0)map.set(b.t,b)}const oldest=Math.min(...raw.map(r=>+r[0]));if(!Number.isFinite(oldest)||oldest===after||raw.length<100)break;after=oldest}return [...map.values()].filter(b=>b.confirmed).sort((a,b)=>a.t-b.t)}
-function ema(a,n){let out=Array(a.length).fill(null);if(a.length<n)return out;let s=0;for(let i=0;i<n;i++)s+=a[i];out[n-1]=s/n;const k=2/(n+1);for(let i=n;i<a.length;i++)out[i]=a[i]*k+out[i-1]*(1-k);return out}
-function rsi(a,n=14){let out=Array(a.length).fill(null);if(a.length<=n)return out;let gain=0,loss=0;for(let i=1;i<=n;i++){const d=a[i]-a[i-1];gain+=Math.max(d,0);loss+=Math.max(-d,0)}gain/=n;loss/=n;out[n]=loss===0?(gain===0?50:100):100-100/(1+gain/loss);for(let i=n+1;i<a.length;i++){const d=a[i]-a[i-1];gain=(gain*(n-1)+Math.max(d,0))/n;loss=(loss*(n-1)+Math.max(-d,0))/n;out[i]=loss===0?(gain===0?50:100):100-100/(1+gain/loss)}return out}
-function renderChecks(){$('indicators').innerHTML=Object.keys(names).map(k=>`<label><input type="checkbox" data-ind="${k}" ${checks[k]?'checked':''} ><span style="color:${C[k]||'#e76b35'}">●</span> ${names[k]}</label>`).join('');document.querySelectorAll('[data-ind]').forEach(el=>el.onchange=()=>{checks[el.dataset.ind]=el.checked;localStorage.setItem('mis-indicators',JSON.stringify(checks));drawChart()})}
-function drawChart(){if(!candles.length){$('priceChart').innerHTML='<p class="muted" style="padding:30px">Chưa có dữ liệu nến. Nhấn “Đồng bộ nến”.</p>';return}const visible=candles.slice(-85),W=800,plotL=105,plotR=775,top=24,bottom=checks.rsi?270:355,lo=Math.min(...visible.map(b=>b.l)),hi=Math.max(...visible.map(b=>b.h)),pad=(hi-lo)*.07||1,min=lo-pad,max=hi+pad,yy=v=>bottom-(v-min)/(max-min)*(bottom-top),x=i=>plotL+(i+.5)*(plotR-plotL)/visible.length,dx=(plotR-plotL)/visible.length;
-let s=`<svg viewBox="0 0 800 ${checks.rsi?450:390}" role="img" aria-label="Nến giá OKX và chỉ báo"><rect width="800" height="100%" fill="white"/>`;
-for(let j=0;j<5;j++){const v=min+(max-min)*j/4,y=yy(v);s+=`<line x1="${plotL}" y1="${y}" x2="785" y2="${y}" stroke="#e4edf5"/><text x="${plotL-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#70849a">${Number(v).toLocaleString('en-US',{maximumFractionDigits:v>=100?0:v>=1?2:5})}</text>`}
-visible.forEach((b,i)=>{const up=b.c>=b.o,col=up?'#169a76':'#d95765',xx=x(i),bw=Math.max(2,Math.min(7,dx*.68)),y1=yy(Math.max(b.o,b.c)),y2=yy(Math.min(b.o,b.c));s+=`<line x1="${xx}" y1="${yy(b.h)}" x2="${xx}" y2="${yy(b.l)}" stroke="${col}"/><rect x="${xx-bw/2}" y="${y1}" width="${bw}" height="${Math.max(1,y2-y1)}" fill="${col}"/>`});
-const close=candles.map(b=>b.c);for(const [key,n] of [['ema20',20],['ema50',50],['ema200',200]])if(checks[key]){const series=ema(close,n).slice(-visible.length);let path='';series.forEach((v,i)=>{if(v!==null)path+=(path?' L':'M')+x(i).toFixed(1)+' '+yy(v).toFixed(1)});s+=`<path d="${path}" fill="none" stroke="${C[key]}" stroke-width="2.3"/>`}
-if(checks.rsi){const r=rsi(close).slice(-visible.length),ry=v=>420-v/100*125;s+=`<line x1="${plotL}" y1="295" x2="785" y2="295" stroke="#d8e4ee"/><text x="${plotL+5}" y="307" fill="#129c7a" font-size="12">RSI 14</text>`;for(let level of [30,70])s+=`<line x1="${plotL}" y1="${ry(level)}" x2="785" y2="${ry(level)}" stroke="#b9d6cb" stroke-dasharray="4 4"/><text x="${plotL-8}" y="${ry(level)+4}" text-anchor="end" font-size="11" fill="#70849a">${level}</text>`;let path='';r.forEach((v,i)=>{if(v!==null)path+=(path?' L':'M')+x(i).toFixed(1)+' '+ry(v).toFixed(1)});s+=`<path d="${path}" fill="none" stroke="${C.rsi}" stroke-width="2.1"/>`}
-for(let i=0;i<visible.length;i+=Math.max(1,Math.floor(visible.length/6))){s+=`<text x="${x(i)}" y="${checks.rsi?444:381}" text-anchor="middle" font-size="11" fill="#70849a">${new Date(visible[i].t).toISOString().slice(0,10)}</text>`}s+='</svg>';$('priceChart').innerHTML=s;const last=candles.at(-1),closeSeries=close,rs=rsi(closeSeries).at(-1);$('chartMeta').innerHTML=`<b>${$('coin').value}/USDT</b> · ${$('timeframe').value} · ${candles.length} nến đã đóng · Giá đóng nến cuối: <b>${fmt(last.c)}</b> · ${new Date(last.t).toISOString().slice(0,10)}<br>EMA20: ${fmtOr(ema(closeSeries,20).at(-1))} · EMA50: ${fmtOr(ema(closeSeries,50).at(-1))} · EMA200: ${fmtOr(ema(closeSeries,200).at(-1))} · RSI14: ${fmtOr(rs)}`}
-function fmtOr(x){return x==null?'Chưa đủ nến':fmt(x)}
-async function loadChart(force=false){const id=++chartRequest,coin=$('coin').value,tf=$('timeframe').value,key='candles:'+coin+':'+tf;lastKey=key;$('chartMeta').textContent='Đang kiểm tra dữ liệu…';const cached=await readCache(key);if(id!==chartRequest)return;if(cached?.data?.length){candles=cached.data;drawChart();$('chartMeta').insertAdjacentText('beforeend',' · Dữ liệu lưu: '+when(cached.saved))}else{candles=[];drawChart()}
-if(!navigator.onLine){$('chartMeta').insertAdjacentText('beforeend',' · Ngoại tuyến, chưa đồng bộ');return}try{status('Đang tải nến…');const fresh=await fetchCandles(coin,tf);if(id!==chartRequest)return;if(!fresh.length)throw Error('Không nhận được nến đã đóng');candles=fresh;await writeCache(key,{data:fresh,saved:Date.now()});drawChart();$('chartMeta').insertAdjacentText('beforeend',' · OKX đồng bộ: '+when(Date.now()));status('OKX · Đã đồng bộ')}catch(e){if(id!==chartRequest)return;status('Lỗi đồng bộ');$('chartMeta').insertAdjacentText('beforeend',' · Không tải được OKX: '+e.message+(cached?' · Đang dùng dữ liệu lưu':''))}}
-async function refreshPrices(){if(priceBusy)return;priceBusy=true;$('refreshPrices').disabled=true;const cached=await readCache('tickers');if(cached?.data)showPrices(cached.data,'Dữ liệu lưu '+when(cached.saved));try{const data=await Promise.all(COINS.map(async coin=>{const raw=await request('ticker?instId='+coin+'-USDT');const d=raw[0]||{};return {coin,price:+d.last,open24h:+d.open24h,ts:+d.ts}}));if(data.some(d=>!Number.isFinite(d.price)))throw Error('Giá không hợp lệ');showPrices(data,'OKX · cập nhật '+when(Date.now()));await writeCache('tickers',{data,saved:Date.now()});status('OKX · Đã cập nhật')}catch(e){$('pricesMeta').textContent='Không cập nhật được OKX: '+e.message+(cached?' · Đang hiển thị giá đã lưu':' · Chưa có giá');status('Không kết nối OKX')}finally{priceBusy=false;$('refreshPrices').disabled=false}}
-function showPrices(data,meta){$('coins').innerHTML=data.map(d=>{const pct=Number.isFinite(d.open24h)&&d.open24h>0?(d.price/d.open24h-1)*100:null;return `<div class="coin-row"><span class="coin-name">${coinBadge(d.coin)}<b>${d.coin}/USDT</b></span><span class="coin-quote"><b>${Number.isFinite(d.price)?'$'+fmt(d.price):'—'}</b><span class="coin-change ${pct==null?'muted':pct>=0?'good':'bad'}">${pct==null?'24h: —':(pct>=0?'+':'')+pct.toFixed(2)+'% · 24h'}</span></span></div>`}).join('');const btc=data.find(d=>d.coin==='BTC');$('btcPrice').textContent=btc&&Number.isFinite(btc.price)?'$'+fmt(btc.price):'—';$('btcTime').textContent=meta;$('pricesMeta').textContent=meta+' · Giá giao ngay, không phải tín hiệu mua/bán'}
-function downloadCsv(){if(!candles.length){alert('Chưa có dữ liệu nến để xuất');return}const csv='timestamp_utc,open,high,low,close,volume,confirmed\n'+candles.map(b=>[new Date(b.t).toISOString(),b.o,b.h,b.l,b.c,b.v,1].join(',')).join('\n');const a=document.createElement('a'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.href=url;a.download='MIS_'+$('coin').value+'_'+$('timeframe').value+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-for(const b of document.querySelectorAll('[data-tab]'))b.onclick=()=>{document.querySelectorAll('main > section').forEach(s=>{s.hidden=s.id!==b.dataset.tab;s.style.display=s.id===b.dataset.tab?'block':'none'});document.querySelectorAll('[data-tab]').forEach(n=>{n.classList.toggle('active',n===b);n.setAttribute('aria-current',n===b?'page':'false')});window.scrollTo(0,0);if(b.dataset.tab==='chart'&&!candles.length)loadChart();if(b.dataset.tab==='settings')$('cacheInfo').textContent='Dữ liệu đã tải được lưu riêng trên thiết bị này.'};
-$('coin').onchange=()=>{updateCoinPicker();loadChart()};$('timeframe').onchange=()=>loadChart();$('refreshChart').onclick=()=>loadChart(true);$('refreshPrices').onclick=refreshPrices;$('exportCsv').onclick=downloadCsv;$('syncAll').onclick=loadChart;$('reset').onclick=()=>{checks={...DEFAULT};localStorage.setItem('mis-indicators',JSON.stringify(checks));renderChecks();drawChart()};
-renderChecks();refreshPrices();setInterval(()=>{if(!document.hidden&&navigator.onLine)refreshPrices()},60000);if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-</script></body><script src="mis_update.js?v=1661"></script></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102f43">
+  <title>MIS – My Investment System</title>
+  <link rel="icon" href="./icon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./mis_workspace.css">
+  <script defer src="./ces_engine.js"></script>
+  <script defer src="./ces_config.js"></script>
+  <script defer src="./ces_dynamic.js"></script>
+  <script defer src="./ces_shared.js"></script>
+  <script defer src="./ces_auto_core.js"></script>
+  <script defer src="./ces_library.js"></script>
+  <script defer src="./ces_optimizer_data.js"></script>
+  <script defer src="./mis_research_workspace.js"></script>
+  <script defer src="./mis_overview.js"></script>
+  <script defer src="./mis_workspace.js"></script>
+  <script defer src="./mis_research_ui.js"></script>
+  <script defer src="./mis_glossary.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="masthead">
+      <div><div class="brand">MIS <span> / </span> My Investment System</div><div class="version">CES Spot · Bản test tích hợp</div></div>
+      <label class="asset">Tài sản <select id="workspace-asset" aria-label="Tài sản">
+        <option>BTC</option><option>ETH</option><option>BNB</option><option>SOL</option>
+        <option>LINK</option><option>AVAX</option><option>SUI</option><option>OKB</option>
+      </select></label>
+    </div>
+    <nav aria-label="Điều hướng chính" id="workspace-nav">
+      <a href="#overview">Tổng quan</a><a href="#indicators">Bộ chỉ báo</a>
+      <a href="#research">Research</a><a href="#backtest">Backtest</a><a href="#data">Data Hub</a>
+    </nav>
+  </header>
+  <main>
+    <div class="section-head">
+      <div><h1 id="workspace-title"></h1><p id="workspace-description"></p></div>
+      <div id="workspace-tools" aria-label="Công cụ của màn hình"></div>
+    </div>
+    <section id="workspace-library" aria-label="Thư viện cấu hình" hidden>
+      <h2>Cấu hình nghiên cứu</h2>
+      <p id="workspace-config"></p>
+      <p id="workspace-config-id"></p>
+      <h3>Bộ lọc bắt buộc</h3>
+      <ul id="workspace-config-gates"></ul>
+      <h3>Chỉ báo có trọng số</h3>
+      <p id="workspace-weight"></p>
+      <table class="indicator-table" id="workspace-indicator-table">
+        <thead><tr><th scope="col">Chỉ báo</th><th scope="col">Khung</th><th scope="col">Tham số</th><th scope="col">Trọng số</th><th scope="col">Trạng thái</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h3>Ứng viên đối chứng</h3>
+      <ul id="workspace-candidates"></ul>
+    </section>
+    <section id="workspace-overview" aria-label="Theo dõi thị trường">
+      <section class="overview-card overview-action" aria-labelledby="decision-title">
+        <div class="overview-card-head">
+          <h2 id="decision-title">Kết luận và hành động</h2>
+          <button id="overview-refresh" type="button">Cập nhật dữ liệu</button>
+        </div>
+        <p id="overview-decision" role="status">WAIT · Chờ dữ liệu đã xác nhận.</p>
+        <p id="overview-status">Đang chờ dữ liệu</p>
+        <dl class="overview-decision">
+          <dt>Điều kiện mua</dt><dd id="overview-eligibility">Chờ dữ liệu</dd>
+          <dt>Giải ngân</dt><dd>Chưa kích hoạt</dd>
+          <dt>Sẵn sàng mua</dt><dd>Chờ cấu hình được phê duyệt</dd>
+        </dl>
+      </section>
+      <div class="overview-meta">
+        <p id="overview-source">Nguồn: OKX · Bitstamp BTC/USD cho lịch sử bổ sung · Fear &amp; Greed BTC từ Alternative.me (tham chiếu chung cho Altcoin)</p>
+        <p id="overview-asof">As-of: — · Nến xác nhận: —</p>
+        <p><button id="overview-pin" type="button" disabled>Ghim snapshot cho Auto Backtest</button> <span id="overview-pin-status" role="status"></span></p>
+        <p id="overview-approval">Chiến lược: Chưa có hồ sơ kích hoạt được phê duyệt</p>
+      </div>
+      <details data-explanation>
+        <summary>Nhận diện cấu hình và snapshot</summary>
+        <p id="overview-identity">Cấu hình và snapshot: chờ dữ liệu</p>
+      </details>
+      <div class="overview-metrics" aria-label="Chỉ số thị trường">
+        <article><span>Giá hiện tại</span><strong id="overview-price">Chưa có dữ liệu</strong><small id="overview-price-time">—</small></article>
+        <article><span>Trạng thái tuần / EMA200W</span><strong id="overview-cycle">Chờ dữ liệu</strong></article>
+        <article><span>Drawdown BTC</span><strong id="overview-dd">—</strong></article>
+        <article><span id="overview-ema-label">Khoảng cách BTC / EMA200W</span><strong id="overview-ema">—</strong></article>
+      </div>
+      <div class="overview-layout">
+        <div class="overview-column">
+          <section class="overview-card" aria-labelledby="chart-title">
+            <div class="overview-card-head"><h2 id="chart-title">Biểu đồ giá</h2><span>Nến ngày đã đóng</span></div>
+            <div class="overview-plot">
+              <canvas id="overview-chart" role="img" aria-label="Biểu đồ giá đóng ngày"></canvas>
+              <p id="overview-chart-empty">Đang chờ dữ liệu giá</p>
+            </div>
+            <p id="overview-chart-range">—</p>
+          </section>
+          <section class="overview-card" aria-labelledby="zone-title">
+            <h2 id="zone-title">Vị trí vùng mua</h2>
+            <p id="overview-zone">Chưa có drawdown của tài sản.</p>
+            <ol class="overview-zones" aria-label="Các vùng drawdown giả thuyết">
+              <li>Z0 <small>&lt;40%</small></li><li>Z1 <small>40–45%</small></li>
+              <li>Z2 <small>45–50%</small></li><li>Z3 <small>50–55%</small></li>
+              <li>Z4 <small>55–60%</small></li><li>Z5 <small>60–70%</small></li><li>Z6 <small>≥70%</small></li>
+            </ol>
+            <details data-explanation>
+              <summary>Cách đọc dải vùng mua</summary>
+              <p>Dải tô trên biểu đồ (khi nằm trong khung giá) là vùng giả thuyết Z3 50–55%. Các vùng vẫn chờ kiểm định.</p>
+            </details>
+          </section>
+          <section class="overview-frames" aria-label="Nghiên cứu đa khung">
+            <article><strong>1M · Chu kỳ</strong><p>Chờ nghiên cứu</p></article>
+            <article><strong>1W · Vùng mua</strong><p>Chờ nghiên cứu</p></article>
+            <article><strong>1D · Xác nhận</strong><p>Chờ nghiên cứu</p></article>
+          </section>
+        </div>
+        <div class="overview-column">
+          <section class="overview-card" aria-labelledby="signal-title">
+            <h2 id="signal-title">Điểm và điều kiện CES</h2>
+            <div class="overview-score"><span>Điểm CES</span><strong id="overview-score">— / 100</strong><p id="overview-gap">Còn thiếu điểm: —</p></div>
+            <ol id="overview-gates" class="overview-gates">
+              <li>Drawdown BTC <strong id="overview-gate-dd">Chờ dữ liệu</strong></li>
+              <li>Giá đóng tuần dưới EMA200W <strong id="overview-gate-ema">Chờ dữ liệu</strong></li>
+              <li>Ngưỡng CES <strong id="overview-gate-score">Chờ dữ liệu</strong></li>
+            </ol>
+          </section>
+        </div>
+      </div>
+      <nav class="overview-evidence" aria-label="Bằng chứng">
+        <a href="#indicators">Cấu hình chiến lược</a><a href="#research">Bằng chứng vùng mua</a>
+        <a href="#backtest">Kết quả kiểm định</a><a href="#data">Nguồn và chất lượng dữ liệu</a>
+      </nav>
+    </section>
+    <section id="workspace-research" class="overview-card" hidden>
+      <h2>Bằng chứng vùng mua</h2>
+      <p>Nghiên cứu vùng giả thuyết từ snapshot đã ghim tại Tổng quan.</p>
+      <details id="research-glossary" data-explanation>
+        <summary>Sổ tay thuật ngữ</summary>
+        <label>Tìm thuật ngữ <input id="glossary-search" type="search"></label>
+        <p id="glossary-count" role="status"></p>
+        <dl>
+          <dt>ROI</dt><dd>100 × (giá trị cuối / vốn đầu − 1). 100 → 120 cho ROI 20%; kết quả mô phỏng gồm tiền mặt và vị thế định giá theo giá đóng.</dd>
+          <dt>CAGR</dt><dd>100 × ((giá trị cuối / vốn đầu)^(365,25 / số ngày) − 1). 100 → 121 trong hai năm cho khoảng 10%/năm. Khoảng thời gian quá ngắn có thể làm tỷ lệ năm hóa khó diễn giải.</dd>
+          <dt>MDD</dt><dd>Mức giảm lớn nhất của vốn chủ sở hữu so với đỉnh vốn đến ngày đo. Đỉnh 125 rồi giảm còn 100 cho MDD −20% nếu đó là mức giảm lớn nhất.</dd>
+          <dt>MAE</dt><dd>Trong mô phỏng lệnh, mức thấp nhất của 100 × (giá thấp nhất trong ngày / giá vốn trung bình − 1) khi có vị thế. Giá vốn 100, đáy 80 tương ứng −20%.</dd>
+          <dt>Calmar</dt><dd>CAGR chia cho trị tuyệt đối MDD. CAGR 15%, MDD −10% cho 1,5. Khi MDD bằng 0, kết quả không xác định.</dd>
+          <dt>Sharpe</dt><dd>Lợi suất vượt mức trung bình chia cho độ lệch chuẩn lợi suất vượt mức, có thể năm hóa. So sánh cần cùng tần suất và lãi suất tham chiếu. Engine CES chính không xuất chỉ số này.</dd>
+          <dt>PF · Profit Factor</dt><dd>Tổng lãi chia tổng trị tuyệt đối của lỗ theo nhóm giao dịch đã đóng. Lãi 60 và lỗ 20 cho PF 3. Mẫu số bằng 0 thì PF không xác định.</dd>
+          <dt>Win Rate</dt><dd>Số chu kỳ đã đóng có lãi chia số chu kỳ đã đóng. 3 thắng trong 5 chu kỳ cho 60%; cần nêu đơn vị đếm và cách xử lý hòa vốn.</dd>
+          <dt>Drawdown · ATH</dt><dd>ATH là đỉnh giá lịch sử theo chuỗi và cửa sổ được chọn. Giá 60 dưới đỉnh 100 tương ứng mức giảm 40%; khác với MDD của vốn mô phỏng.</dd>
+          <dt>EMA200W · EMA gap</dt><dd>EMA 200 tuần dùng trung bình 200 giá đóng tuần làm giá trị khởi tạo, sau đó cập nhật với hệ số 2/201. Giá 90 và EMA 100 thấp hơn EMA 10%.</dd>
+          <dt>RSI</dt><dd>RSI = 100 − 100 / (1 + RS), với RS là tỷ lệ tăng/giảm trung bình làm mượt Wilder. Engine trả 50 khi cả hai bằng 0. Cùng chu kỳ 14 nhưng RSI ngày và tuần sử dụng nến khác nhau.</dd>
+          <dt>SMA</dt><dd>Trung bình cộng của các giá trị trong cửa sổ. SMA14 của RSI dùng 14 giá trị RSI hợp lệ.</dd>
+          <dt>IS · OOS</dt><dd>IS là mẫu xây dựng hoặc chọn cấu hình; OOS là mẫu giữ lại để đánh giá. Dữ liệu đã xem trong quá trình chọn cấu hình không phải bằng chứng OOS độc lập.</dd>
+          <dt>Walk-forward</dt><dd>Chốt cấu hình dựa trên cửa sổ quá khứ rồi đánh giá cửa sổ tiếp theo. Sau đó dịch mốc về phía trước. Báo cáo cần nêu thời điểm chốt và tránh đưa dữ liệu tương lai vào quyết định.</dd>
+          <dt>Stress Test · Overfitting</dt><dd>Stress Test thay đổi giả định, chẳng hạn tăng phí. Overfitting xảy ra khi cấu hình bám quá sát mẫu đã quan sát và mất hiệu quả trên dữ liệu khác.</dd>
+          <dt>TP · Trailing</dt><dd>TP chốt lời ở mốc cấu hình; trailing theo dõi đỉnh sau khi kích hoạt và thoát khi chạm ngưỡng giảm. Giá thực thi phụ thuộc quy tắc nến, gap và chi phí.</dd>
+          <dt>Slippage · Phí</dt><dd>Trượt giá điều chỉnh giá khớp bất lợi khi mua và bán; phí tính trên giá trị khớp theo từng chiều.</dd>
+          <dt>Allocation · CES A/B</dt><dd>Allocation là phần vốn dành cho vị thế. CES A xem xét một lần vào vốn; CES B chia lệnh theo quy tắc DCA. So sánh A/B cần dùng cùng dữ liệu và chi phí.</dd>
+        </dl>
+      </details>
+      <div class="research-fields">
+        <label>Cấu hình thử <select id="research-config"><option value="">Cấu hình hiện tại</option><option>RA01</option><option>RA02</option><option>RA03</option><option>SMA01</option><option>A04</option></select></label>
+        <label>Phí nghiên cứu (%) <input id="research-fee" type="number" min="0" max="10" step="0.01" value="0.1" required></label>
+        <label>Trượt giá nghiên cứu (%) <input id="research-slip" type="number" min="0" max="10" step="0.01" value="0.05" required></label>
+      </div>
+      <button id="research-run" type="button">Chạy nghiên cứu</button>
+      <button id="research-download" type="button" disabled>Tải hồ sơ nghiên cứu</button>
+      <p id="research-status" role="status">Chờ kiểm định vùng mua.</p>
+      <p id="research-risk" role="status"></p>
+      <p id="research-context"></p>
+      <details data-explanation>
+        <summary>Phương pháp và phạm vi</summary>
+        <p>Mẫu là một lần chuyển vùng tại giá đóng ngày. Chỉ tính kỳ nắm giữ đủ dữ liệu trong phân đoạn.
+          Số đỉnh tham chiếu chỉ là chỉ dấu độ đa dạng, các mẫu có thể chồng lấp. Lợi nhuận vùng là biến động giá, chưa tính chi phí và không phải kết quả giao dịch.
+          Hồi phục tính từ đáy trong kỳ đến ngày đóng ở giá mẫu trở lên. IS/OOS tách 70/30 theo thời gian, không tối ưu trên OOS.
+          A/B dùng cùng tín hiệu và mặc định của Auto; kết quả gồm benchmark mua-giữ chưa tính chi phí.
+          Các năm UTC trọn vẹn chạy riêng với vốn đặt lại. Chúng là phân đoạn lịch, không đại diện chu kỳ thị trường độc lập. Walk-forward đang chờ.</p>
+      </details>
+      <div class="research-scroll" tabindex="0" aria-label="Thống kê vùng mua">
+        <table id="research-zones"><thead><tr><th>Mẫu</th><th>Vùng</th><th>Ngày giữ</th><th>Mẫu đủ/tổng</th><th>Đỉnh tham chiếu</th><th>ROI trung vị %</th><th>MAE trung vị %</th><th>Ngày hồi phục</th><th>Số hồi phục</th></tr></thead><tbody></tbody></table>
+      </div>
+      <h3>Đóng góp chỉ báo</h3>
+      <p id="research-indicators"></p>
+      <details data-explanation>
+        <summary>Các lần bỏ chỉ báo và thay tham số</summary>
+        <div class="research-scroll" tabindex="0" aria-label="Các lần thử độ nhạy">
+          <table id="research-variants"><thead><tr><th>Lần thử</th><th>Thay đổi so với gốc</th><th>Tuần qua gate</th></tr></thead><tbody></tbody></table>
+        </div>
+      </details>
+      <h3>So sánh CES-A / CES-B</h3>
+      <div class="research-scroll" tabindex="0" aria-label="Kết quả A/B">
+        <table id="research-robustness"><thead><tr><th>Kịch bản</th><th>Mẫu</th><th>Ngày đầu UTC</th><th>Ngày cuối UTC</th><th>CES</th><th>Trạng thái</th><th>Tuần đủ/tổng</th><th>ROI %</th><th>CAGR %</th><th>MDD %</th><th>MAE %</th><th>Calmar</th><th>Benchmark %</th></tr></thead><tbody></tbody></table>
+      </div>
+      <details id="workspace-history"><summary>Mở Historical Research</summary></details>
+      <section aria-labelledby="paper-heading">
+        <h2 id="paper-heading">Paper Trading và danh mục mô phỏng</h2>
+        <p>Nhập lượt mô phỏng thủ công cho mã đang chọn, tại giá đóng của snapshot đã ghim. Đây là lượt thủ công tại giá đóng đã biết, không dùng để đánh giá khớp Live. Nhật ký quan sát Live và đối chiếu Backtest đang chờ.</p>
+        <div class="research-fields">
+          <label>Vốn đầu <input id="paper-capital" type="number" min="1" max="1000000000" step="any" value="10000" required></label>
+          <button id="paper-start" type="button" disabled>Tạo sổ mô phỏng</button>
+        </div>
+        <p id="paper-balance"></p>
+        <div class="research-fields">
+          <label>Chiều mô phỏng <select id="paper-side"><option value="BUY">Mua</option><option value="SELL">Bán</option></select></label>
+          <label><span id="paper-amount-label">Tiền mô phỏng chi (gồm phí)</span> <input id="paper-amount" type="number" min="0.00000001" max="1000000000" step="any" required></label>
+          <label>Phí (%) <input id="paper-fee" type="number" min="0" max="10" step="0.01" value="0.1" required></label>
+          <label>Trượt giá (%) <input id="paper-slip" type="number" min="0" max="10" step="0.01" value="0.05" required></label>
+          <button id="paper-record" type="button" disabled>Ghi lượt mô phỏng</button>
+        </div>
+        <p id="paper-status" role="status"></p>
+        <p id="paper-equity"></p>
+        <button id="paper-download" type="button" disabled>Tải sổ mô phỏng</button>
+        <div class="research-scroll" tabindex="0" aria-label="Vị thế mô phỏng">
+          <table id="paper-positions"><thead><tr><th>Mã</th><th>Số lượng</th><th>Giá vốn</th><th>Giá vốn bình quân</th></tr></thead><tbody></tbody></table>
+        </div>
+        <details data-explanation>
+          <summary>20 lượt mô phỏng gần nhất</summary>
+          <div class="research-scroll" tabindex="0" aria-label="Nhật ký mô phỏng">
+            <table id="paper-fills"><thead><tr><th>Ngày UTC</th><th>Mã</th><th>Chiều</th><th>Số lượng</th><th>Giá mô phỏng</th><th>Phí</th><th>Snapshot</th></tr></thead><tbody></tbody></table>
+          </div>
+        </details>
+      </section>
+    </section>
+    <section id="workspace-data" class="overview-card" hidden>
+      <h2>Độ phủ và chất lượng dữ liệu</h2>
+      <dl class="workspace-summary">
+        <div><dt>Tài sản đang xem</dt><dd id="data-asset">—</dd></div>
+        <div><dt>Nguồn đang kiểm tra</dt><dd id="data-source">—</dd></div>
+        <div><dt>Phạm vi nến</dt><dd id="data-range">Chưa có dữ liệu</dd></div>
+        <div><dt>Nến cuối UTC</dt><dd id="data-last">Chưa có dữ liệu</dd></div>
+        <div><dt>Chất lượng</dt><dd id="data-quality">Chưa kiểm toán</dd></div>
+        <div><dt>Warmup EMA200W</dt><dd id="data-warmup">Chưa kiểm tra</dd></div>
+        <div><dt>Snapshot nghiên cứu đã ghim</dt><dd id="data-pinned">Chưa có snapshot</dd></div>
+      </dl>
+    </section>
+    <div id="workspace-frames"></div>
+    <noscript>Bật JavaScript để sử dụng MIS.</noscript>
+  </main>
+</body>
+</html>

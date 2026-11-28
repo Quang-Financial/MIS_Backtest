@@ -1,0 +1,62 @@
+{
+  "sha256": "89168eb95d1094f6224d131e64cc30c1548c94c946f214c5f4755a3932625b74",
+  "candles": 5578,
+  "first": "2011-08-18",
+  "last": "2026-11-24",
+  "removedDays": 4,
+  "firstCompleteEMA200Close": "2015-06-22",
+  "perStrategy": [
+    {
+      "name": "RA01",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-22",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0,
+      "latestAbsoluteEMA200DifferenceUsd": 0,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": []
+    },
+    {
+      "name": "RA02",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-22",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0,
+      "latestAbsoluteEMA200DifferenceUsd": 0,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": []
+    },
+    {
+      "name": "RA03",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-22",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0,
+      "latestAbsoluteEMA200DifferenceUsd": 0,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": []
+    },
+    {
+      "name": "SMA01",
+      "comparedWeeks": 796,
+      "firstCurrentEMA200": "2015-06-22",
+      "firstCounterfactualEMA200": "2015-06-22",
+      "maxAbsoluteEMA200DifferenceUsd": 0,
+      "latestAbsoluteEMA200DifferenceUsd": 0,
+      "gateFlips": [],
+      "validFlips": [],
+      "scoreFlips": [
+        "2012-03-05"
+      ]
+    }
+  ],
+  "baseline": {
+    "matchedRows": 20,
+    "metricsAndFillsIdentical": true
+  },
+  "historicalRows": 20,
+  "changes": []
+}

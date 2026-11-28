@@ -1,11 +1,34 @@
 const { chromium, webkit } = require('playwright');
 const assert = require('node:assert/strict');
-const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.html','ces_monitor.html','mis_datahub.html','ces_compare.html'];
+const pages = ['index.html','mis_market.html','ces_optimizer.html','ces_auto.html','ces_history.html','ces_monitor.html','mis_datahub.html','ces_compare.html'];
+async function disclosure(page, control, screen, device) {
+ const container=control.locator('..');
+ assert.match(await control.getAttribute('aria-label'),/^Xem giải thích\/chi tiết:/);
+ assert.equal(await control.locator('.disclosure-mark').textContent(),'*');
+ assert.ok((await control.boundingBox()).height>=44);
+ assert.equal(await container.evaluate(node=>node.open),false);
+ const capture=async state=>{if(process.env.MIS_SCREENSHOTS)
+  await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-'+screen+'-'+device+'-'+state+'.png',fullPage:true});};
+ await capture('collapsed');
+ await control.focus();
+ await page.keyboard.press('Enter');
+ assert.equal(await container.evaluate(node=>node.open),true);
+ await capture('expanded');
+ await page.keyboard.press('Enter');
+ assert.equal(await container.evaluate(node=>node.open),false);
+ if(device!=='desktop'){
+  await control.tap();
+  assert.equal(await container.evaluate(node=>node.open),true);
+  await control.tap();
+  assert.equal(await container.evaluate(node=>node.open),false);
+ }
+ console.log(device,screen,'disclosure passes label, touch size, default collapse and interaction');
+}
 (async()=>{
  for(const [name,engine,viewport] of [['desktop',chromium,{width:1440,height:900}],['mobile-webkit',webkit,{width:414,height:896}]]){
   const browser=await engine.launch();
   try{
-   const context=await browser.newContext({viewport});
+   const context=await browser.newContext({viewport,hasTouch:name!=='desktop'});
    const page=await context.newPage();
    const errors=[];
    page.on('pageerror',e=>errors.push(e.message));
@@ -16,6 +39,289 @@ const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.ht
     await page.waitForTimeout(300);
     assert.equal(await page.locator('body').count(),1);
     if(file==='index.html'){
+     const links=page.getByRole('navigation',{name:'Điều hướng chính'}).getByRole('link');
+     assert.deepEqual(await links.allTextContents(),['Tổng quan','Bộ chỉ báo','Research','Backtest','Data Hub']);
+     assert.equal(await page.locator('iframe:visible').count(),0);
+     assert.equal(await page.locator('#workspace-tools button').count(),0);
+     assert.equal(await page.locator('select:visible').count(),1);
+     await page.locator('#overview-chart').waitFor();
+     assert.ok(await page.locator('#decision-title').evaluate(node=>
+      Boolean(node.compareDocumentPosition(document.querySelector('#chart-title')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+     await disclosure(page,page.locator('#workspace-overview > details[data-explanation] > summary').first(),'overview',name);
+     for(const id of ['source','asof','approval','price','dd','ema','zone','score','gap','decision']){
+      assert.ok(await page.locator('#overview-'+id).isVisible(),id);
+     }
+     assert.equal(await page.locator('.overview-metrics article').count(),4);
+     assert.equal(await page.locator('.overview-zones li').count(),7);
+     assert.equal(await page.locator('.overview-frames article').count(),3);
+     assert.equal(await page.locator('#overview-gates li').count(),3);
+     assert.deepEqual(await page.locator('.overview-evidence a').evaluateAll(links=>links.map(link=>link.hash)),['#indicators','#research','#backtest','#data']);
+     const columns=await page.locator('.overview-column').evaluateAll(cols=>cols.map(col=>({x:col.offsetLeft,y:col.offsetTop})));
+     assert.ok(viewport.width>720?columns[1].x>columns[0].x:columns[1].y>columns[0].y);
+     await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('RISK ALERT'));
+     assert.match(await page.locator('#overview-price').textContent(),/Chưa có dữ liệu/);
+
+     const dailyMs=86400000;
+     const fixtureStart=Date.UTC(2018,0,11);
+     const today=Math.floor(Date.now()/dailyMs)*dailyMs;
+     const fixture=Array.from({length:(today-fixtureStart)/dailyMs},(_,index)=>{
+      const close=250-index/23+8*Math.sin(index/14);
+      return [fixtureStart+index*dailyMs,close,close+1,close-1,close,0,0,0,1].map(String);
+     });
+     const market='https://www.okx.com/api/v5/market/history-candles?*';
+     const sentiment='https://api.alternative.me/fng/?*';
+     const ticker='https://www.okx.com/api/v5/market/ticker?*';
+     await page.route(market,route=>{
+      const cursor=Number(new URL(route.request().url()).searchParams.get('after'))||Infinity;
+      return route.fulfill({json:{code:'0',data:fixture.filter(row=>Number(row[0])<cursor).slice(-100).reverse()}});
+     });
+     await page.route(sentiment,route=>route.fulfill({json:{data:fixture.map(row=>({timestamp:String(Number(row[0])/1000),value:'20'}))}}));
+     await page.route(ticker,route=>route.fulfill({json:{code:'0',data:[{last:'125.50',ts:String(Date.now()-1000)}]}}));
+     await page.locator('#workspace-asset').selectOption('ETH');
+     await page.getByText('Đã cập nhật dữ liệu xác nhận.',{exact:true}).waitFor();
+     assert.equal(await page.locator('h1').textContent(),'Tổng quan ETH');
+     assert.match(await page.locator('#overview-ema-label').textContent(),/ETH/);
+     assert.match(await page.locator('#overview-price').textContent(),/USDT/);
+     assert.ok(await page.locator('#overview-chart-empty').isHidden());
+     assert.match(await page.locator('#overview-score').textContent(),/\d.*\/ 100/);
+     assert.match(await page.locator('#overview-approval').textContent(),/Chưa có hồ sơ kích hoạt/);
+     assert.match(await page.locator('.overview-decision').textContent(),/Chưa kích hoạt/);
+     assert.doesNotMatch(await page.locator('#workspace-overview').textContent(),/BUY READY/);
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-'+name+'.png'});
+     await page.evaluate(()=>{
+      const flex=CESShared.load();
+      CESShared.saveCommon({...flex,threshold:0});
+      const researchRow={id:'fixture-fear',type:'Fear',tf:'1D',enabled:true,hard:false,
+       p:14,q:20,s:5,window:1,op:'le',limit:100,weight:100};
+      localStorage.setItem('mis-ces-dynamic-v150',JSON.stringify([researchRow]));
+     });
+     await page.locator('#overview-refresh').click();
+     await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('WATCH'));
+     assert.match(await page.locator('.overview-decision').textContent(),/Chưa kích hoạt/);
+     assert.doesNotMatch(await page.locator('#workspace-overview').textContent(),/BUY READY/);
+     await page.evaluate(()=>{
+      const now=Date.now();
+      Date.now=()=>now+10*86400000;
+     });
+     await page.locator('#overview-refresh').click();
+     await page.waitForFunction(()=>document.querySelector('#overview-decision').textContent.startsWith('RISK ALERT'));
+     assert.match(await page.locator('#overview-decision').textContent(),/đã cũ/);
+
+     await page.evaluate(()=>{
+      const fixed=performance.timeOrigin+performance.now();
+      Date.now=()=>fixed;
+      const flex=CESShared.load();
+      CESShared.saveCommon({...flex,threshold:65,btcDrawdown:0,belowEMA200:false});
+      localStorage.setItem('mis-ces-dynamic-v150',JSON.stringify(flex.dynamic.map(row=>({...row,limit:10}))));
+     });
+     await page.locator('#overview-refresh').click();
+     await page.getByText('WATCH · Vùng giả thuyết, điểm CES chưa đạt.',{exact:true}).waitFor();
+     assert.match(await page.locator('#overview-gate-dd').textContent(),/40%/);
+     assert.match(await page.locator('#overview-approval').textContent(),/khác khóa/);
+     await page.locator('#overview-pin').click();
+     await page.getByText(/Đã ghim ETH đến/).waitFor();
+     const liveIdentity=await page.locator('#overview-identity').getAttribute('title');
+     assert.match(liveIdentity,/^[a-f0-9]{64} \/ [a-f0-9]{64}$/);
+     const parityPage=await context.newPage();
+     try{
+      await parityPage.goto('http://127.0.0.1:8765/ces_auto.html');
+      await parityPage.selectOption('#coin','ETH');
+      await parityPage.selectOption('#research','ablation');
+      await parityPage.locator('#usePinned').check();
+      await parityPage.fill('#to',new Date(today-dailyMs).toISOString().slice(0,10));
+      await parityPage.evaluate(()=>{
+       const original=CESDynamic.signals;
+       CESDynamic.signals=(...args)=>{
+        const result=original(...args);
+        globalThis.firstAutoSignal??=[...result.signals.values()].at(-1);
+        return result;
+       };
+      });
+      await parityPage.click('#run');
+      await parityPage.waitForFunction(()=>document.querySelector('#status').textContent.includes('đã lưu trên thiết bị')||document.querySelector('#status').textContent.startsWith('Lỗi:'));
+      assert.match(await parityPage.locator('#status').textContent(),/Hoàn tất/);
+      const provenance=await parityPage.evaluate(()=>report.provenance);
+      assert.equal(provenance.effectiveStrategyId+' / '+provenance.snapshotId,liveIdentity);
+      assert.equal(provenance.inputMode,'pinned');
+      assert.equal(provenance.originalBase.btcDrawdown,0);
+      assert.equal(provenance.base.btcDrawdown,40);
+      const signal=await parityPage.evaluate(()=>globalThis.firstAutoSignal);
+      assert.equal(signal.valid,false);
+      assert.equal(signal.score,0);
+      assert.equal(await page.locator('#overview-score').textContent(),'0 / 100');
+      assert.match(await page.locator('#overview-gate-dd').textContent(),/^Đạt/);
+      assert.equal(await page.locator('#overview-gate-ema').textContent(),'Đạt');
+      assert.match(await page.locator('#overview-gate-score').textContent(),/^Chưa đạt/);
+      console.log(name,'actual Auto/Overview config and closed snapshot hashes match');
+      await parityPage.evaluate(async()=>{ globalThis.originalPinnedFixture=await pinnedResearchSnapshot('ETH'); });
+      await parityPage.fill('#to',new Date(today-2*dailyMs).toISOString().slice(0,10));
+      await parityPage.click('#run');
+      await parityPage.getByText(/Snapshot đã ghim không khớp/).waitFor();
+      await parityPage.fill('#to',new Date(today-dailyMs).toISOString().slice(0,10));
+      await parityPage.evaluate(async()=>{
+       await pinnedResearchSnapshot('ETH',{...globalThis.originalPinnedFixture,snapshotId:'0'.repeat(64)});
+       document.querySelector('#status').textContent='';
+      });
+      await parityPage.click('#run');
+      await parityPage.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Lỗi:'));
+      assert.match(await parityPage.locator('#status').textContent(),/Hash snapshot đã ghim không hợp lệ/);
+      await parityPage.evaluate(()=>pinnedResearchSnapshot('ETH',globalThis.originalPinnedFixture));
+      await parityPage.selectOption('#coin','SOL');
+      await parityPage.click('#run');
+      await parityPage.getByText(/Snapshot đã ghim không khớp tài sản/).waitFor();
+      await parityPage.selectOption('#coin','ETH');
+      await parityPage.click('#run');
+      await parityPage.getByText('Hoàn tất · đã lưu trên thiết bị',{exact:true}).waitFor();
+      console.log(name,'pinned input rejects wrong date and tampered hash; no cross-asset reuse');
+      const savedId=await parityPage.evaluate(()=>report.provenance.runId);
+      parityPage.once('dialog',dialog=>dialog.accept());
+      const downloadPromise=parityPage.waitForEvent('download');
+      await parityPage.locator('[data-export="full"]').click();
+      const file=await downloadPromise;
+      const stream=await file.createReadStream();
+      const chunks=[];
+      for await(const chunk of stream) chunks.push(chunk);
+      const backup=JSON.parse(Buffer.concat(chunks).toString('utf8'));
+      assert.equal(backup.provenance.runId,savedId);
+      await parityPage.reload();
+      await parityPage.getByRole('button',{name:'Khôi phục báo cáo gần nhất'}).click();
+      await parityPage.getByText(/Đã khôi phục /).waitFor();
+      assert.equal(await parityPage.evaluate(()=>report.provenance.runId),savedId);
+      console.log(name,'Auto backup downloads valid JSON and reload restores same IndexedDB report');
+     }finally{await parityPage.close();}
+     await page.evaluate(()=>{
+      const originalFetch=window.fetch;
+      window.fetch=(input,options)=>{
+       const url=new URL(input instanceof Request?input.url:input,location.href);
+       if(url.origin==='https://www.okx.com' && url.pathname==='/api/v5/market/history-candles'){
+        return Promise.resolve(new Response(null,{status:503}));
+       }
+       return originalFetch.call(window,input,options);
+      };
+      try{
+       document.querySelector('#overview-refresh').click();
+      }finally{
+       window.fetch=originalFetch;
+      }
+     });
+     await page.getByText('Không thể xác nhận: OKX HTTP 503',{exact:true}).waitFor();
+     await page.unroute(market);
+     await page.unroute(market);
+     await page.unroute(sentiment);
+     await page.unroute(ticker);
+     assert.equal(await page.locator('#overview-score').textContent(),'— / 100');
+     assert.equal(await page.locator('#overview-gate-dd').textContent(),'Chờ dữ liệu');
+     assert.match(await page.locator('#overview-asof').textContent(),/As-of: —/);
+     assert.match(await page.locator('#overview-zone').textContent(),/Chưa có drawdown/);
+
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Cấu hình chiến lược'}).click();
+     assert.equal(await page.locator('#workspace-candidates li').count(),4);
+     assert.equal(await page.locator('#workspace-indicator-table tbody tr').count(),
+       await page.evaluate(()=>CESAuto.lock(CESShared.load()).dynamic.length));
+     assert.match(await page.locator('#workspace-weight').textContent(),/Tổng trọng số đang bật/);
+     await page.waitForFunction(()=>/Mã cấu hình nghiên cứu: [a-f0-9]{12}/.test(document.querySelector('#workspace-config-id').textContent));
+     const fixtureTypes=['RSI','EMA','SMA','Fear','RSI/SMA','MACD','ADX','BB'];
+     await page.evaluate(types=>{
+      const rows=types.map((type,index)=>({id:'qa-'+index,type,enabled:index!==7,hard:index===0,
+        tf:type==='Fear'?'1D':index%2?'1W':'1M',p:7,q:20,s:5,limit:0,weight:index?10:0,
+        window:3,op:['EMA','SMA','RSI/SMA','MACD'].includes(type)?'up':'ge',band:'upper'}));
+      localStorage.setItem('mis-ces-dynamic-v150',JSON.stringify(rows));
+     },fixtureTypes);
+     await page.reload();
+     await page.waitForFunction(()=>document.querySelectorAll('#workspace-indicator-table tbody tr').length===8);
+     const rows=await page.locator('#workspace-indicator-table tbody tr').all();
+     await disclosure(page,rows[0].locator('.mis-disclosure > summary'),'indicators',name);
+     for(const [index,row] of rows.entries()){
+      const cells=await row.locator('td').allTextContents();
+      assert.ok(cells[0].startsWith(fixtureTypes[index]),cells[0]);
+      assert.equal(cells[1],fixtureTypes[index]==='Fear'?'1D':index%2?'1W':'1M');
+      assert.equal(cells[3],index?'10':'0');
+      assert.equal(cells[4],index===7?'Tắt':index===0?'Bật · bắt buộc':'Bật');
+      const toggle=row.locator('details.mis-disclosure > summary');
+      await toggle.click();
+      assert.match(await row.locator('details dl').textContent(),/Tỷ phần chuẩn hóa/);
+      assert.match(await row.locator('details dl').textContent(),index===7?/Không tham gia/:/nhận tỷ phần/);
+      assert.match(await row.locator('details dl dd').nth(3).textContent(),index===0||index===7?/^0%$/:/^16,67%$/);
+      await row.getByText('JSON kỹ thuật',{exact:true}).click();
+      assert.match(await row.locator('pre').textContent(),/qa-/);
+      assert.equal(await row.locator('details').first().evaluate(node=>node.open),true);
+      await toggle.click();
+      assert.equal(await row.locator('details').first().evaluate(node=>node.open),false);
+     }
+     for(const item of await page.locator('#workspace-candidates li').all()){
+      await item.locator('summary').click();
+      assert.match(await item.textContent(),/chưa liên kết/);
+      await item.locator('summary').click();
+     }
+     await rows[5].locator('details.mis-disclosure > summary').click();
+     assert.equal(await page.evaluate(()=>new Set([...document.querySelectorAll('[id]')].map(node=>node.id)).size===document.querySelectorAll('[id]').length),true);
+     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+     if(process.env.MIS_SCREENSHOTS)await page.locator('#workspace-indicator-table').screenshot({path:process.env.MIS_SCREENSHOTS+'-details-'+name+'.png'});
+     await page.locator('#workspace-asset').selectOption('ETH');
+
+     await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Bằng chứng vùng mua'}).click();
+     assert.equal(await page.locator('#workspace-history').evaluate(node=>node.open),false);
+     assert.match(await page.locator('#workspace-research').textContent(),/Chạy nghiên cứu/);
+     await page.locator('#research-config').selectOption('RA01');
+     await page.locator('#research-run').click();
+     await page.locator('#research-status').getByText(/Đã tạo hồ sơ nghiên cứu ETH/).waitFor();
+     assert.equal(await page.locator('#research-zones tbody tr').count(),60);
+     assert.ok(await page.locator('#research-robustness tbody tr').count()>8);
+     const auditDownload=page.waitForEvent('download');
+     await page.locator('#research-download').click();
+     assert.match((await auditDownload).suggestedFilename(),/^MIS-research-ETH-.*\.json$/);
+     await page.locator('#research-config').selectOption('');
+     await page.evaluate(() => localStorage.removeItem('mis-ces-dynamic-v150'));
+     await page.locator('#research-run').click();
+     await page.locator('#research-risk').getByText(/thời điểm công bố lịch sử/).waitFor();
+     assert.equal(await page.locator('#research-robustness tbody tr').count(),0);
+     await page.locator('#paper-start').click();
+     await page.locator('#paper-amount').fill('100');
+     await page.locator('#paper-record').click();
+     await page.locator('#paper-status').getByText(/Đã ghi lượt BUY ETH/).waitFor();
+     assert.equal(await page.locator('#paper-positions tbody tr').count(),1);
+     await page.locator('#paper-record').click();
+     await page.locator('#paper-status').getByText(/mỗi mã một lượt/).waitFor();
+     await page.reload();
+     await page.locator('#paper-positions tbody tr').first().waitFor();
+     assert.equal(await page.locator('#paper-positions tbody tr').count(),1);
+     const journalDownload=page.waitForEvent('download');
+     await page.locator('#paper-download').click();
+     assert.equal((await journalDownload).suggestedFilename(),'MIS-paper-sandbox.json');
+     await page.locator('#workspace-asset').selectOption('ETH');
+     console.log(name,'integrated research, Fear block, paper fill dedup and portfolio reload passed');
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-research-'+name+'.png'});
+     await disclosure(page,page.locator('#workspace-research > details[data-explanation] > summary').first(),'research',name);
+     await page.getByText('Mở Historical Research',{exact:true}).click();
+     await page.frameLocator('iframe[title="Historical Research"]').locator('#run').waitFor();
+     await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Kết quả kiểm định'}).click();
+     await page.frameLocator('iframe[title="Optimizer"]').locator('#run').waitFor();
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-backtest-'+name+'.png'});
+     await page.getByRole('button',{name:'Auto Backtest',exact:true}).click();
+     await page.frameLocator('iframe[title="Auto Backtest"]').locator('#run').waitFor();
+     await disclosure(page,page.frameLocator('iframe[title="Auto Backtest"]').locator('.mis-disclosure > summary').first(),'backtest',name);
+     await page.waitForFunction(()=>{
+      const frame=document.querySelector('iframe[title="Auto Backtest"]');
+      const doc=frame.contentDocument;
+      return doc.querySelector('#coin').value==='ETH' &&
+        doc.querySelector('#coin').closest('label').hidden && frame.height>0 &&
+        doc.documentElement.scrollHeight<=frame.clientHeight+2;
+     });
+     await page.getByRole('link',{name:'Tổng quan',exact:true}).click();
+     await page.getByRole('navigation',{name:'Bằng chứng'}).getByRole('link',{name:'Nguồn và chất lượng dữ liệu'}).click();
+     const dataFrame=page.frameLocator('iframe[title="Data Hub"]');
+     await dataFrame.locator('#import').waitFor();
+     await disclosure(page,dataFrame.locator('.mis-disclosure > summary').first(),'data',name);
+     assert.equal(await page.locator('#data-asset').textContent(),'ETH');
+     if(process.env.MIS_SCREENSHOTS)await page.screenshot({path:process.env.MIS_SCREENSHOTS+'-data-'+name+'.png'});
+     await page.frameLocator('iframe[title="Data Hub"]').locator('#import').waitFor();
+     await page.goBack();
+     await page.locator('#overview-chart').waitFor();
+     console.log(name,'MIS five-screen navigation and asset context passed');
+    }
+    if(file==='mis_market.html'){
      for(const tab of await page.locator('[data-tab]').all()) await tab.click();
      await page.evaluate(()=>localStorage.setItem('mis-test-preserve','ok'));
      await page.reload();
@@ -35,6 +341,15 @@ const pages = ['index.html','ces_optimizer.html','ces_auto.html','ces_history.ht
      });
      assert.match(result,/cần 200 tuần/);
      console.log(name,'EMA200 validation uses complete weeks');
+    }
+    if(file==='ces_monitor.html'){
+     await page.goto('http://127.0.0.1:8765/ces_monitor.html?coin=okb&belowEMA200=false');
+     await page.waitForURL('http://127.0.0.1:8765/index.html?asset=okb#overview');
+     assert.equal(await page.locator('#workspace-asset').inputValue(),'OKB');
+     assert.equal(await page.locator('#workspace-title').textContent(),'Tổng quan OKB');
+     await page.reload();
+     assert.equal(await page.locator('#workspace-asset').inputValue(),'OKB');
+     console.log(name,'legacy Live bookmark opens canonical Overview and retains asset on reload');
     }
     if(file==='mis_datahub.html'){
      const fixture=[{t:Date.UTC(2020,0,1),o:100,h:110,l:90,c:105},{t:Date.UTC(2020,0,2),o:105,h:120,l:100,c:115}];
